@@ -59,6 +59,7 @@
                     <input type="submit" name="submit" value="Rechercher" class="btn btn-success btn-sm">
                 </div>
             </form>
+            
             <h3 class="mb-3">Liste des cartes</h3>
 
             <form action="#" method="post">

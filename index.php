@@ -108,7 +108,7 @@
                                                 <img height="20em" src="./img/delete.png" alt="delete">
                                             </a>
                                         <?php } ?>
-                                        <a class="link-light" href="detailCard.php?idCard=<?php echo $card["idCard"] ?>">
+                                        <a class="link-light" href="cardDetails.php?idCard=<?php echo $card["idCard"] ?>">
                                             <img height="20em" src="./img/detail.png" alt="detail">
                                         </a>
                                         <!-- <a class="link-light" href="Cart.php?idCard=<?php echo $card["idCard"] ?>">

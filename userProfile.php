@@ -25,6 +25,7 @@
                 echo "Prénom : " . $OneUser["useFirstName"] . "<br>" . "Nom : " . $OneUser["useName"] . "<br>" . "Adresse : " . $OneUser["useAddress"] . "<br>" . "Email : " . $OneUser["useEmail"] ?>
                 <div class="confirmOrder"></div>
                 <!--Gestion de l'état de la commande. Si aucune commande en attente affiche "Aucune commande à confirmer". Si commande en attente affiche un bouton "Confirmer la réception"-->
+                <?echo "Contenu de la commande en attente : " . $OneOrder["ordDescription"]?>
                 <button>Confirmer la réception</button>
             </div>
         </div>
@@ -99,15 +100,8 @@
                     }
                 }
             });
-
-            // Afficher/Cacher les filtres en fonction du bouton "Plus de filtres"
-            $('#more-filters-btn').click(function() {
-                $('#filter-section').toggleClass('d-none');
-                $('#filter-gender').toggleClass('d-none');
-            });
         });
     </script>
-
 </body>
 
 </html>

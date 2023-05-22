@@ -51,11 +51,35 @@
                         </span>
                     </p>
                     <p>
-                        <label for="address">Adresse :</label>
-                        <input type="text" name="adress" id="address" value=<?php if (isset($address)) echo $address ?>>
+                        <label for="address">Localité :</label>
+                        <input type="text" name="locality" id="locality" value=<?php if (isset($address)) echo $address ?>>
                     </p>
                         <span id="show-error">
-                            <?= array_key_exists("address", $errors) && $errors["address"] ? '<p style="color:red;">' . $errors["address"] . '</p>' : '' ?>
+                            <?= array_key_exists("locality", $errors) && $errors["locality"] ? '<p style="color:red;">' . $errors["locality"] . '</p>' : '' ?>
+                        </span>
+                    </p>
+                    <p>
+                        <label for="postalCode">Code Postal :</label>
+                        <input type="text" name="postalCode" id="postalCode" value=<?php if (isset($postalCode)) echo $postalCode ?>>
+                    </p>
+                        <span id="show-error">
+                            <?= array_key_exists("postalCode", $errors) && $errors["postalCode"] ? '<p style="color:red;">' . $errors["postalCode"] . '</p>' : '' ?>
+                        </span>
+                    </p>
+                    <p>
+                        <label for="streetName">Nom de la rue :</label>
+                        <input type="text" name="streetName" id="streetName" value=<?php if (isset($streetName)) echo $streetName ?>>
+                    </p>
+                        <span id="show-error">
+                            <?= array_key_exists("streetName", $errors) && $errors["streetName"] ? '<p style="color:red;">' . $errors["streetName"] . '</p>' : '' ?>
+                        </span>
+                    </p>
+                    <p>
+                        <label for="streetNumber">Numéro de la rue :</label>
+                        <input type="text" name="streetNumber" id="streetNumber" value=<?php if (isset($streetNumber)) echo $streetNumber ?>>
+                    </p>
+                        <span id="show-error">
+                            <?= array_key_exists("streetNumber", $errors) && $errors["streetNumber"] ? '<p style="color:red;">' . $errors["streetNumber"] . '</p>' : '' ?>
                         </span>
                     </p>
                     <p>

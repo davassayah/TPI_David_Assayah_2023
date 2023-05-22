@@ -25,11 +25,11 @@
                 echo "Nom de la carte : " . $OneCard["carName"] ."<br>" . 
                 "Date de création : " . $OneCard["carDate"] . "<br>" . 
                 "Crédits : " . $OneCard["carCredits"] . "<br>";
-                if ($OneCard["cardCondition"] == "N") {
+                if ($OneCard["carCondition"] == "N") {
                     echo "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/neuf.png" alt="neuf symbole">';
                 } else if ($OneCard["carCondition"] == "O") {
                     echo  "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/occasion.png" alt="occasion symbole">';
-                } else if ($OneTeacher["teaGender"] == "A") {
+                } else if ($OneCard["carCondition"] == "A") {
                     echo "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/abîmé.png" alt="abîmé symbole">';
                 }
                 "Description : " . $OneCard["carDescription"] ?>

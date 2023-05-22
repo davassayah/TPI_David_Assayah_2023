@@ -18,62 +18,63 @@
 </head>
 
 <body>
-    <fieldset class="help mb-3 mt-5">
-        <div class="container">
+    <div class="container">
+        <fieldset class="mb-5 mt-4">
             <div class="user-body">
                 <form action="#" method="post" id="form" enctype="multipart/form-data">
-                    <h3>Ajout d'une carte</h3>
-                    <br>
-                    <p style="color:red;">
-                        <?php if (isset($errorOrValidationMessage)) {
-                            echo $errorOrValidationMessage;
-                        } ?>
+                    <h3>Modifier une carte</h3>
                     </p>
                     <p>
-                        <br><br>
                         <label for="name">Nom :</label>
-                        <input type="text" name="name" id="name" value=<?php if (isset($name)) echo $name ?>>
+                        <input type="text" name="name" id="name" value="<?php echo $card['carName'] ?>">
                         <span id="show-error">
                             <?= array_key_exists("name", $errors) && $errors["name"] ? '<p style="color:red;">' . $errors["name"] . '</p>' : '' ?>
                         </span>
                     </p>
+                    </p>
                     <p>
-                        <label for="date">Date de création :</label>
-                        <input type="text" name="date" id="date" value=<?php if (isset($date)) echo $date ?>>
+                        <label for="date">Année de création :</label>
+                        <input type="text" name="date" id="date" value="<?php echo $card['carDate'] ?>">
                         <span id="show-error">
                             <?= array_key_exists("date", $errors) && $errors["date"] ? '<p style="color:red;">' . $errors["date"] . '</p>' : '' ?>
                         </span>
                     </p>
                     </p>
                     <p>
-                    <p>
                         <label for="credits">Crédits :</label>
-                        <input type="text" name="credits" id="credits" value=<?php if (isset($credits)) echo $credits ?>>
+                        <input type="text" name="credits" id="credits" value="<?php echo $card['carCredits'] ?>">
+                        <span id="show-error">
+                            <?= array_key_exists("credits", $errors) && $errors["credits"] ? '<p style="color:red;">' . $errors["credits"] . '</p>' : '' ?>
+                        </span>
                     </p>
-                    <span id="show-error">
-                        <?= array_key_exists("credits", $errors) && $errors["credits"] ? '<p style="color:red;">' . $errors["credits"] . '</p>' : '' ?>
-                    </span>
                     </p>
                     <p>
-                        <input type="radio" id="new" name="new" value="N" checked>
-                        <label for="neuf">Neuf</label>
-                        <input type="radio" id="secondHand" name="secondHand" value="O">
-                        <label for="occasion">Occasion</label>
-                        <input type="radio" id="damaged" name="damaged" value="A">
+                        <!--Condition permettant de sélectionner l'état de la carte déjà renseigné-->
+                        <input type="radio" id="new" name="new" value="N" <?php if ($card['carCondition'] == 'N') { ?>checked<?php } ?>>
+                        <label for="genre1">Neuf</label>
+                        <input type="radio" id="secondHand" name="secondHand" value="O" <?php if ($card['carCondition'] == 'O') { ?>checked<?php } ?>>
+                        <label for="genre2">Occasion</label>
+                        <input type="radio" id="damaged" name="damaged" value="A" <?php if ($card['carCondition'] == 'A') { ?>checked<?php } ?>>
                         <label for="genre3">Abîmé</label>
                         <span id="show-error">
                             <?= array_key_exists("condition", $errors) && $errors["condition"] ? '<p style="color:red;">' . $errors["condition"] . '</p>' : '' ?>
                         </span>
                     </p>
                     <p>
-                        <label style="display: none" for="collection"></label>
+                        <label style="display: none" for="section"></label>
                         <select name="collection" id="collection">
                             <option value="">Collection</option>
+                            <!--Condition permettant de sélectionner la collection de la carte déjà renseignée-->
                             <?php
                             $html = "";
                             foreach ($collections as $collection) {
 
-                                $html .= "<option value='" . $collection["idCollection"]  . "'>"  . ($collection["colName"]) . "</option>";
+                                $html .= "<option value='" . $collection["idCollection"]  . "' ";
+                                if ($collection["idCollection"] === $card["fkCollection"]) {
+
+                                    $html .= " selected ";
+                                }
+                                $html .= " >" . ($collection["colName"]) . "</option>";
                             }
                             echo $html;
                             ?>
@@ -84,24 +85,26 @@
                     </span>
                     <p>
                         <label for="description">Description :</label>
-                        <textarea name="description" id="description"></textarea>
+                        <textarea name="description" id="description"><?php echo $card['carDescription'] ?></textarea>
                     </p>
                     <p>
-                        <label for="downloadImg">Photo de la carte (format jpg) :</label>
-                        <br>
-                        <input type="file" name="downloadImg" id="downloadImg" />
-                        <br>
-                        <a href="https://convertio.co/fr/convertisseur-jpg/">Convertissez votre fichier au format jpg en cliquant ici</a>
-                        <span id="show-error">
-                            <?= array_key_exists("downloadImg", $errors) && $errors["downloadImg"] ? '<p style="color:red;">' . $errors["downloadImg"] . '</p>' : '' ?>
-                        </span>
+                    <div>
+                        <img src=<?php echo $card["carPhoto"] ?>>
+                    </div>
+                    <label for="downloadImg">Photo de la carte (format jpg) :</label>
+                    <br>
+                    <input type="file" name="downloadImg" id="downloadImg" />
+                    <br>
+                    <a href="https://convertio.co/fr/convertisseur-jpg/" target="_blank">Convertissez votre fichier au format jpg en cliquant ici</a>
+                    <span id="show-error">
+                        <?= array_key_exists("downloadImg", $errors) && $errors["downloadImg"] ? '<p style="color:red;">' . $errors["downloadImg"] . '</p>' : '' ?>
+                    </span>
                     </p>
                     <p>
-                        <input type="submit" value="Ajouter">
+                        <input type="submit" value="Modifier">
                     </p>
                 </form>
-    </fieldset>
-    </div>
+            </div>
     </div>
 </body>
 

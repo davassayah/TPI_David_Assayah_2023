@@ -26,11 +26,11 @@
                 "Date de création : " . $OneCard["carDate"] . "<br>" . 
                 "Crédits : " . $OneCard["carCredits"] . "<br>";
                 if ($OneCard["cardCondition"] == "N") {
-                    echo "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/neuf.png" alt="male symbole">';
+                    echo "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/neuf.png" alt="neuf symbole">';
                 } else if ($OneCard["carCondition"] == "O") {
-                    echo  "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/occasion.png" alt="male symbole">';
+                    echo  "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/occasion.png" alt="occasion symbole">';
                 } else if ($OneTeacher["teaGender"] == "A") {
-                    echo "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/abîmé.png" alt="male symbole">';
+                    echo "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/abîmé.png" alt="abîmé symbole">';
                 }
                 "Description : " . $OneCard["carDescription"] ?>
                 <div class="actions">

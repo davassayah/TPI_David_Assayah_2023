@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : mar. 23 mai 2023 à 12:20
+-- Généré le : mar. 23 mai 2023 à 14:24
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.0.27
 
@@ -41,6 +41,15 @@ CREATE TABLE `t_card` (
   `fkCollection` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
+--
+-- Déchargement des données de la table `t_card`
+--
+
+INSERT INTO `t_card` (`idCard`, `carName`, `carDate`, `carCredits`, `carCondition`, `carDescription`, `carIsAvailable`, `carPhoto`, `fkUser`, `fkOrder`, `fkCollection`) VALUES
+(1, 'Pikachu', 1999, 20, 'N', 'Petite sourie', 1, 'photo', 1, NULL, 1),
+(2, 'Dracaufeu', 2002, 30, 'O', 'Petit dragon', 1, 'photo', 1, NULL, 1),
+(3, 'Salamèche', 2002, 15, 'A', 'Petite Salamandre', 1, 'photo', 1, NULL, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -51,6 +60,14 @@ CREATE TABLE `t_collection` (
   `idCollection` int NOT NULL,
   `colName` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Déchargement des données de la table `t_collection`
+--
+
+INSERT INTO `t_collection` (`idCollection`, `colName`) VALUES
+(2, 'One Piece'),
+(1, 'Pokémon');
 
 -- --------------------------------------------------------
 
@@ -84,6 +101,13 @@ CREATE TABLE `t_user` (
   `useCredits` int UNSIGNED NOT NULL,
   `useRole` enum('user','admin') NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Déchargement des données de la table `t_user`
+--
+
+INSERT INTO `t_user` (`idUser`, `useLogin`, `useEmail`, `useFirstName`, `useLastName`, `useLocality`, `usePostalCode`, `useStreetName`, `useStreetNumber`, `usePassword`, `useCredits`, `useRole`) VALUES
+(1, 'pn46hbx', 'David@hotmail.com', 'David', 'Assayah', 'Paudex', '1094', 'Rue de la fontaine ', '12', 'etml', 100, 'admin');
 
 --
 -- Index pour les tables déchargées
@@ -128,13 +152,13 @@ ALTER TABLE `t_user`
 -- AUTO_INCREMENT pour la table `t_card`
 --
 ALTER TABLE `t_card`
-  MODIFY `idCard` int NOT NULL AUTO_INCREMENT;
+  MODIFY `idCard` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `t_collection`
 --
 ALTER TABLE `t_collection`
-  MODIFY `idCollection` int NOT NULL AUTO_INCREMENT;
+  MODIFY `idCollection` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `t_order`
@@ -146,7 +170,7 @@ ALTER TABLE `t_order`
 -- AUTO_INCREMENT pour la table `t_user`
 --
 ALTER TABLE `t_user`
-  MODIFY `idUser` int NOT NULL AUTO_INCREMENT;
+  MODIFY `idUser` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Contraintes pour les tables déchargées

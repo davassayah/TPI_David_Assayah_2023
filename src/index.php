@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * ETML
+ * Auteur: David Assayah
+ * Date: 23.05.2023
+ * Description: Page d'accueil où les informations des cartes enregistrées sont visibles et où il est possible de consulter, modifier ou supprimer une carte
+ * selon que l'on soit utilisateur ou administrateur.
+ */
+
+ //permet de connecter la méthode se trouvant dans la page database.php
+//  $cards = $db->getAllCards();
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +28,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 
-    <title>Echange de cartes</title>
+    <title>Echange de cartes à collectionner</title>
 
 </head>
 
@@ -43,16 +56,16 @@
                 <div id="filter-condition" class="col-2 d-none">
                     <label for="condition" class="form-label">Etat</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="neuf" value="N" name="conditions[]">
-                        <label class="form-check-label" for="male">Neuf</label>
+                        <input class="form-check-input" type="checkbox" id="new" value="N" name="conditions[]">
+                        <label class="form-check-label" for="new">Neuf</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="used" value="U" name="conditions[]">
-                        <label class="form-check-label" for="female">Occasion</label>
+                        <input class="form-check-input" type="checkbox" id="secondHand" value="U" name="conditions[]">
+                        <label class="form-check-label" for="secondHand">Occasion</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="damaged" value="D" name="conditions[]">
-                        <label class="form-check-label" for="other">Abîmé</label>
+                        <label class="form-check-label" for="other">damaged</label>
                     </div>
                 </div>
                 <div class="col-2">
@@ -73,13 +86,13 @@
                                 Date de création
                             </th>
                             <th class="th-sm">
+                                Crédits
+                            </th>
+                            <th class="th-sm">
                                 Etat
                             </th>
                             <th class="th-sm">
                                 Possesseur
-                            </th>
-                            <th class="th-sm">
-                                Crédits
                             </th>
                             <th class="th-sm">
                                 Collection
@@ -96,6 +109,7 @@
                                 <td><?php echo $card["carDate"] ?></td>
                                 <td><?php echo $card["carCredits"] ?></td>
                                 <td><?php echo $card["carCondition"] ?></td>
+                                <td><?php echo $card["carUserLogin"] ?></td>
                                 <td><?php echo $card["carCollectionName"] ?></td>
                                 <td class="containerOptions">
                                     <!--Affiche différentes fonctionnalités selon que l'utilisateur soit connecté en tant qu'utilisateur ou en tant qu'admin-->

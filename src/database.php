@@ -96,12 +96,14 @@ class Database
     public function getAllCards()
     {
         $query = "
-                   SELECT
-                       tc.*,
-                       tc.colName AS carCollectionName
-                   FROM t_card tt
-                   LEFT JOIN t_collection tc ON tc.idCollection = tc.fkCollection
-               ";
+        SELECT
+            t_card.*,
+            t_collection.colName AS carCollectionName,
+            t_user.useLogin AS carUserLogin,
+        FROM t_card
+        LEFT JOIN t_collection ON t_collection.idCollection = t_card.fkCollection
+        LEFT JOIN t_user ON t_user.idUser = t_card.fkUser
+    ";
         //appeler la méthode pour executer la requête
         $req = $this->querySimpleExecute($query);
         //appeler la méthode pour avoir le résultat sous forme de tableau
@@ -120,7 +122,7 @@ class Database
         $req = $this->queryPrepareExecute($query, $bind);
         //appeler la méthode pour avoir le résultat sous forme de tableau
         $OneCard = $this->formatData($req);
-        //retourne l'enseignant
+        //retourne la carte
         return $OneCard[0];
     }
 

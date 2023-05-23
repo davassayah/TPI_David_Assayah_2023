@@ -122,7 +122,7 @@ class Database
         $req = $this->queryPrepareExecute($query, $bind);
         //appeler la méthode pour avoir le résultat sous forme de tableau
         $OneCard = $this->formatData($req);
-        //retourne l'enseignant
+        //retourne la carte
         return $OneCard[0];
     }
 

@@ -1,119 +1,107 @@
--- *********************************************
--- * SQL MySQL generation                      
--- *--------------------------------------------
--- * DB-MAIN version: 11.0.2              
--- * Generator date: Sep 14 2021              
--- * Generation date: Mon May 22 14:03:10 2023 
--- * LUN file: C:\Users\davassayah\Desktop\TPI_David_Assayah_2023\DB\TPI_David_Assayah_2023(DB)V2.lun 
--- * Schema: TPI V4 MCD/1 
--- ********************************************* 
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema echangeDeCartesACollectionner
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema echangeDeCartesACollectionner
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `echangeDeCartesACollectionner` DEFAULT CHARACTER SET utf8 ;
+USE `echangeDeCartesACollectionner` ;
+
+-- -----------------------------------------------------
+-- Table `echangeDeCartesACollectionner`.`t_user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `echangeDeCartesACollectionner`.`t_user` (
+  `idUser` INT NOT NULL AUTO_INCREMENT,
+  `useLogin` VARCHAR(120) NOT NULL,
+  `useEmail` VARCHAR(45) NOT NULL,
+  `useFirstName` VARCHAR(120) NOT NULL,
+  `useName` VARCHAR(120) NOT NULL,
+  `useLocality` VARCHAR(120) NOT NULL,
+  `usePostalCode` VARCHAR(10) NOT NULL,
+  `useStreetName` VARCHAR(255) NOT NULL,
+  `useStreetNumber` VARCHAR(45) NOT NULL,
+  `usePassword` VARCHAR(64) NOT NULL,
+  `useCredits` INT NOT NULL,
+  `useRole` ENUM("user", "admin") NOT NULL DEFAULT 'user',
+  PRIMARY KEY (`idUser`),
+  UNIQUE INDEX `useLogin_UNIQUE` (`useLogin` ASC) VISIBLE,
+  UNIQUE INDEX `useEmail_UNIQUE` (`useEmail` ASC) VISIBLE)
+ENGINE = InnoDB;
 
 
--- Database Section
--- ________________ 
-
-create database EchangeDeCartesACollectionner;
-use EchangeDeCartesACollectionner;
-
-
--- Tables Section
--- _____________ 
-
-create table t_card (
-     idCard int not null,
-     carName varchar(50) not null,
-     carDate int not null,
-     carCredits int not null,
-     carCondition varchar(10) not null,
-     carDescription varchar(200) not null,
-     carStatus int not null,
-     carPhoto varchar(50) not null,
-     idUser int not null,
-     idOrder int not null,
-     idCollection int not null,
-     constraint ID_t_card_ID primary key (idCard));
-
-create table t_collection (
-     idCollection int not null,
-     colName varchar(20) not null,
-     constraint ID_t_collection_ID primary key (idCollection));
-
-create table t_order (
-     idOrder int not null,
-     ordDescription varchar(200) not null,
-     ordStatus int not null,
-     idUser int not null,
-     constraint ID_t_order_ID primary key (idOrder));
-
-create table t_user (
-     idUser int not null,
-     useLogin char(1) not null,
-     useFirstName varchar(50) not null,
-     useName varchar(50) not null,
-     useLocality varchar(50) not null,
-     usePostalCode varchar(5) not null,
-     useStreetName varchar(50) not null,
-     useStreetNumber varchar(5) not null,
-     usePassword varchar(5) not null,
-     useCredits int not null,
-     useRole int not null,
-     constraint ID_t_user_ID primary key (idUser));
+-- -----------------------------------------------------
+-- Table `echangeDeCartesACollectionner`.`t_order`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `echangeDeCartesACollectionner`.`t_order` (
+  `idOrder` INT NOT NULL AUTO_INCREMENT,
+  `ordStatus` ENUM("pending", "processed") NOT NULL,
+  `fkUser` INT NOT NULL,
+  PRIMARY KEY (`idOrder`),
+  INDEX `idUser_idx` (`fkUser` ASC) VISIBLE,
+  CONSTRAINT `idUser`
+    FOREIGN KEY (`fkUser`)
+    REFERENCES `echangeDeCartesACollectionner`.`t_user` (`idUser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
--- Constraints Section
--- ___________________ 
-
-alter table t_card add constraint FKt_possess_FK
-     foreign key (idUser)
-     references t_user (idUser);
-
-alter table t_card add constraint FKt_contain_FK
-     foreign key (idOrder)
-     references t_order (idOrder);
-
-alter table t_card add constraint FKt_belong_FK
-     foreign key (idCollection)
-     references t_collection (idCollection);
-
--- Not implemented
--- alter table t_collection add constraint ID_t_collection_CHK
---     check(exists(select * from t_card
---                  where t_card.idCollection = idCollection)); 
-
--- Not implemented
--- alter table t_order add constraint ID_t_order_CHK
---     check(exists(select * from t_card
---                  where t_card.idOrder = idOrder)); 
-
-alter table t_order add constraint FKt_orderCard_FK
-     foreign key (idUser)
-     references t_user (idUser);
+-- -----------------------------------------------------
+-- Table `echangeDeCartesACollectionner`.`t_collection`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `echangeDeCartesACollectionner`.`t_collection` (
+  `idCollection` INT NOT NULL AUTO_INCREMENT,
+  `colName` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idCollection`),
+  UNIQUE INDEX `colName_UNIQUE` (`colName` ASC) VISIBLE)
+ENGINE = InnoDB;
 
 
--- Index Section
--- _____________ 
+-- -----------------------------------------------------
+-- Table `echangeDeCartesACollectionner`.`t_card`
+-- -----------------------------------------------------
 
-create unique index ID_t_card_IND
-     on t_card (idCard);
+-- Table echangeDeCartesACollectionner.t_card
 
-create index FKt_possess_IND
-     on t_card (idUser);
+CREATE TABLE IF NOT EXISTS echangeDeCartesACollectionner.t_card (
+idCard INT NOT NULL AUTO_INCREMENT,
+carName VARCHAR(45) NOT NULL,
+carDate YEAR NOT NULL,
+carCredits INT NOT NULL,
+carCondition VARCHAR(45) NOT NULL,
+carDescription VARCHAR(45) NOT NULL,
+carIsAvailable TINYINT(1) NOT NULL DEFAULT 1,
+carPhoto VARCHAR(45) NOT NULL,
+fkUser INT NOT NULL,
+fkOrder INT NULL,
+fkCollection INT NOT NULL,
+PRIMARY KEY (idCard),
+INDEX idUser_idx (fkUser ASC) VISIBLE,
+INDEX idOrder_idx (fkOrder ASC) VISIBLE,
+INDEX idCollection_idx (fkCollection ASC) VISIBLE,
+CONSTRAINT fk_user
+FOREIGN KEY (fkUser)
+REFERENCES echangeDeCartesACollectionner.t_user (idUser)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION,
+CONSTRAINT fk_order
+FOREIGN KEY (fkOrder)
+    REFERENCES `echangeDeCartesACollectionner`.`t_order` (`idOrder`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `idCollection`
+    FOREIGN KEY (`fkCollection`)
+    REFERENCES `echangeDeCartesACollectionner`.`t_collection` (`idCollection`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-create index FKt_contain_IND
-     on t_card (idOrder);
 
-create index FKt_belong_IND
-     on t_card (idCollection);
-
-create unique index ID_t_collection_IND
-     on t_collection (idCollection);
-
-create unique index ID_t_order_IND
-     on t_order (idOrder);
-
-create index FKt_orderCard_IND
-     on t_order (idUser);
-
-create unique index ID_t_user_IND
-     on t_user (idUser);
-
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

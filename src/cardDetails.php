@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * ETML
+ * Auteur: David Assayah
+ * Date: 23.05.2023
+ * Description: Page permettant d'afficher toutes les informations d'une carte
+ */
 
 //Récupère les informations de la carte via son id qui se trouve dans l'url
 $OneCard = $db->getOneCard($_GET["idCard"]);

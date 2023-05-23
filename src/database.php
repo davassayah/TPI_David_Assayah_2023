@@ -126,6 +126,17 @@ class Database
         return $OneCard[0];
     }
 
+    public function getAllCollections()
+    {
+        $query = "SELECT * FROM t_collection";
+        //appeler la méthode pour executer la requête
+        $req = $this->querySimpleExecute($query);
+        //appeler la méthode pour avoir le résultat sous forme de tableau
+        $collections = $this->formatData($req);
+        //retourne toutes les collections
+        return $collections;
+    }
+
     /**
      * Fonction permettant de supprimer une carte
      * @param $id int | id de la carte à supprimer

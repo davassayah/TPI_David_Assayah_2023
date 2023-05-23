@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * ETML
+ * Auteur: David Assayah
+ * Date: 23.05.2023
+ * Description: Page permettant d'ajouter une carte à la db
+ */
+
+$cards = $db->addCard($_POST, $imageData);
+
 ?>
 
 <!DOCTYPE html>
@@ -86,6 +95,9 @@
                         <label for="description">Description :</label>
                         <textarea name="description" id="description"></textarea>
                     </p>
+                    <span id="show-error">
+                        <?= array_key_exists("description", $errors) && $errors["description"] ? '<p style="color:red;">' . $errors["description"] . '</p>' : '' ?>
+                    </span>
                     <p>
                         <label for="downloadImg">Photo de la carte (format jpg) :</label>
                         <br>

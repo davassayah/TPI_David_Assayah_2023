@@ -151,8 +151,8 @@ class Database
     public function addCard($card, $imgData)
     {
         $query = "
-                INSERT INTO t_card (carName, carDate, carCredits, carCondition, carDescription, carStatus, carPhoto, fkCollection) 
-                VALUES (:name, :date, :credits, :condition, :description, :status, :photo, :fk_collection);
+                INSERT INTO t_card (carName, carDate, carCredits, carCondition, carDescription, carIsAvailable, carPhoto, fkUser, fkCollection) 
+                VALUES (:name, :date, :credits, :condition, :description, :isAvailable, :photo, :fkUser, fkCollection);
             ";
 
         $replacements = [
@@ -161,9 +161,10 @@ class Database
             'credits' => $card['credits'],
             'condition' => $card['condition'],
             'description' => $card['description'],
-            'status' => $card['status'],
+            'isAvailable' => $card['isAvailable'],
             'photo' => $card['uploadDirectoryImg'] . $imgData['fileNameImg'],
-            'fk_collection' => $card['collection'],
+            'fkUser' => $card['user'],
+            'fkCollection' => $card['collection']
         ];
 
         $response = $this->queryPrepareExecute($query, $replacements);

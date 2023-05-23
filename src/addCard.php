@@ -9,6 +9,8 @@
 
 $cards = $db->addCard($_POST, $imageData);
 
+$collections = $db->getAllCollections();
+
 ?>
 
 <!DOCTYPE html>

@@ -11,7 +11,7 @@
  //permet de connecter la méthode se trouvant dans la page database.php
  $cards = $db->getAllCards();
 
-
+ $collections = $db->getAllCollections();
 
 ?>
 

@@ -1,5 +1,9 @@
 <?php
 
+
+//Récupère les informations de la carte via son id qui se trouve dans l'url
+$OneCard = $db->getOneCard($_GET["idCard"]);
+
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +25,9 @@
     <fieldset class="mb-3 mt-5">
         <div class="container">
             <div class="user-body">
-                <h3>Informations de la carte : </h3> <?php
+                <h3>Informations de la carte : </h3> 
+                
+                <?php
                 echo "Nom de la carte : " . $OneCard["carName"] ."<br>" . 
                 "Date de création : " . $OneCard["carDate"] . "<br>" . 
                 "Crédits : " . $OneCard["carCredits"] . "<br>";

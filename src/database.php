@@ -181,9 +181,9 @@ class Database
         $response = $this->queryPrepareExecute($query, $replacements);
     }
 
-    /**
+     /**
      * Fonction permettant de modifier les informations d'une carte
-     * @param $id        int | id de la carte à mettre à jour
+     * @param $id        int | id de la carte à mettre a jour
      * @param $card array | contient tous les attributs d'une carte à modifier
      */
     public function updateCardById($id, $card)
@@ -197,9 +197,10 @@ class Database
                     carCredits = :credits,
                     carCondition = :condition,
                     carDescription = :description,
-                    carStatus = :status,
-                    carPhoto = imgPath,
-                    fkCollection = :collection
+                    carIsAvailable = :isAvailable,
+                    carPhoto = :imgPath,
+                    fkUser = :fkUser,
+                    fkCollection = :fkCollection
                 WHERE
                     idCard = :id
             ;";

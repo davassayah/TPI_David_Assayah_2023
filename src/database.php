@@ -91,6 +91,61 @@ class Database
             echo 'Erreur de connexion';
         }
     }
+ 
+     /**
+     * Fonction permettant de créer un nouvel utilisateur
+     * @param $user array | contient tous les attributs d'un utilisateur à créer
+     */
+    public function addUser($user)
+    {
+        $query = "
+                INSERT INTO t_user (useLogin, useEmail, useFirstName, useLastName, useLocality, usePostalCode, useStreetName, useStreetNumber, usePassword, useCredits, useRole) 
+                VALUES (:login, :email, :firstName, :lastName, :locality, :postalCode, :streetName, :streetNumber, :password, :credits, :role);
+            ";
+
+        $replacements = [
+            'login' => $user['login'],
+            'email' => $user['email'],
+            'firstName' => $user['firstName'],
+            'lastName' => $user['lastName'],
+            'locality' => $user['locality'],
+            'postalCode' => $user['postalCode'],
+            'streetName' => $user['streetName'],
+            'streetNumber' => $user['streetNumber'],
+            'password' => $user ['password'],
+            'credits' => $user ['credits'],
+            'role' => $user ['role'],
+        ];
+
+        $response = $this->queryPrepareExecute($query, $replacements);
+    }
+
+       /**
+     * Fonction permettant de créer une nouvelle carte
+     * @param $card array | contient tous les attributs d'une carte à créer
+     * @param $imgData array | contient tous les attributs de l'image à uploader
+     */
+    public function addCard($card, $imgData)
+    {
+        $query = "
+                INSERT INTO t_card (carName, carDate, carCredits, carCondition, carDescription, carIsAvailable, carPhoto, fkUser, fkCollection) 
+                VALUES (:name, :date, :credits, :condition, :description, :isAvailable, :photo, :fkUser, fkCollection);
+            ";
+
+        $replacements = [
+            'name' => $card['name'],
+            'date' => $card['date'],
+            'credits' => $card['credits'],
+            'condition' => $card['condition'],
+            'description' => $card['description'],
+            'isAvailable' => $card['isAvailable'],
+            'photo' => $card['uploadDirectoryImg'] . $imgData['fileNameImg'],
+            'fkUser' => $card['user'],
+            'fkCollection' => $card['collection']
+        ];
+
+        $response = $this->queryPrepareExecute($query, $replacements);
+    }
 
     //Fonction permettant de récupérer la liste de toutes les cartes de la BD
     public function getAllCards()
@@ -154,34 +209,6 @@ class Database
         $this->queryPrepareExecute($query, $replacements);
     }
 
-    /**
-     * Fonction permettant de créer une nouvelle carte
-     * @param $card array | contient tous les attributs d'une carte à créer
-     * @param $imgData array | contient tous les attributs de l'image à uploader
-     */
-    public function addCard($card, $imgData)
-    {
-        $query = "
-                INSERT INTO t_card (carName, carDate, carCredits, carCondition, carDescription, carIsAvailable, carPhoto, fkUser, fkCollection) 
-                VALUES (:name, :date, :credits, :condition, :description, :isAvailable, :photo, :fkUser, fkCollection);
-            ";
-
-        $replacements = [
-            'name' => $card['name'],
-            'date' => $card['date'],
-            'credits' => $card['credits'],
-            'condition' => $card['condition'],
-            'description' => $card['description'],
-            'isAvailable' => $card['isAvailable'],
-            'photo' => $card['uploadDirectoryImg'] . $imgData['fileNameImg'],
-            'fkUser' => $card['user'],
-            'fkCollection' => $card['collection']
-        ];
-
-        $response = $this->queryPrepareExecute($query, $replacements);
-    }
-
-     /**
      * Fonction permettant de modifier les informations d'une carte
      * @param $id        int | id de la carte à mettre a jour
      * @param $card array | contient tous les attributs d'une carte à modifier

@@ -37,6 +37,13 @@
                         </span>
                     </p>
                     <p>
+                        <label for="email">Email :</label>
+                        <input type="text" name="email" id="email" value=<?php if (isset($email)) echo $email ?>>
+                        <span id="show-error">
+                            <?= array_key_exists("email", $errors) && $errors["email"] ? '<p style="color:red;">' . $errors["email"] . '</p>' : '' ?>
+                        </span>
+                    </p>
+                    <p>
                         <label for="firstName">Prénom :</label>
                         <input type="text" name="firstName" id="firstName" value=<?php if (isset($firstname)) echo $firstname ?>>
                         <span id="show-error">
@@ -44,15 +51,15 @@
                         </span>
                     </p>
                     <p>
-                        <label for="name">Nom :</label>
-                        <input type="text" name="name" id="name" value=<?php if (isset($name)) echo $name ?>>
+                        <label for="lastName">Nom :</label>
+                        <input type="text" name="lastName" id="lastName" value=<?php if (isset($lastName)) echo $lastName ?>>
                         <span id="show-error">
-                            <?= array_key_exists("name", $errors) && $errors["name"] ? '<p style="color:red;">' . $errors["name"] . '</p>' : '' ?>
+                            <?= array_key_exists("lastName", $errors) && $errors["lastName"] ? '<p style="color:red;">' . $errors["lastName"] . '</p>' : '' ?>
                         </span>
                     </p>
                     <p>
-                        <label for="address">Localité :</label>
-                        <input type="text" name="locality" id="locality" value=<?php if (isset($address)) echo $address ?>>
+                        <label for="locality">Localité :</label>
+                        <input type="text" name="locality" id="locality" value=<?php if (isset($locality)) echo $locality ?>>
                     </p>
                         <span id="show-error">
                             <?= array_key_exists("locality", $errors) && $errors["locality"] ? '<p style="color:red;">' . $errors["locality"] . '</p>' : '' ?>
@@ -83,19 +90,19 @@
                         </span>
                     </p>
                     <p>
-                        <label for="email">Email :</label>
-                        <input type="text" name="email" id="email" value=<?php if (isset($email)) echo $email ?>>
-                    </p>
-                        <span id="show-error">
-                            <?= array_key_exists("email", $errors) && $errors["email"] ? '<p style="color:red;">' . $errors["email"] . '</p>' : '' ?>
-                        </span>
-                    </p>
-                    <p>
                         <label for="password">Mot de passe :</label>
                         <input type="password" name="password" id="password" value=<?php if (isset($password)) echo $password ?>>
                     </p>
                         <span id="show-error">
                             <?= array_key_exists("password", $errors) && $errors["password"] ? '<p style="color:red;">' . $errors["password"] . '</p>' : '' ?>
+                        </span>
+                    </p>
+                    <p>
+                        <label for="credits">Crédits :</label>
+                        <input type="text" name="credits" id="credits" value=<?php if (isset($credits)) echo $credits ?>>
+                    </p>
+                        <span id="show-error">
+                            <?= array_key_exists("credits", $errors) && $errors["credits"] ? '<p style="color:red;">' . $errors["credits"] . '</p>' : '' ?>
                         </span>
                     </p>
                     <p>

@@ -7,6 +7,8 @@
  * Description: Page permettant d'ajouter un utilisateur à la db
  */
 
+include("header.php");
+
 $users = $db->addUser($_POST);
 
 ?>

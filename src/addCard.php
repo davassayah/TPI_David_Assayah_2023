@@ -7,6 +7,8 @@
  * Description: Page permettant d'ajouter une carte à la db
  */
 
+include("header.php");
+
 $cards = $db->addCard($_POST, $imageData);
 
 $collections = $db->getAllCollections();

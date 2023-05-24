@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 
 require_once 'database.php';
 $db = Database::getInstance();
@@ -14,6 +15,14 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
         $_SESSION['idUser'] = $user['idUser'];
         $_SESSION['useLogin'] = $db->getOneUser($_SESSION['idUser'])['useLogin'];
     }
+}
+
+// Déconnexion de l'utilisateur et redirection vers la page d'accueil
+if (isset($_POST['logout'])) {
+    session_unset();
+    session_destroy();
+    header('Location: index.php');
+    exit;
 }
 
 ?>
@@ -56,7 +65,7 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
                     <?php
                     if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == 'user' or 'admin') {
                         echo '<form class="nav-admin" action="" method="post">';
-                        echo '<span class="nav-item text-white text-nowrap">Bienvenue ' . $_SESSION['useFirstName'] . '</span>' . 'Crédits :' . $_SESSION['useCredits'];
+                        echo '<span class="nav-item text-white text-nowrap">Bienvenue ' . $_SESSION['useLogin'] . '</span>' . 'Crédits :' . $_SESSION['useCredits'];
                         echo '<button class="btn btn-outline-danger mx-3" type="submit" name="logout">Déconnexion</button>';
                         echo '</form>';
                     } else {

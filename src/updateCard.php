@@ -7,6 +7,7 @@
  * Description: Page permettant de modifier les informations d'une carte
  */
 
+include("header.php");
 
 $db->updateCardById($_GET["idCard"], $_POST);
 

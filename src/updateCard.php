@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * ETML
+ * Auteur: David Assayah
+ * Date: 24.05.2023
+ * Description: Page permettant de modifier les informations d'une carte
+ */
+
+
+$db->updateCardById($_GET["idCard"], $_POST);
+
 ?>
 
 <!DOCTYPE html>
@@ -87,6 +97,9 @@
                         <label for="description">Description :</label>
                         <textarea name="description" id="description"><?php echo $card['carDescription'] ?></textarea>
                     </p>
+                    <span id="show-error">
+                        <?= array_key_exists("description", $errors) && $errors["description"] ? '<p style="color:red;">' . $errors["description"] . '</p>' : '' ?>
+                    </span>
                     <p>
                     <div>
                         <img src=<?php echo $card["carPhoto"] ?>>

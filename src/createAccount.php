@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * ETML
+ * Auteur: David Assayah
+ * Date: 24.05.2023
+ * Description: Page permettant d'ajouter un utilisateur à la db
+ */
+
+$users = $db->addUser($_POST);
+
 ?>
 
 <!DOCTYPE html>

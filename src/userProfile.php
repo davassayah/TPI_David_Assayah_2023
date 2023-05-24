@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * ETML
+ * Auteur: David Assayah
+ * Date: 24.05.2023
+ * Description: Page permettant d'afficher toutes les informations d'un utilisateur et de valider les commandes si elles sont en attente
+ */
+
+
+$OneUser = $db->getOneUser($_GET["idUser"]);
+
 ?>
 
 <!DOCTYPE html>
@@ -21,87 +31,30 @@
     <fieldset class="mb-3 mt-5">
         <div class="container">
             <div class="user-body">
-                <h3>Informations de l'utilisateur : </h3> <?php
-                echo "Prénom : " . $OneUser["useFirstName"] . "<br>" . "Nom : " . $OneUser["useName"] . "<br>" . "Adresse : " . $OneUser["useAddress"] . "<br>" . "Email : " . $OneUser["useEmail"] ?>
+
+                <h3>Informations de l'utilisateur : </h3> 
+
+                <?php echo 
+                "Login : " . $OneUser["useLogin"] . "<br>" . 
+                "Email : " . $OneUser["useEmail"] . "<br>" . 
+                "Prénom : " . $OneUser["useFirstName"] . "<br>" . 
+                "Nom : " . $OneUser["useLastName"] . "<br>" . 
+                "Localité : " . $OneUser["useLocality"] . "<br>" . 
+                "Code Postal : " . $OneUser["usePostalCode"] . "<br>" . 
+                "Nom de la Rue : " . $OneUser["useStreetName"] . "<br>" .
+                "Numéro de la Rue : " . $OneUser["useStreetNumber"] . "<br>"
+                ?>
                 <div class="confirmOrder"></div>
                 <!--Gestion de l'état de la commande. Si aucune commande en attente affiche "Aucune commande à confirmer". Si commande en attente affiche un bouton "Confirmer la réception"-->
-                <?echo "Contenu de la commande en attente : " . $OneOrder["ordDescription"]?>
                 <button>Confirmer la réception</button>
             </div>
         </div>
-        <h3 class="mb-3">Liste des cartes</h3>
-
-        <form action="#" method="post">
-            <table id="sortTable" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th class="th-sm">
-                            Nom
-                        </th>
-                        <th class="th-sm">
-                            Date de création
-                        </th>
-                        <th class="th-sm">
-                            Etat
-                        </th>
-                        <th class="th-sm">
-                            Possesseur
-                        </th>
-                        <th class="th-sm">
-                            Crédits
-                        </th>
-                        <th class="th-sm">
-                            Collection
-                        </th>
-                        <th class="th-sm">
-                            Options
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($cards as $card) { ?>
-                        <tr>
-                            <td><?php echo $card["carName"] ?></td>
-                            <td><?php echo $card["carDate"] ?></td>
-                            <td><?php echo $card["carCredits"] ?></td>
-                            <td><?php echo $card["carCondition"] ?></td>
-                            <td><?php echo $card["carCollectionName"] ?></td>
-                            <td class="containerOptions">
-                                <!--Affiche différentes fonctionnalités selon que l'utilisateur soit connecté en tant qu'utilisateur ou en tant qu'admin-->
-                                <a class="link-light" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">
-                                    <img height="20em" src="./img/modify.png" alt="edit">
-                                </a>
-                                <a class="link-light" href="javascript:confirmDelete(<?php echo $card["idCard"] ?>)">
-                                    <img height="20em" src="./img/delete.png" alt="delete">
-                                </a>
-                                <a class="link-light" href="detailCard.php?idCard=<?php echo $card["idCard"] ?>">
-                                    <img height="20em" src="./img/detail.png" alt="detail">
-                                </a>
-                            <?php } ?>
-                            </td>
-                        </tr>
-                </tbody>
-            </table>
         </form>
         <script src="js/script.js"></script>
         </div>
     </fieldset>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#sortTable').DataTable({
-                searching: false,
-                language: {
-                    lengthMenu: "Montrer _MENU_ entrées",
-                    info: "_TOTAL_ résultats trouvés",
-                    paginate: {
-                        next: "Suivant",
-                        previous: "Précédent"
-                    }
-                }
-            });
-        });
-    </script>
+
 </body>
 
 </html>

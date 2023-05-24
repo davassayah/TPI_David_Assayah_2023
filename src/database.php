@@ -120,6 +120,20 @@ class Database
         $response = $this->queryPrepareExecute($query, $replacements);
     }
 
+       //Recupère la liste des informations pour un utilisateur
+       public function getOneUser($id)
+       {
+           //avoir la requête sql pour un utilisateur (utilisation de l'id)
+           $query = "SELECT * FROM t_user WHERE idUser = :id";
+           //appeler la méthode pour executer la requête
+           $bind = array('id' => $id);
+           $req = $this->queryPrepareExecute($query, $bind);
+           //appeler la méthode pour avoir le résultat sous forme de tableau
+           $OneUser = $this->formatData($req);
+           //retourne l'utilisateur
+           return $OneUser[0];
+       }
+
        /**
      * Fonction permettant de créer une nouvelle carte
      * @param $card array | contient tous les attributs d'une carte à créer

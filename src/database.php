@@ -69,7 +69,7 @@ class Database
     }
 
     /**
-     * Fonction permettant d'authentifier l'utilisateur
+     * Fonction permettant d'authentifier l'utilisateur via son login ou son email
      * @param $user string | login de l'utilisateur
      * @param $password string | mot de passe de l'utilisateur
      */
@@ -79,6 +79,7 @@ class Database
                 SELECT * 
                 FROM t_user 
                 WHERE useLogin = :useLogin
+                OR useEmail = :useLogin
             ";
 
         $replacements = ['useLogin' => $useLogin];
@@ -112,7 +113,7 @@ class Database
             'postalCode' => $user['postalCode'],
             'streetName' => $user['streetName'],
             'streetNumber' => $user['streetNumber'],
-            'password' => $user ['password'],
+            'password' => password_hash($user['password'], PASSWORD_BCRYPT),
             'credits' => $user ['credits'],
             'role' => $user ['role'],
         ];

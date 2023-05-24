@@ -8,6 +8,8 @@
  * selon que l'on soit utilisateur ou administrateur.
  */
 
+ include("header.php");
+
  //permet de connecter la méthode se trouvant dans la page database.php
  $cards = $db->getAllCards();
 

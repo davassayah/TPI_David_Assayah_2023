@@ -7,6 +7,7 @@
  * Description: Page permettant d'afficher toutes les informations d'un utilisateur et de valider les commandes si elles sont en attente
  */
 
+include("header.php");
 
 $OneUser = $db->getOneUser($_GET["idUser"]);
 

@@ -7,6 +7,8 @@
  * Description: Page permettant d'afficher toutes les informations d'une carte
  */
 
+ include("header.php");
+
 //Récupère les informations de la carte via son id qui se trouve dans l'url
 $OneCard = $db->getOneCard($_GET["idCard"]);
 

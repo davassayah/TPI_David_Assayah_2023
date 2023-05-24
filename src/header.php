@@ -1,6 +1,9 @@
 <?php
 
 
+require_once 'database.php';
+$db = Database::getInstance();
+
 if (isset($_POST['login']) && isset($_POST['password'])) {
     $user = $db->CheckAuth($_POST['login'], $_POST['password']);
     if ($user == null) {

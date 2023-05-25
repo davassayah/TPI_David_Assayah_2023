@@ -8,6 +8,8 @@
  */
 
 include("header.php");
+include_once(__DIR__ . "/validateUpdateCardForm.php");
+include("uploadImages/updateImages.php");
 
 if (!isset($_SESSION['userConnected']) || $_SESSION['userConnected'] != 'user' or 'admin') {
     header('HTTP/1.0 403 Forbidden', true, 403);

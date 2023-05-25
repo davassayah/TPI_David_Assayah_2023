@@ -65,3 +65,5 @@ $OneUser = $db->getOneUser($_GET["idUser"]);
 </body>
 
 </html>
+
+<?php include("footer.php"); ?>

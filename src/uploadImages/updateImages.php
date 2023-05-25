@@ -1,7 +1,7 @@
 <?php
 /**
  * $dataFiles 
- * $teacher
+ * $card
  * $db
  */
 function updateImages($dataFiles, $card) {

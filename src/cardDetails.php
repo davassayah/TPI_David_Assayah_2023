@@ -7,16 +7,16 @@
  * Description: Page permettant d'afficher toutes les informations d'une carte
  */
 
- include("header.php");
+include("header.php");
 
- if (!isset($_SESSION['userConnected']) || $_SESSION['userConnected'] != 'user' or 'admin') {
+if (!isset($_SESSION['userConnected']) || $_SESSION['userConnected'] != 'user' or 'admin') {
     header('HTTP/1.0 403 Forbidden', true, 403);
     require_once(__DIR__ . "/403.php");
     exit;
 }
 
 //Récupère les informations de la carte via son id qui se trouve dans l'url
-$OneCard = $db->getOneCard($_GET["idCard"]);
+$oneCard = $db->getOneCard($_GET["idCard"]);
 
 ?>
 
@@ -39,31 +39,44 @@ $OneCard = $db->getOneCard($_GET["idCard"]);
     <fieldset class="mb-3 mt-5">
         <div class="container">
             <div class="user-body">
-                <h3>Informations de la carte : </h3> 
-                
+                <h3>Informations de la carte : </h3>
+
                 <?php
-                echo "Nom de la carte : " . $OneCard["carName"] ."<br>" . 
-                "Date de création : " . $OneCard["carDate"] . "<br>" . 
-                "Crédits : " . $OneCard["carCredits"] . "<br>";
-                if ($OneCard["carCondition"] == "N") {
+                echo "Nom de la carte : " . $oneCard["carName"] . "<br>" .
+                    "Date de création : " . $oneCard["carDate"] . "<br>" .
+                    "Crédits : " . $oneCard["carCredits"] . "<br>";
+                if ($oneCard["carCondition"] == "N") {
                     echo "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/new.png" alt="new symbole">';
-                } else if ($OneCard["carCondition"] == "O") {
+                } else if ($oneCard["carCondition"] == "O") {
                     echo  "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/secondHand.png" alt="secondHand symbole">';
-                } else if ($OneCard["carCondition"] == "A") {
+                } else if ($oneCard["carCondition"] == "A") {
                     echo "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/damaged.png" alt="damaged symbole">';
                 }
-                "Description : " . $OneCard["carDescription"] ?>
+                "Description : " . $oneCard["carDescription"] ?>
                 <div class="actions">
                     <!--Si l'utilisateur regarde une de ses propres cartes il peut la modifier ou la supprimer, sinon le nom du possesseur et un bouton d'achat s'affiche à la place -->
-                    <?php if ($_SESSION['userConnected'] == 1) {
-                        echo " Actions : " ?>
+                    <?php
+                    if ($_SESSION['idUser'] == $oneCard['fkUser']) {
+                        echo "Actions :";
+                    ?>
                         <a href="updateCard.php">
-                            <img height="20em" src="./img/edit.png" alt="edit icon"></a>
+                            <img height="20em" src="./img/edit.png" alt="edit icon">
+                        </a>
                         <a href="javascript:confirmDelete()">
-                            <img height="20em" src="./img/delete.png" alt="delete icon"> </a>
-                    <?php } ?>
+                            <img height="20em" src="./img/delete.png" alt="delete icon">
+                        </a>
+                    <?php
+                    } else {
+                        echo "Possesseur : " . $oneCard['fkUser'] . "<br>";
+                    ?>
+                        <p>
+                            <input type="submit" value="Acheter">
+                        </p>
+                    <?php
+                    }
+                    ?>
                     <div>
-                        <img height="300em" src="<?php echo $OneCard["carPhoto"] ?>">
+                        <img height="300em" src="<?php echo $oneCard["carPhoto"] ?>">
                     </div>
                 </div>
             </div>

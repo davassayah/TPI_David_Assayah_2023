@@ -121,7 +121,7 @@ $collections = $db->getAllCollections();
                                 <td><?php echo $card["carCollectionName"] ?></td>
                                 <td class="containerOptions">
                                     <!--Affiche différentes fonctionnalités selon que l'utilisateur soit connecté en tant qu'utilisateur ou en tant qu'admin-->
-                                    <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == 'user' or 'admin') { ?>
+                                    <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == ('user' or 'admin')) { ?>
                                         <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == 'admin') { ?>
                                             <a class="link-light" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">
                                                 <img height="20em" src="./img/modify.png" alt="edit">

@@ -162,6 +162,15 @@ class Database
         $response = $this->queryPrepareExecute($query, $replacements);
     }
 
+    public function renameFile()
+    {
+        $query = "
+            SELECT idCard FROM t_card ORDER BY idCard desc Limit 1";
+        $req = $this->querySimpleExecute($query);
+        $result = $this->formatData($req);
+        return  $result[0]['idCard'];
+    }
+
     //Fonction permettant de récupérer la liste de toutes les cartes de la BD
     public function getAllCards()
     {

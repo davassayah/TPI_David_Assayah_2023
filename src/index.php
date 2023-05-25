@@ -10,6 +10,7 @@
 
 include("header.php");
 
+
 //permet de connecter la méthode se trouvant dans la page database.php
 $cards = $db->getAllCards();
 
@@ -32,9 +33,20 @@ $collections = $db->getAllCollections();
 
     <title>Echange de cartes à collectionner</title>
 
+
 </head>
 
+<?php
+if (!isset($_SESSION['userConnected'])) {
+    echo '<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+              <h1 style="font-size: 3em;">Bienvenue! Crée un compte ou connecte-toi</h1>
+          </div>';
+    exit();
+}
+?>
+
 <body>
+
     <div class="container">
         <fieldset class="help mb-2 mt-5">
             <h5>Filtres</h5>
@@ -173,5 +185,3 @@ $collections = $db->getAllCollections();
 </body>
 
 </html>
-
-<?php include("footer.php"); ?>

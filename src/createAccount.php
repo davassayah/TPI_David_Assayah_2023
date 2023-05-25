@@ -10,7 +10,31 @@
 include("header.php");
 include_once(__DIR__ . "/validateAddUserForm.php");
 
-$users = $db->addUser($_POST);
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $result = validationAddUserForm($db);
+    $errors = $result["errors"];
+    $userData = $result["userData"];
+
+    // Si aucune erreur de validation 
+    // Cela signifie que les données sont propres et validées
+    // Nous pouvons insérer les données en BD
+    if (count($errors) === 0) {
+
+        // On ne changera pas la valeur de $_POST en sachant que ce sont des variables read-only.
+        // Ce qui veut dire qu'on ne nommera pas une varaible comme ceci -> $_POST['imPath'] = xyz !!!!!!
+        // On rajoutera les variables hors formulaire en tant que params.
+        $teachers = $db->addUser($_POST);
+
+        $errorOrValidationMessage = "Votre compte a bien été crée";
+    } else {
+        if ($_POST) {
+            $errorOrValidationMessage = "Merci de bien remplir tous les champs marqués comme obligatoires";
+        }
+    }
+}
 
 ?>
 

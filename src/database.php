@@ -100,8 +100,8 @@ class Database
     public function addUser($user)
     {
         $query = "
-                INSERT INTO t_user (useLogin, useEmail, useFirstName, useLastName, useLocality, usePostalCode, useStreetName, useStreetNumber, usePassword, useRole) 
-                VALUES (:login, :email, :firstName, :lastName, :locality, :postalCode, :streetName, :streetNumber, :password, :role);
+                INSERT INTO t_user (useLogin, useEmail, useFirstName, useLastName, useLocality, usePostalCode, useStreetName, useStreetNumber, usePassword) 
+                VALUES (:login, :email, :firstName, :lastName, :locality, :postalCode, :streetName, :streetNumber, :password);
             ";
 
         $replacements = [
@@ -114,8 +114,6 @@ class Database
             'streetName' => $user['streetName'],
             'streetNumber' => $user['streetNumber'],
             'password' => password_hash($user['password'], PASSWORD_BCRYPT),
-            'credits' => $user ['credits'],
-            'role' => $user ['role'],
         ];
 
         $response = $this->queryPrepareExecute($query, $replacements);

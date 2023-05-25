@@ -24,7 +24,7 @@ const ERROR_STRING             = "Pour ce champ, vous devez saisir une chaine en
 
 const REGEX_STRING = '/^[a-zàâçéèêîïôûù -]{2,30}$/mi';
 
-function validationAddUserForm($db)
+function validateAddUserForm($db)
 {
 
     // ATTENTION

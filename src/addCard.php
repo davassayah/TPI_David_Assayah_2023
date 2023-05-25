@@ -18,9 +18,35 @@ if (!isset($_SESSION['userConnected']) || $_SESSION['userConnected'] != ('user' 
 }
 
 
-$cards = $db->addCard($_POST, $imageData);
-
 $collections = $db->getAllCollections();
+
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $result = validateAddCardForm($db);
+    $errors = $result["errors"];
+    $cardData = $result["cardData"];
+    $imageData = addImages($_FILES, $db);
+
+    // Si aucune erreur de validation 
+    // Cela signifie que les données sont propres et validées
+    // Nous pouvons insérer les données en BD
+    if (count($errors) === 0) {
+
+        move_uploaded_file($imageData['fileTmpNameImg'], $imageData['uploadPathImg']);
+        // On ne changera pas la valeur de $_POST en sachant que ce sont des variables read-only.
+        // Ce qui veut dire qu'on ne nommera pas une varaible comme ceci -> $_POST['imPath'] = xyz !!!!!!
+        // On rajoutera les variables hors formulaire en tant que params.
+        $cards = $db->addCard($_POST, $imageData, $_SESSION['idUser']);
+
+        $errorOrValidationMessage = "La carte a bien été ajoutée!";
+    } else {
+        if ($_POST) {
+            $errorOrValidationMessage = "Merci de bien remplir tous les champs marqués comme obligatoires";
+        }
+    }
+}
 
 ?>
 
@@ -45,14 +71,13 @@ $collections = $db->getAllCollections();
             <div class="user-body">
                 <form action="#" method="post" id="form" enctype="multipart/form-data">
                     <h3>Ajout d'une carte</h3>
-                    <br>
                     <p style="color:red;">
                         <?php if (isset($errorOrValidationMessage)) {
                             echo $errorOrValidationMessage;
                         } ?>
                     </p>
                     <p>
-                        <br><br>
+                        <br>
                         <label for="name">Nom :</label>
                         <input type="text" name="name" id="name" value=<?php if (isset($name)) echo $name ?>>
                         <span id="show-error">
@@ -77,29 +102,15 @@ $collections = $db->getAllCollections();
                     </span>
                     </p>
                     <p>
-                        <input type="radio" id="new" name="new" value="N" checked>
-                        <label for="neuf">Neuf</label>
-                        <input type="radio" id="secondHand" name="secondHand" value="O">
-                        <label for="occasion">Occasion</label>
-                        <input type="radio" id="damaged" name="damaged" value="A">
-                        <label for="genre3">Abîmé</label>
+                        <input type="radio" id="new" name="condition" value="N" checked>
+                        <label for="condition1">Neuf</label>
+                        <input type="radio" id="secondHand" name="condition" value="O">
+                        <label for="condition2">Occasion</label>
+                        <input type="radio" id="damaged" name="condition" value="A">
+                        <label for="condition3">Abîmé</label>
                         <span id="show-error">
                             <?= array_key_exists("condition", $errors) && $errors["condition"] ? '<p style="color:red;">' . $errors["condition"] . '</p>' : '' ?>
                         </span>
-                    </p>
-                    <p>
-                        <label style="display: none" for="collection"></label>
-                        <select name="collection" id="collection">
-                            <option value="">Collection</option>
-                            <?php
-                            $html = "";
-                            foreach ($collections as $collection) {
-
-                                $html .= "<option value='" . $collection["idCollection"]  . "'>"  . ($collection["colName"]) . "</option>";
-                            }
-                            echo $html;
-                            ?>
-                        </select>
                     </p>
                     <span id="show-error">
                         <?= array_key_exists("collection", $errors) && $errors["collection"] ? '<p style="color:red;">' . $errors["collection"] . '</p>' : '' ?>
@@ -120,6 +131,20 @@ $collections = $db->getAllCollections();
                         <span id="show-error">
                             <?= array_key_exists("downloadImg", $errors) && $errors["downloadImg"] ? '<p style="color:red;">' . $errors["downloadImg"] . '</p>' : '' ?>
                         </span>
+                    </p>
+                    <p>
+                        <label style="display: none" for="collection"></label>
+                        <select name="collection" id="collection">
+                            <option value="">Collection</option>
+                            <?php
+                            $html = "";
+                            foreach ($collections as $collection) {
+
+                                $html .= "<option value='" . $collection["idCollection"]  . "'>"  . ($collection["colName"]) . "</option>";
+                            }
+                            echo $html;
+                            ?>
+                        </select>
                     </p>
                     <p>
                         <input type="submit" value="Ajouter">

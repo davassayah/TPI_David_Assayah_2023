@@ -17,7 +17,42 @@ if (!isset($_SESSION['userConnected']) || $_SESSION['userConnected'] != ('user' 
     exit;
 }
 
-$db->updateCardById($_GET["idCard"], $_POST);
+$oneCard = $db->getOneCard($_GET["idCard"]);
+
+$errors  = [];
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    $imageData = updateImages($_FILES, $card);
+    $_POST["imgPath"] = $imageData["imgPath"];
+    $result = validateUpdateCardForm($db,$card);
+    $errors = $result["errors"];
+    $cardData = $result["cardData"];
+
+    if (count($errors) > 0) {
+        // Si le compte des erreurs est supérieur à 0, on affiche les erreurs
+        echo "Merci de vérifier que tous les champs sont bien remplis correctement et que l'extension du fichier est jpg/png";
+    } else {
+        //Si le formulaire a été envoyé avec succès, alors un nouvel enseignant est créé 
+        if ($_POST) {
+            // si le formulaire a été envoyé, alors on met à jour l'enseignant
+            if ($imageData["fileNameImg"] !== null) {
+                // Si une image a été sélectionnée, on la déplace et on met à jour l'enseignant avec la nouvelle image
+                move_uploaded_file($imageData["fileTmpNameImg"], $imageData["filePath"]);
+                $db->updateCardById($_GET["idCard"],$_POST);
+            } else {
+                // Sinon, on met à jour l'enseignant sans changer l'image
+                $db->updateCardById($_GET["idCard"], $_POST);
+            }
+            // On redirige vers la page d'accueil
+            header('Location: index.php');
+            exit();
+        } else {
+            // Si le formulaire n'a pas été envoyé, on affiche un message d'erreur
+            echo "Merci de remplir le formulaire.";
+        }
+    }
+}
 
 ?>
 
@@ -45,7 +80,7 @@ $db->updateCardById($_GET["idCard"], $_POST);
                     </p>
                     <p>
                         <label for="name">Nom :</label>
-                        <input type="text" name="name" id="name" value="<?php echo $card['carName'] ?>">
+                        <input type="text" name="name" id="name" value="<?php echo $oneCard['carName']; ?>">
                         <span id="show-error">
                             <?= array_key_exists("name", $errors) && $errors["name"] ? '<p style="color:red;">' . $errors["name"] . '</p>' : '' ?>
                         </span>
@@ -53,7 +88,7 @@ $db->updateCardById($_GET["idCard"], $_POST);
                     </p>
                     <p>
                         <label for="date">Année de création :</label>
-                        <input type="text" name="date" id="date" value="<?php echo $card['carDate'] ?>">
+                        <input type="text" name="date" id="date" value="<?php echo $oneCard['carDate'] ?>">
                         <span id="show-error">
                             <?= array_key_exists("date", $errors) && $errors["date"] ? '<p style="color:red;">' . $errors["date"] . '</p>' : '' ?>
                         </span>
@@ -61,7 +96,7 @@ $db->updateCardById($_GET["idCard"], $_POST);
                     </p>
                     <p>
                         <label for="credits">Crédits :</label>
-                        <input type="text" name="credits" id="credits" value="<?php echo $card['carCredits'] ?>">
+                        <input type="text" name="credits" id="credits" value="<?php echo $oneCard['carCredits'] ?>">
                         <span id="show-error">
                             <?= array_key_exists("credits", $errors) && $errors["credits"] ? '<p style="color:red;">' . $errors["credits"] . '</p>' : '' ?>
                         </span>
@@ -69,12 +104,12 @@ $db->updateCardById($_GET["idCard"], $_POST);
                     </p>
                     <p>
                         <!--Condition permettant de sélectionner l'état de la carte déjà renseigné-->
-                        <input type="radio" id="new" name="new" value="N" <?php if ($card['carCondition'] == 'N') { ?>checked<?php } ?>>
-                        <label for="genre1">Neuf</label>
-                        <input type="radio" id="secondHand" name="secondHand" value="O" <?php if ($card['carCondition'] == 'O') { ?>checked<?php } ?>>
-                        <label for="genre2">Occasion</label>
-                        <input type="radio" id="damaged" name="damaged" value="A" <?php if ($card['carCondition'] == 'A') { ?>checked<?php } ?>>
-                        <label for="genre3">Abîmé</label>
+                        <input type="radio" id="new" name="condition" value="N" <?php if ($oneCard['carCondition'] == 'N') { ?>checked<?php } ?>>
+                        <label for="condition1">Neuf</label>
+                        <input type="radio" id="secondHand" name="condition" value="O" <?php if ($oneCard['carCondition'] == 'O') { ?>checked<?php } ?>>
+                        <label for="condition2">Occasion</label>
+                        <input type="radio" id="damaged" name="condition" value="A" <?php if ($oneCard['carCondition'] == 'A') { ?>checked<?php } ?>>
+                        <label for="condition3">Abîmé</label>
                         <span id="show-error">
                             <?= array_key_exists("condition", $errors) && $errors["condition"] ? '<p style="color:red;">' . $errors["condition"] . '</p>' : '' ?>
                         </span>
@@ -89,7 +124,7 @@ $db->updateCardById($_GET["idCard"], $_POST);
                             foreach ($collections as $collection) {
 
                                 $html .= "<option value='" . $collection["idCollection"]  . "' ";
-                                if ($collection["idCollection"] === $card["fkCollection"]) {
+                                if ($collection["idCollection"] === $oneCard["fkCollection"]) {
 
                                     $html .= " selected ";
                                 }
@@ -104,14 +139,14 @@ $db->updateCardById($_GET["idCard"], $_POST);
                     </span>
                     <p>
                         <label for="description">Description :</label>
-                        <textarea name="description" id="description"><?php echo $card['carDescription'] ?></textarea>
+                        <textarea name="description" id="description"><?php echo $oneCard['carDescription'] ?></textarea>
                     </p>
                     <span id="show-error">
                         <?= array_key_exists("description", $errors) && $errors["description"] ? '<p style="color:red;">' . $errors["description"] . '</p>' : '' ?>
                     </span>
                     <p>
                     <div>
-                        <img src=<?php echo $card["carPhoto"] ?>>
+                        <img src=<?php echo $oneCard["carPhoto"] ?>>
                     </div>
                     <label for="downloadImg">Photo de la carte (format jpg) :</label>
                     <br>

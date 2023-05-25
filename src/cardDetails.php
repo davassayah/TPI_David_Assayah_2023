@@ -76,7 +76,7 @@ $oneCard = $db->getOneCard($_GET["idCard"]);
                     }
                     ?>
                     <div>
-                        <img height="300em" src="<?php echo $oneCard["carPhoto"] ?>">
+                        <img height="300em" src="<?php echo $oneCard['carPhoto'] ?>">
                     </div>
                 </div>
             </div>

@@ -14,7 +14,7 @@ $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $result = validationAddUserForm($db);
+    $result = validateAddUserForm($db);
     $errors = $result["errors"];
     $userData = $result["userData"];
 

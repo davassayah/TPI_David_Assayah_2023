@@ -24,7 +24,7 @@ const ERROR_STRING             = "Pour ce champ, vous devez saisir une chaine en
 
 const REGEX_STRING = '/^[a-zàâçéèêîïôûù -]{2,30}$/mi';
 
-function validationAddCardForm($db)
+function validateAddCardForm($db)
 {
 
     // ATTENTION
@@ -44,7 +44,7 @@ function validationAddCardForm($db)
             'name' => $_POST['name'],
             'date'  => $_POST['date'],
             'credits' => $_POST['credits'],
-            'condition' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'condition' => $_POST['condition'],
             'description'   => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
             'collection' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
             // on ne filtre pas les 3 champs car on veut effectuer une validation par REGEX
@@ -128,13 +128,13 @@ function validationAddCardForm($db)
 
     // le champ description est obligatoire
     if (!$description) {
-        $errors['origin'] = ERROR_DESCRIPTION_REQUIRED;
+        $errors['description'] = ERROR_DESCRIPTION_REQUIRED;
     }
 
     // le champ collection est obligatoire et ne peut donc pas avoir
     // la valeur "Section"
     if (!$collection || $collection === "Collection") {
-        $errors['section'] = ERROR_COLLECTION_REQUIRED;
+        $errors['collection'] = ERROR_COLLECTION_REQUIRED;
     }
 
     if (!$downloadImg) {

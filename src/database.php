@@ -138,24 +138,23 @@ class Database
      * @param $card array | contient tous les attributs d'une carte à créer
      * @param $imgData array | contient tous les attributs de l'image à uploader
      */
-    public function addCard($card, $imgData)
+    public function addCard($card, $imgData, $idUser)
     {
         $query = "
-                INSERT INTO t_card (carName, carDate, carCredits, carCondition, carDescription, carIsAvailable, carPhoto, fkUser, fkCollection) 
-                VALUES (:name, :date, :credits, :condition, :description, :isAvailable, :photo, :fkUser, fkCollection);
+                INSERT INTO t_card (carName, carDate, carCredits, carCondition, carDescription, carPhoto, fkUser, fkCollection) 
+                VALUES (:name, :date, :credits, :condition, :description, :photo, :fkUser, :fkCollection);
             ";
 
-        $replacements = [
-            'name' => $card['name'],
-            'date' => $card['date'],
-            'credits' => $card['credits'],
-            'condition' => $card['condition'],
-            'description' => $card['description'],
-            'isAvailable' => $card['isAvailable'],
-            'photo' => $card['uploadDirectoryImg'] . $imgData['fileNameImg'],
-            'fkUser' => $card['user'],
-            'fkCollection' => $card['collection']
-        ];
+            $replacements = [
+                'name' => $card['name'],
+                'date' => date('Y', strtotime($card['date'])),
+                'credits' => intval($card['credits']),
+                'condition' => $card['condition'],
+                'description' => $card['description'],
+                'photo' => $card['uploadDirectoryImg'] . $imgData['fileNameImg'],
+                'fkUser' => $idUser,
+                'fkCollection' => $card['collection']
+            ];
 
         $response = $this->queryPrepareExecute($query, $replacements);
     }
@@ -246,9 +245,7 @@ class Database
                     carCredits = :credits,
                     carCondition = :condition,
                     carDescription = :description,
-                    carIsAvailable = :isAvailable,
                     carPhoto = :imgPath,
-                    fkUser = :fkUser,
                     fkCollection = :fkCollection
                 WHERE
                     idCard = :id

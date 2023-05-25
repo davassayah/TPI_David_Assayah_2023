@@ -136,17 +136,17 @@ if (!isset($_SESSION['userConnected'])) {
                                     <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == ('user' or 'admin')) { ?>
                                         <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == 'admin') { ?>
                                             <a class="link-light" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">
-                                                <img height="20em" src="./img/modify.png" alt="edit">
+                                                <img height="40em" src="./img/modify.png" alt="edit">
                                             </a>
                                             <a class="link-light" href="javascript:confirmDelete(<?php echo $card["idCard"] ?>)">
-                                                <img height="20em" src="./img/delete.png" alt="delete">
+                                                <img height="40em" src="./img/delete.png" alt="delete">
                                             </a>
                                         <?php } ?>
                                         <a class="link-light" href="cardDetails.php?idCard=<?php echo $card["idCard"] ?>">
-                                            <img height="20em" src="./img/detail.png" alt="detail">
+                                            <img height="40em" src="./img/detail.png" alt="detail">
                                         </a>
                                         <a class="link-light" href="javascript:confirmBuy(<?php echo $card["idCard"] ?>)">
-                                            <img height="20em" src="./img/buy.png" alt="buy">
+                                            <img height="40em" src="./img/buy.png" alt="buy">
                                         </a>
                                     <?php } ?>
                                 </td>
@@ -185,3 +185,5 @@ if (!isset($_SESSION['userConnected'])) {
 </body>
 
 </html>
+
+<?php include("footer.php"); ?>

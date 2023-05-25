@@ -110,14 +110,6 @@ $users = $db->addUser($_POST);
                         </span>
                     </p>
                     <p>
-                        <label for="credits">Crédits :</label>
-                        <input type="text" name="credits" id="credits" value=<?php if (isset($credits)) echo $credits ?>>
-                    </p>
-                        <span id="show-error">
-                            <?= array_key_exists("credits", $errors) && $errors["credits"] ? '<p style="color:red;">' . $errors["credits"] . '</p>' : '' ?>
-                        </span>
-                    </p>
-                    <p>
                         <input type="submit" value="Créer un compte">
                     </p>
                 </form>

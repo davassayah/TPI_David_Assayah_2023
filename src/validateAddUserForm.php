@@ -16,7 +16,6 @@ const ERROR_LOCALITY_REQUIRED    = "Veuillez renseigner le champ localité";
 const ERROR_POSTALCODE_REQUIRED    = "Veuillez renseigner le champ code postal";
 const ERROR_STREETNAME_REQUIRED    = "Veuillez renseigner le champ nom de la rue";
 const ERROR_STREETNUMBER_REQUIRED   = "Veuillez renseigner le champ numéro de la rue";
-const ERROR_CREDITS_REQUIRED   = "Veuillez renseigner le champ crédits";
 //Erreurs spécifiques
 const ERROR_LENGTH             = "Le champ doit avoir un nombre de caractères entre 2 et 30";
 const ERROR_STRING             = "Pour ce champ, vous devez saisir une chaine entre 2 et 30 caractères mais seuls " .

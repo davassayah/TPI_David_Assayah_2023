@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : mar. 23 mai 2023 à 14:24
+-- Généré le : jeu. 25 mai 2023 à 09:29
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.0.27
 
@@ -46,7 +46,7 @@ CREATE TABLE `t_card` (
 --
 
 INSERT INTO `t_card` (`idCard`, `carName`, `carDate`, `carCredits`, `carCondition`, `carDescription`, `carIsAvailable`, `carPhoto`, `fkUser`, `fkOrder`, `fkCollection`) VALUES
-(1, 'Pikachu', 1999, 20, 'N', 'Petite sourie', 1, 'photo', 1, NULL, 1),
+(1, 'Raichu', 2009, 27, 'A', 'Grosse souris', 1, 'photo', 1, NULL, 1),
 (2, 'Dracaufeu', 2002, 30, 'O', 'Petit dragon', 1, 'photo', 1, NULL, 1),
 (3, 'Salamèche', 2002, 15, 'A', 'Petite Salamandre', 1, 'photo', 1, NULL, 1);
 
@@ -98,7 +98,7 @@ CREATE TABLE `t_user` (
   `useStreetName` varchar(255) NOT NULL,
   `useStreetNumber` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `usePassword` varchar(64) NOT NULL,
-  `useCredits` int UNSIGNED NOT NULL,
+  `useCredits` int UNSIGNED NOT NULL DEFAULT '100',
   `useRole` enum('user','admin') NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
@@ -107,7 +107,9 @@ CREATE TABLE `t_user` (
 --
 
 INSERT INTO `t_user` (`idUser`, `useLogin`, `useEmail`, `useFirstName`, `useLastName`, `useLocality`, `usePostalCode`, `useStreetName`, `useStreetNumber`, `usePassword`, `useCredits`, `useRole`) VALUES
-(1, 'pn46hbx', 'David@hotmail.com', 'David', 'Assayah', 'Paudex', '1094', 'Rue de la fontaine ', '12', 'etml', 100, 'admin');
+(1, 'pn46hbx', 'David@hotmail.com', 'David', 'Assayah', 'Paudex', '1094', 'Rue de la fontaine ', '12', 'etml', 100, 'admin'),
+(2, 'Test', 'test@hotmail.com', 'Jean', 'Test', 'Pully', '1009', 'Rue du chemin', '2', 'Test', 50, 'user'),
+(3, 'user3', 'mailDeUser3', 'U', 'Ser', '1000', '2050', 'rue de la rue', '23', 'user', 100, 'user');
 
 --
 -- Index pour les tables déchargées
@@ -170,7 +172,7 @@ ALTER TABLE `t_order`
 -- AUTO_INCREMENT pour la table `t_user`
 --
 ALTER TABLE `t_user`
-  MODIFY `idUser` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idUser` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Contraintes pour les tables déchargées

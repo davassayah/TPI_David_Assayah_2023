@@ -9,6 +9,12 @@
 
  include("header.php");
 
+ if (!isset($_SESSION['userConnected']) || $_SESSION['userConnected'] != 'user' or 'admin') {
+    header('HTTP/1.0 403 Forbidden', true, 403);
+    require_once(__DIR__ . "/403.php");
+    exit;
+}
+
 //Récupère les informations de la carte via son id qui se trouve dans l'url
 $OneCard = $db->getOneCard($_GET["idCard"]);
 

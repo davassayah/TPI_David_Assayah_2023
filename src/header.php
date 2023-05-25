@@ -65,7 +65,7 @@ if (isset($_POST['logout'])) {
                     <?php
                     if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == ('user' or 'admin')) {
                         echo '<form class="nav-admin" action="" method="post">';
-                        echo '<span class="nav-item text-white text-nowrap">Bienvenue ' . $_SESSION['useLogin'] . '</span>' . 'Crédits :' . $_SESSION['useCredits'];
+                        echo '<span class="nav-item text-white text-nowrap">Bienvenue ' . $_SESSION['useLogin'] . '</span>' . ' Crédits :' . $_SESSION['idUser']['useCredits'];
                         echo '<button class="btn btn-outline-danger mx-3" type="submit" name="logout">Déconnexion</button>';
                         echo '</form>';
                     } else {

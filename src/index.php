@@ -173,3 +173,5 @@ $collections = $db->getAllCollections();
 </body>
 
 </html>
+
+<?php include("footer.php"); ?>

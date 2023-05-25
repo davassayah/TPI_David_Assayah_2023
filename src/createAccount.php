@@ -8,6 +8,7 @@
  */
 
 include("header.php");
+include_once(__DIR__ . "/validateAddUserForm.php");
 
 $users = $db->addUser($_POST);
 
@@ -126,3 +127,5 @@ $users = $db->addUser($_POST);
 </body>
 
 </html>
+
+<?php include("footer.php"); ?>

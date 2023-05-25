@@ -6,3 +6,13 @@ function confirmDelete(cardId) {
     }
 }
 
+function confirmBuy(cardId) {
+    if (confirm("Êtes-vous sûr de vouloir ajouter cette carte au panier ?")) {
+        // Redirige vers la page cart.php si l'utilisateur clique sur "Oui"
+        window.location.href = "cart.php?idCard=" + cardId;
+    } else {
+        // Actions à effectuer si l'utilisateur clique sur "Non"
+        window.location.href = "index.php";
+    }
+}
+

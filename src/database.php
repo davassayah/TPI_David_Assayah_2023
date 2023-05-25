@@ -178,7 +178,7 @@ class Database
         SELECT
             t_card.*,
             t_collection.colName AS carCollectionName,
-            t_user.useLogin AS carUserLogin,
+            t_user.useLogin AS carUserLogin
         FROM t_card
         LEFT JOIN t_collection ON t_collection.idCollection = t_card.fkCollection
         LEFT JOIN t_user ON t_user.idUser = t_card.fkUser
@@ -200,9 +200,9 @@ class Database
         $bind = array('id' => $id);
         $req = $this->queryPrepareExecute($query, $bind);
         //appeler la méthode pour avoir le résultat sous forme de tableau
-        $OneCard = $this->formatData($req);
+        $oneCard = $this->formatData($req);
         //retourne la carte
-        return $OneCard[0];
+        return $oneCard[0];
     }
 
     public function getAllCollections()

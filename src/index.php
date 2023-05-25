@@ -8,12 +8,12 @@
  * selon que l'on soit utilisateur ou administrateur.
  */
 
- include("header.php");
- 
- //permet de connecter la méthode se trouvant dans la page database.php
- $cards = $db->getAllCards();
+include("header.php");
 
- $collections = $db->getAllCollections();
+//permet de connecter la méthode se trouvant dans la page database.php
+$cards = $db->getAllCards();
+
+$collections = $db->getAllCollections();
 
 ?>
 
@@ -74,7 +74,7 @@
                     <input type="submit" name="submit" value="Rechercher" class="btn btn-success btn-sm">
                 </div>
             </form>
-            
+
             <h3 class="mb-3">Liste des cartes</h3>
 
             <form action="#" method="post">
@@ -110,13 +110,19 @@
                                 <td><?php echo $card["carName"] ?></td>
                                 <td><?php echo $card["carDate"] ?></td>
                                 <td><?php echo $card["carCredits"] ?></td>
-                                <td><?php echo $card["carCondition"] ?></td>
+                                <td><?php if ($card["carCondition"] == "N") {
+                                        echo "Neuf";
+                                    } else if ($card["carCondition"] == "O") {
+                                        echo  "Occasion";
+                                    } else if ($card["carCondition"] == "A") {
+                                        echo "Abîmé";
+                                    } ?></td>
                                 <td><?php echo $card["carUserLogin"] ?></td>
                                 <td><?php echo $card["carCollectionName"] ?></td>
                                 <td class="containerOptions">
                                     <!--Affiche différentes fonctionnalités selon que l'utilisateur soit connecté en tant qu'utilisateur ou en tant qu'admin-->
-                                    <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] >= 1) { ?>
-                                        <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == 1) { ?>
+                                    <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == 'user' or 'admin') { ?>
+                                        <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == 'admin') { ?>
                                             <a class="link-light" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">
                                                 <img height="20em" src="./img/modify.png" alt="edit">
                                             </a>
@@ -127,9 +133,9 @@
                                         <a class="link-light" href="cardDetails.php?idCard=<?php echo $card["idCard"] ?>">
                                             <img height="20em" src="./img/detail.png" alt="detail">
                                         </a>
-                                        <!-- <a class="link-light" href="Cart.php?idCard=<?php echo $card["idCard"] ?>">
+                                        <a class="link-light" href="javascript:confirmBuy(<?php echo $card["idCard"] ?>)">
                                             <img height="20em" src="./img/buy.png" alt="buy">
-                                        </a> -->
+                                        </a>
                                     <?php } ?>
                                 </td>
                             </tr>

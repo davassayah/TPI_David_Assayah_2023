@@ -11,7 +11,7 @@ $configs = array(
     'db'      => "mysql",
     'host'    => "localhost",
     'port'    => "6033",
-    'dbname'  => "EchangeDeCartesACollectionner",
+    'dbname'  => "echangeDeCartesACollectionner",
     'charset' => "utf8",
     'user'    => 'root',
 );

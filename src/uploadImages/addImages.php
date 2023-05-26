@@ -33,6 +33,6 @@ function addImages($dataFiles, $db)
         //Définit le chemin final avec le nom du fichier où va être transférer le fichier en lui donnant un nom unique
         $imageData["uploadPathImg"] = $imageData["currentDirectory"] . $imageData["uploadDirectoryImg"] . $imageData["fileNameImg"];
     }
-
+    
     return $imageData;
 }

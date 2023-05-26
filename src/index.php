@@ -16,6 +16,12 @@ $cards = $db->getAllCards();
 
 $collections = $db->getAllCollections();
 
+// Vérifie si le formulaire a été soumis
+if (isset($_GET['submit'])) {
+    // Récupère la valeur entrée dans le champ de texte
+    $cards = $db->sortCards($_GET);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +66,7 @@ if (!isset($_SESSION['userConnected'])) {
                 </div>
                 <div id="filter-collection" class="col-2 d-none">
                     <label for="idCollection" class="form-label">Collection</label>
-                    <select name="icDcol" id="section_id" class="form-select" aria-label="Default select example">
+                    <select name="idcollection" id="idCollection" class="form-select" aria-label="Default select example">
                         <option value="">Collection</option>
                         <?php foreach ($collections as $collection) { ?>
                             <option value="<?php echo $collection["idCollection"] ?>"><?php echo $collection["colName"] ?></option>
@@ -130,7 +136,7 @@ if (!isset($_SESSION['userConnected'])) {
                                         echo "Abîmé";
                                     } ?></td>
                                 <td><?php echo $card["carUserLogin"] ?></td>
-                                <td><?php echo $card["carCollectionName"] ?></td>
+                                <td><?php if(isset($card["carCollectionName"])) { echo $card["carCollectionName"]; } ?></td>
                                 <td class="containerOptions">
                                     <!--Affiche différentes fonctionnalités selon que l'utilisateur soit connecté en tant qu'utilisateur ou en tant qu'admin-->
                                     <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == ('user' or 'admin')) { ?>

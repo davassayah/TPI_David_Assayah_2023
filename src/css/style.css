@@ -76,8 +76,8 @@ label {
 
 .nav-admin
 {
-    margin-left : 23rem;
-    margin-top: 10px;
+    margin-top :1rem;
+    margin-left : 10rem;
 }
 
 .nav-user{
@@ -91,4 +91,13 @@ label {
 
 .photo{
     float: right;
+}
+
+.nav-forreign
+{
+    margin-left : 35rem;
+}
+
+.btn-outline-danger{
+margin-left : 5rem;
 }

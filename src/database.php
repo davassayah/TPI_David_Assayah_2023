@@ -147,7 +147,7 @@ class Database
 
             $replacements = [
                 'name' => $card['name'],
-                'date' => date('Y', strtotime($card['date'])),
+                'date' => intval($card['date']),
                 'credits' => intval($card['credits']),
                 'condition' => $card['condition'],
                 'description' => $card['description'],

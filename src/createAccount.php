@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </span>
                     </p>
                     <p>
-                        <label for="streetNumber">Numéro de la rue :</label>
+                        <label for="streetNumber">Numéro : </label>
                         <input type="text" name="streetNumber" id="streetNumber" value=<?php if (isset($streetNumber)) echo $streetNumber ?>>
                     </p>
                         <span id="show-error">

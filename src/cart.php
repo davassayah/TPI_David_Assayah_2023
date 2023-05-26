@@ -31,10 +31,9 @@ session_start();
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 
     <title>Echange de cartes à collectionner</title>
-    
+
 </head>
       <body>
-            <?php include('header.php'); ?>
             <section style="min-height: calc(100vh - 20%);">
                   <h1><?php echo $traduction[$_SESSION["lang"]]["votrePanier"] ?></h1>
                   <table>

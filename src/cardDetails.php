@@ -62,13 +62,13 @@ $cards = $db->getAllCards();
                 <div class="actions" style="margin-bottom: 20px;">
                     <?php
                     if ($_SESSION['idUser'] == $oneCard['fkUser']) {
-                        echo "Actions :";
+                        echo "Actions :" . "<br>";
                     ?>
-                        <a href="updateCard.php">
-                            <img height="20em" src="./img/edit.png" alt="edit icon">
+                        <a class="link-light" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">
+                            <img height="40em" src="./img/modify.png" alt="edit">
                         </a>
-                        <a href="javascript:confirmDelete()">
-                            <img height="20em" src="./img/delete.png" alt="delete icon">
+                        <a class="link-light" href="javascript:confirmDelete(<?php echo $card["idCard"] ?>)">
+                            <img height="40em" src="./img/delete.png" alt="delete">
                         </a>
                     <?php
                     } else {

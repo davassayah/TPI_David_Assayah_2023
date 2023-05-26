@@ -15,6 +15,10 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
         $_SESSION['idUser'] = $user['idUser'];
         $_SESSION['useLogin'] = $db->getOneUser($_SESSION['idUser'])['useLogin'];
         $_SESSION['useCredits'] = $db->getOneUser($_SESSION['idUser'])['useCredits'];
+        // Si le panier n'existe pas en session, on va en créer un
+        if (!isset($_SESSION['panier'])) {
+        $_SESSION['panier'] = [];
+}
 
     }
 }

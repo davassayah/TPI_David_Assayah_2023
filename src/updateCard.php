@@ -24,9 +24,9 @@ $errors  = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
-    $imageData = updateImages($_FILES, $card);
+    $imageData = updateImages($_FILES, $oneCard);
     $_POST["imgPath"] = $imageData["imgPath"];
-    $result = validateUpdateCardForm($db,$card);
+    $result = validateUpdateCardForm($oneCard);
     $errors = $result["errors"];
     $cardData = $result["cardData"];
 

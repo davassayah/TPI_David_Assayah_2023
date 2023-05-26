@@ -16,18 +16,29 @@ $cards = $db->getAllCards();
 
 $collections = $db->getAllCollections();
 
-    //Récupère l'id de l'enseignant dans l'url pour le supprimer
-    if (isset($_GET['idCard']) and $id = $_GET['idCard']) {
-        echo "poulet";
-        $db->deleteCardById($id);
-        header('Location: index.php');
+//Récupère l'id de l'enseignant dans l'url pour le supprimer
+if (isset($_GET['idCard']) and $id = $_GET['idCard']) {
+    echo "poulet";
+    $db->deleteCardById($id);
+    header('Location: index.php');
+}
+
+if ($card["idCard"] = $_POST['carte-to-add-au-panier']) {
+    if (!isset($_SESSION['panier'][$card["idCard"]])) {
+        $_SESSION['panier']['panier'][$card["idCard"]] = [
+            'data' => $cartes[$carteId],
+            'count' => 1
+        ];
     }
-    
+}
+
 // Vérifie si le formulaire a été soumis
 if (isset($_GET['submit'])) {
     // Récupère la valeur entrée dans le champ de texte
     $cards = $db->sortCards($_GET);
 }
+
+
 
 ?>
 
@@ -144,7 +155,7 @@ if (!isset($_SESSION['userConnected'])) {
                                         echo "Abîmé";
                                     } ?></td>
                                 <td><?php echo $card["carUserLogin"] ?></td>
-                                <td><?php echo $card["carCollectionName"]?></td>
+                                <td><?php echo $card["carCollectionName"] ?></td>
                                 <td class="containerOptions">
                                     <!--Affiche différentes fonctionnalités selon que l'utilisateur soit connecté en tant qu'utilisateur ou en tant qu'admin-->
                                     <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == ('user' or 'admin')) { ?>

@@ -246,7 +246,7 @@ class Database
                     carCondition = :condition,
                     carDescription = :description,
                     carPhoto = :imgPath,
-                    fkCollection = :fkCollection
+                    fkCollection = :collection
                 WHERE
                     idCard = :id
             ;";

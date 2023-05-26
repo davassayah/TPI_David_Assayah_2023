@@ -40,7 +40,6 @@ $cards = $db->getAllCards();
         <div class="container">
             <div class="user-body">
                 <h1>Informations de la carte : </h1>
-
                 <div class="photo">
                     <img height="600em" src="<?php echo $oneCard['carPhoto'] ?>">
                 </div>

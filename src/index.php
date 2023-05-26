@@ -58,9 +58,9 @@ if (!isset($_SESSION['userConnected'])) {
                 <div class="col-2">
                     <button type="button" id="more-filters-btn" class="btn btn-sm btn-primary">Plus de filtres</button>
                 </div>
-                <div id="filter-section" class="col-2 d-none">
-                    <label for="section_id" class="form-label">Collection</label>
-                    <select name="section_id" id="section_id" class="form-select" aria-label="Default select example">
+                <div id="filter-collection" class="col-2 d-none">
+                    <label for="idCollection" class="form-label">Collection</label>
+                    <select name="icDcol" id="section_id" class="form-select" aria-label="Default select example">
                         <option value="">Collection</option>
                         <?php foreach ($collections as $collection) { ?>
                             <option value="<?php echo $collection["idCollection"] ?>"><?php echo $collection["colName"] ?></option>
@@ -79,7 +79,7 @@ if (!isset($_SESSION['userConnected'])) {
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="damaged" value="D" name="conditions[]">
-                        <label class="form-check-label" for="other">damaged</label>
+                        <label class="form-check-label" for="other">Abîmé</label>
                     </div>
                 </div>
                 <div class="col-2">
@@ -143,7 +143,7 @@ if (!isset($_SESSION['userConnected'])) {
                                             </a>
                                         <?php } ?>
                                         <a class="link-light" href="cardDetails.php?idCard=<?php echo $card["idCard"] ?>">
-                                            <img height="40em" src="./img/detail.png" alt="detail">
+                                            <img height="40em" src="./img/details.jpg" alt="detail">
                                         </a>
                                         <a class="link-light" href="javascript:confirmBuy(<?php echo $card["idCard"] ?>)">
                                             <img height="40em" src="./img/buy.png" alt="buy">
@@ -176,8 +176,8 @@ if (!isset($_SESSION['userConnected'])) {
 
             // Afficher/Cacher les filtres en fonction du bouton "Plus de filtres"
             $('#more-filters-btn').click(function() {
-                $('#filter-section').toggleClass('d-none');
-                $('#filter-gender').toggleClass('d-none');
+                $('#filter-collection').toggleClass('d-none');
+                $('#filter-condition').toggleClass('d-none');
             });
         });
     </script>

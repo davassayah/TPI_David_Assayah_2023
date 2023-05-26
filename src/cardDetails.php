@@ -17,7 +17,7 @@ if (!isset($_SESSION['userConnected']) || $_SESSION['userConnected'] != ('user' 
 
 //Récupère les informations de la carte via son id qui se trouve dans l'url
 $oneCard = $db->getOneCard($_GET["idCard"]);
-
+$cards = $db->getAllCards();
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +67,7 @@ $oneCard = $db->getOneCard($_GET["idCard"]);
                         </a>
                     <?php
                     } else {
-                        echo "Possesseur : " . $oneCard['fkUser'] . "<br>";
+                        echo "Possesseur : " . $card["carUserLogin"] . "<br>";
                     ?>
                         <p>
                             <input type="submit" value="Acheter">

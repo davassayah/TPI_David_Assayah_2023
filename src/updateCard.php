@@ -18,6 +18,7 @@ if (!isset($_SESSION['userConnected']) || $_SESSION['userConnected'] != ('user' 
 }
 
 $oneCard = $db->getOneCard($_GET["idCard"]);
+$collections = $db->getAllCollections();
 
 $errors  = [];
 

@@ -254,4 +254,84 @@ class Database
         $card["id"] = $id;
         $this->queryPrepareExecute($query, $card);
     }
+
+    private function convertConditions($condition)
+    {
+        $f = '';
+        foreach ($condition as $condition) {
+            $f .= "'" . $condition . "', ";
+        }
+        return substr($f, 0, -2);
+    }
+
+    private function addWhereOrAnd($filter)
+    {
+        $operator = "";
+        if ($filter) {
+            $operator .= " AND ";
+        } else {
+            $operator .= " WHERE ";
+        }
+        return $operator;
+    }
+
+    public function sortCards($filters)
+    {
+
+        $query = "
+                SELECT
+                    t_card.*,
+                    t_collection.colName AS carCollectionName 
+                FROM t_card t_card
+                LEFT JOIN t_collection t_collection ON t_collection.idCollection = t_card.fkCollection ";
+
+
+        $filter = false;
+
+        // Condition 1
+        if (!empty($filters['search'])) {
+            $query .= " WHERE t_card.carName LIKE :searchValue ";
+            $filter = true;
+        }
+
+        // Condition 2
+        if (isset($filters['conditions'])) {
+            $query .= $this->addWhereOrAnd($filter);
+            $query .= " t_card.carCondition IN (" . $this->convertConditions($filters['conditions'])  .  ")";
+            $filter = true;
+        }
+
+
+        // Condition 3
+        if (isset($filters['idCollection']) and $filters['idCollection'] !== '') {
+            $query .= $this->addWhereOrAnd($filter);
+            $query .= " t_card.fkCollection = :idCollection";
+            $filter = true;
+        }
+
+        $query .= " ORDER BY t_card.carName ASC";
+
+        $replacements = [];
+
+        if (!empty($filters['search'])) {
+            $replacements['searchValue'] =  '%' . $filters['search'] . '%';
+        }
+        /*
+            if (isset($filters['genders'])) {
+    
+                // $replacements['genders'] = implode(',', $filters['genders']);
+                $replacements['genders'] = $this->convertGenders($filters['genders']);
+                var_dump($replacements['genders']);
+                
+            }
+    */
+        if (isset($filters['idCollection']) and $filters['idCollection'] !== '') {
+            $replacements['idCollection'] = $filters['idCollection'];
+        }
+
+        $req = $this->queryPrepareExecute($query, $replacements);
+        $filtres = $this->formatData($req);
+
+        return $filtres;
+    }
 }

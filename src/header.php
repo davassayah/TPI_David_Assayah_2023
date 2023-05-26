@@ -54,7 +54,7 @@ if (isset($_POST['logout'])) {
             ?>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item mt-3">
-                <a class="nav-link" href="index.php?idUser=<?php echo $_SESSION['idUser']; ?>">Accueil</a>
+                <a class="nav-link" href="index.php">Accueil</a>
                 </li>
                 <?php if ($_SESSION['userConnected'] == 'user' || $_SESSION['userConnected'] == 'admin') { ?>
                     <li class="nav-item mt-3 text-nowrap">

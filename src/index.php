@@ -51,8 +51,6 @@ if (isset($_GET['submit'])) {
 
 <?php
 
-var_dump($_GET['idCard']); 
-
 if (!isset($_SESSION['userConnected'])) {
     echo '<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
               <h1 style="font-size: 3em;">Bienvenue! Crée un compte ou connecte-toi</h1>

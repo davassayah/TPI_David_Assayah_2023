@@ -135,8 +135,8 @@ if (!isset($_SESSION['userConnected'])) {
                                     } else if ($card["carCondition"] == "A") {
                                         echo "Abîmé";
                                     } ?></td>
-                                <td><?php echo $card["carUserLogin"] ?></td>
-                                <td><?php if(isset($card["carCollectionName"])) { echo $card["carCollectionName"]; } ?></td>
+                                <td><?php if(isset($card["carUserLogin"])) { echo $card["carUserLogin"]; } ?></td>
+                                <td><?php echo $card["carCollectionName"]?></td>
                                 <td class="containerOptions">
                                     <!--Affiche différentes fonctionnalités selon que l'utilisateur soit connecté en tant qu'utilisateur ou en tant qu'admin-->
                                     <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == ('user' or 'admin')) { ?>

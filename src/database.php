@@ -151,7 +151,7 @@ class Database
                 'credits' => intval($card['credits']),
                 'condition' => $card['condition'],
                 'description' => $card['description'],
-                'photo' => $card['uploadDirectoryImg'] . $imgData['fileNameImg'],
+                'photo' => $imgData['uploadDirectoryImg'] . $imgData['fileNameImg'],
                 'fkUser' => $idUser,
                 'fkCollection' => $card['collection']
             ];
@@ -317,11 +317,11 @@ class Database
             $replacements['searchValue'] =  '%' . $filters['search'] . '%';
         }
         /*
-            if (isset($filters['genders'])) {
+            if (isset($filters['conditions'])) {
     
-                // $replacements['genders'] = implode(',', $filters['genders']);
-                $replacements['genders'] = $this->convertGenders($filters['genders']);
-                var_dump($replacements['genders']);
+                // $replacements['conditions'] = implode(',', $filters['conditions']);
+                $replacements['conditions'] = $this->convertConditions($filters['conditions']);
+                var_dump($replacements['conditions']);
                 
             }
     */
@@ -330,8 +330,8 @@ class Database
         }
 
         $req = $this->queryPrepareExecute($query, $replacements);
-        $filtres = $this->formatData($req);
+        $filters = $this->formatData($req);
 
-        return $filtres;
+        return $filters;
     }
 }

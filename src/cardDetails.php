@@ -39,22 +39,28 @@ $cards = $db->getAllCards();
     <fieldset class="mb-3 mt-5">
         <div class="container">
             <div class="user-body">
-                <h3>Informations de la carte : </h3>
+                <h1>Informations de la carte : </h1>
 
+                <div class="photo">
+                    <img height="600em" src="<?php echo $oneCard['carPhoto'] ?>">
+                </div>
                 <?php
+                echo '<div style="font-size: 1.7em; margin-bottom: 20px;">';
                 echo "Nom de la carte : " . $oneCard["carName"] . "<br>" .
                     "Date de création : " . $oneCard["carDate"] . "<br>" .
                     "Crédits : " . $oneCard["carCredits"] . "<br>";
                 if ($oneCard["carCondition"] == "N") {
-                    echo "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/new.png" alt="new symbole">';
+                    echo "Etat : Neuf";
                 } else if ($oneCard["carCondition"] == "O") {
-                    echo  "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/secondHand.png" alt="secondHand symbole">';
+                    echo "Etat : Occasion";
                 } else if ($oneCard["carCondition"] == "A") {
-                    echo "Etat :" . '<img style="margin-left: 1vw;" height="20em" src="./img/damaged.png" alt="damaged symbole">';
+                    echo "Etat : Abîmé";
                 }
-                "Description : " . $oneCard["carDescription"] ?>
-                <div class="actions">
-                    <!--Si l'utilisateur regarde une de ses propres cartes il peut la modifier ou la supprimer, sinon le nom du possesseur et un bouton d'achat s'affiche à la place -->
+                echo "<br>";
+                echo "Description : " . "<br>" . $oneCard["carDescription"];
+                echo '</div>' . "<br>";
+                ?>
+                <div class="actions" style="margin-bottom: 20px;">
                     <?php
                     if ($_SESSION['idUser'] == $oneCard['fkUser']) {
                         echo "Actions :";
@@ -75,11 +81,10 @@ $cards = $db->getAllCards();
                     <?php
                     }
                     ?>
-                    <div>
-                        <img height="300em" src="<?php echo $oneCard['carPhoto'] ?>">
-                    </div>
                 </div>
+
             </div>
+        </div>
     </fieldset>
     </div>
     <script src="js/script.js"></script>

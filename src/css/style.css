@@ -88,3 +88,7 @@ label {
 .help {
     padding-bottom: 50px;
   }
+
+.photo{
+    float: right;
+}

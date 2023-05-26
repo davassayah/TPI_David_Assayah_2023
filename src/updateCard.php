@@ -78,6 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="user-body">
                 <form action="#" method="post" id="form" enctype="multipart/form-data">
                     <h3>Modifier une carte</h3>
+                    <div class="photo">
+                    <img height="600em" src="<?php echo $oneCard['carPhoto'] ?>">
+                    </div>
                     </p>
                     <p>
                         <label for="name">Nom :</label>
@@ -146,9 +149,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <?= array_key_exists("description", $errors) && $errors["description"] ? '<p style="color:red;">' . $errors["description"] . '</p>' : '' ?>
                     </span>
                     <p>
-                    <div>
-                        <img src=<?php echo $oneCard["carPhoto"] ?>>
-                    </div>
                     <label for="downloadImg">Photo de la carte (format jpg) :</label>
                     <br>
                     <input type="file" name="downloadImg" id="downloadImg" />

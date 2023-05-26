@@ -255,10 +255,10 @@ class Database
         $this->queryPrepareExecute($query, $card);
     }
 
-    private function convertConditions($condition)
+    private function convertConditions($conditions)
     {
         $f = '';
-        foreach ($condition as $condition) {
+        foreach ($conditions as $condition) {
             $f .= "'" . $condition . "', ";
         }
         return substr($f, 0, -2);

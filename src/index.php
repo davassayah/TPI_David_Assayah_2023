@@ -16,6 +16,13 @@ $cards = $db->getAllCards();
 
 $collections = $db->getAllCollections();
 
+    //Récupère l'id de l'enseignant dans l'url pour le supprimer
+    if (isset($_GET['idCard']) and $id = $_GET['idCard']) {
+        echo "poulet";
+        $db->deleteCardById($id);
+        header('Location: index.php');
+    }
+    
 // Vérifie si le formulaire a été soumis
 if (isset($_GET['submit'])) {
     // Récupère la valeur entrée dans le champ de texte
@@ -43,6 +50,9 @@ if (isset($_GET['submit'])) {
 </head>
 
 <?php
+
+var_dump($_GET['idCard']); 
+
 if (!isset($_SESSION['userConnected'])) {
     echo '<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
               <h1 style="font-size: 3em;">Bienvenue! Crée un compte ou connecte-toi</h1>
@@ -135,7 +145,7 @@ if (!isset($_SESSION['userConnected'])) {
                                     } else if ($card["carCondition"] == "A") {
                                         echo "Abîmé";
                                     } ?></td>
-                                <td><?php if(isset($card["carUserLogin"])) { echo $card["carUserLogin"]; } ?></td>
+                                <td><?php echo $card["carUserLogin"] ?></td>
                                 <td><?php echo $card["carCollectionName"]?></td>
                                 <td class="containerOptions">
                                     <!--Affiche différentes fonctionnalités selon que l'utilisateur soit connecté en tant qu'utilisateur ou en tant qu'admin-->

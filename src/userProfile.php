@@ -15,8 +15,13 @@ if (!isset($_SESSION['userConnected']) || $_SESSION['userConnected'] != ('user' 
     exit;
 }
 
-$OneUser = $db->getOneUser($_GET["idUser"]);
+if (isset($_GET['idOrderToConfirm'])) {
+    $db->confirmOrderReception($_GET['idOrderToConfirm']);
+    header("Location: userProfile.php?idUser={$_GET['idUser']}");
+}
 
+$OneUser = $db->getOneUser($_GET["idUser"]);
+$orders = $db->getAllOrdersByUserId($_SESSION['idUser']);
 ?>
 
 <!DOCTYPE html>
@@ -39,29 +44,72 @@ $OneUser = $db->getOneUser($_GET["idUser"]);
         <div class="container">
             <div class="user-body">
 
-                <h3>Informations de l'utilisateur : </h3> 
+                <h3>Informations de l'utilisateur : </h3>
 
-                <?php echo 
-                "Login : " . $OneUser["useLogin"] . "<br>" . 
-                "Email : " . $OneUser["useEmail"] . "<br>" . 
-                "Prénom : " . $OneUser["useFirstName"] . "<br>" . 
-                "Nom : " . $OneUser["useLastName"] . "<br>" . 
-                "Localité : " . $OneUser["useLocality"] . "<br>" . 
-                "Code Postal : " . $OneUser["usePostalCode"] . "<br>" . 
-                "Nom de la Rue : " . $OneUser["useStreetName"] . "<br>" .
-                "Numéro de la Rue : " . $OneUser["useStreetNumber"] . "<br>"
+                <?php echo
+                "Login : " . $OneUser["useLogin"] . "<br>" .
+                    "Email : " . $OneUser["useEmail"] . "<br>" .
+                    "Prénom : " . $OneUser["useFirstName"] . "<br>" .
+                    "Nom : " . $OneUser["useLastName"] . "<br>" .
+                    "Localité : " . $OneUser["useLocality"] . "<br>" .
+                    "Code Postal : " . $OneUser["usePostalCode"] . "<br>" .
+                    "Nom de la Rue : " . $OneUser["useStreetName"] . "<br>" .
+                    "Numéro de la Rue : " . $OneUser["useStreetNumber"] . "<br>"
                 ?>
-                <div class="confirmOrder"></div>
-                <!--Gestion de l'état de la commande. Si aucune commande en attente affiche "Aucune commande à confirmer". Si commande en attente affiche un bouton "Confirmer la réception"-->
-                <button>Confirmer la réception</button>
+
+                <h3 class="mb-3">Liste des commandes</h3>
+                <table id="sortTable" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="th-sm">
+                                Id
+                            </th>
+                            <th class="th-sm">
+                                Status
+                            </th>
+                            <th class="th-sm">
+                                Crédits
+                            </th>
+                            <th class="th-sm">
+                                Possesseur
+                            </th>
+                            <th class="th-sm">
+                                Details
+                            </th>
+                            <th class="th-sm">
+                                Options
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($orders as $order) { ?>
+                            <tr>
+                                <td><?php echo $order['idOrder'] ?></td>
+                                <td><?php echo $order['ordStatus'] ?></td>
+                                <td><?php echo $order['ordCredits'] ?></td>
+                                <td><?php echo $order['ordCardsOwner'] ?></td>
+                                <td>
+                                    <ul>
+                                        <?php foreach ($order['ordCards'] as $card) { ?>
+                                            <li><?php echo $card['carName'] ?></li>
+                                        <?php } ?>
+                                    </ul>
+                                </td>
+                                <td class="containerOptions">
+                                    <?php if ($order['ordStatus'] == 'pending') { ?>
+                                        <button class="btn btn-primary btn-sm" onclick="confirmOrderReceptionFromUser(<?php echo $_GET['idUser'] ?>, <?php echo $order['idOrder'] ?>)">
+                                            Confirmer la réception
+                                        </button>
+                                    <?php } ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
-        </form>
         <script src="js/script.js"></script>
-        </div>
     </fieldset>
-    </div>
-
 </body>
 
 </html>

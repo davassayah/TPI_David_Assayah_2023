@@ -83,14 +83,14 @@ function validateAddCardForm($db)
 
     if (!$date) {
         $errors['date'] = ERROR_DATE_REQUIRED;
-    // } elseif (!filter_var(
-    //     $name,
-    //     FILTER_VALIDATE_REGEXP,
-    //     array(
-    //         "options" => array("regexp" => REGEX_STRING)
-    //     )
-    // )) {
-    //     $errors["firstName"] = ERROR_STRING;
+        // } elseif (!filter_var(
+        //     $name,
+        //     FILTER_VALIDATE_REGEXP,
+        //     array(
+        //         "options" => array("regexp" => REGEX_STRING)
+        //     )
+        // )) {
+        //     $errors["firstName"] = ERROR_STRING;
 
     }
 
@@ -100,14 +100,14 @@ function validateAddCardForm($db)
     // - répondant à la REGEX 'REGEX_STRING'
     if (!$credits) {
         $errors['credits'] = ERROR_CREDITS_REQUIRED;
-    // } elseif (!filter_var(
-    //     $name,
-    //     FILTER_VALIDATE_REGEXP,
-    //     array(
-    //         "options" => array("regexp" => REGEX_STRING)
-    //     )
-    // )) {
-    //     $errors["name"] = ERROR_STRING;
+        // } elseif (!filter_var(
+        //     $name,
+        //     FILTER_VALIDATE_REGEXP,
+        //     array(
+        //         "options" => array("regexp" => REGEX_STRING)
+        //     )
+        // )) {
+        //     $errors["name"] = ERROR_STRING;
     }
 
     // le champ état
@@ -116,14 +116,14 @@ function validateAddCardForm($db)
     // - répondant à la REGEX 'REGEX_STRING'
     if (!$condition) {
         $errors['condition'] = ERROR_CONDITION_REQUIRED;
-    // } elseif (!filter_var(
-    //     $nickName,
-    //     FILTER_VALIDATE_REGEXP,
-    //     array(
-    //         "options" => array("regexp" => REGEX_STRING)
-    //     )
-    // )) {
-    //     $errors["nickName"] = ERROR_STRING;
+        // } elseif (!filter_var(
+        //     $nickName,
+        //     FILTER_VALIDATE_REGEXP,
+        //     array(
+        //         "options" => array("regexp" => REGEX_STRING)
+        //     )
+        // )) {
+        //     $errors["nickName"] = ERROR_STRING;
     }
 
     // le champ description est obligatoire
@@ -144,5 +144,3 @@ function validateAddCardForm($db)
     }
     return ["cardData" => $cardData, "errors" => $errors];
 }
-
-

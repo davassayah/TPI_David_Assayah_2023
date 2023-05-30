@@ -23,9 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Nous pouvons insérer les données en BD
     if (count($errors) === 0) {
 
-        // On ne changera pas la valeur de $_POST en sachant que ce sont des variables read-only.
-        // Ce qui veut dire qu'on ne nommera pas une varaible comme ceci -> $_POST['imPath'] = xyz !!!!!!
-        // On rajoutera les variables hors formulaire en tant que params.
         $teachers = $db->addUser($_POST);
 
         $errorOrValidationMessage = "Votre compte a bien été crée";
@@ -97,41 +94,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="locality">Localité :</label>
                         <input type="text" name="locality" id="locality" value=<?php if (isset($locality)) echo $locality ?>>
                     </p>
-                        <span id="show-error">
-                            <?= array_key_exists("locality", $errors) && $errors["locality"] ? '<p style="color:red;">' . $errors["locality"] . '</p>' : '' ?>
-                        </span>
+                    <span id="show-error">
+                        <?= array_key_exists("locality", $errors) && $errors["locality"] ? '<p style="color:red;">' . $errors["locality"] . '</p>' : '' ?>
+                    </span>
                     </p>
                     <p>
                         <label for="postalCode">Code Postal :</label>
                         <input type="text" name="postalCode" id="postalCode" value=<?php if (isset($postalCode)) echo $postalCode ?>>
                     </p>
-                        <span id="show-error">
-                            <?= array_key_exists("postalCode", $errors) && $errors["postalCode"] ? '<p style="color:red;">' . $errors["postalCode"] . '</p>' : '' ?>
-                        </span>
+                    <span id="show-error">
+                        <?= array_key_exists("postalCode", $errors) && $errors["postalCode"] ? '<p style="color:red;">' . $errors["postalCode"] . '</p>' : '' ?>
+                    </span>
                     </p>
                     <p>
                         <label for="streetName">Nom de la rue :</label>
                         <input type="text" name="streetName" id="streetName" value=<?php if (isset($streetName)) echo $streetName ?>>
                     </p>
-                        <span id="show-error">
-                            <?= array_key_exists("streetName", $errors) && $errors["streetName"] ? '<p style="color:red;">' . $errors["streetName"] . '</p>' : '' ?>
-                        </span>
+                    <span id="show-error">
+                        <?= array_key_exists("streetName", $errors) && $errors["streetName"] ? '<p style="color:red;">' . $errors["streetName"] . '</p>' : '' ?>
+                    </span>
                     </p>
                     <p>
                         <label for="streetNumber">Numéro : </label>
                         <input type="text" name="streetNumber" id="streetNumber" value=<?php if (isset($streetNumber)) echo $streetNumber ?>>
                     </p>
-                        <span id="show-error">
-                            <?= array_key_exists("streetNumber", $errors) && $errors["streetNumber"] ? '<p style="color:red;">' . $errors["streetNumber"] . '</p>' : '' ?>
-                        </span>
+                    <span id="show-error">
+                        <?= array_key_exists("streetNumber", $errors) && $errors["streetNumber"] ? '<p style="color:red;">' . $errors["streetNumber"] . '</p>' : '' ?>
+                    </span>
                     </p>
                     <p>
                         <label for="password">Mot de passe :</label>
                         <input type="password" name="password" id="password" value=<?php if (isset($password)) echo $password ?>>
                     </p>
-                        <span id="show-error">
-                            <?= array_key_exists("password", $errors) && $errors["password"] ? '<p style="color:red;">' . $errors["password"] . '</p>' : '' ?>
-                        </span>
+                    <span id="show-error">
+                        <?= array_key_exists("password", $errors) && $errors["password"] ? '<p style="color:red;">' . $errors["password"] . '</p>' : '' ?>
+                    </span>
                     </p>
                     <p>
                         <input type="submit" value="Créer un compte">

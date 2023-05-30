@@ -1,3 +1,12 @@
+<?php
+/**
+ * ETML
+ * Auteur: David Assayah
+ * Date: 23.05.2023
+ * Description: Page permettant de bloquer l'accès à une ressource dont l'utilisateur n'a pas les droits.
+ */
+?>
+
 <!-- HTTP 403 page -->
 <!DOCTYPE html>
 <html lang="en">

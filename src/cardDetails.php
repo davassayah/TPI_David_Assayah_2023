@@ -16,7 +16,7 @@ if (!isset($_SESSION['userConnected']) || $_SESSION['userConnected'] != ('user' 
 }
 
 //Récupère les informations de la carte via son id qui se trouve dans l'url
-$oneCard = $db->getOneCard($_GET["idCard"]);
+$card = $db->getOneCard($_GET["idCard"]);
 $cards = $db->getAllCards();
 ?>
 
@@ -41,27 +41,27 @@ $cards = $db->getAllCards();
             <div class="user-body">
                 <h1>Informations de la carte : </h1>
                 <div class="photo">
-                    <img height="600em" src="<?php echo $oneCard['carPhoto'] ?>">
+                    <img height="600em" src="<?php echo $card['carPhoto'] ?>">
                 </div>
                 <?php
                 echo '<div style="font-size: 1.7em; margin-bottom: 20px;">';
-                echo "Nom de la carte : " . $oneCard["carName"] . "<br>" .
-                    "Date de création : " . $oneCard["carDate"] . "<br>" .
-                    "Crédits : " . $oneCard["carCredits"] . "<br>";
-                if ($oneCard["carCondition"] == "N") {
+                echo "Nom de la carte : " . $card["carName"] . "<br>" .
+                    "Date de création : " . $card["carDate"] . "<br>" .
+                    "Crédits : " . $card["carCredits"] . "<br>";
+                if ($card["carCondition"] == "N") {
                     echo "Etat : Neuf";
-                } else if ($oneCard["carCondition"] == "O") {
+                } else if ($card["carCondition"] == "O") {
                     echo "Etat : Occasion";
-                } else if ($oneCard["carCondition"] == "A") {
+                } else if ($card["carCondition"] == "A") {
                     echo "Etat : Abîmé";
                 }
                 echo "<br>";
-                echo "Description : " . "<br>" . $oneCard["carDescription"];
+                echo "Description : " . "<br>" . $card["carDescription"];
                 echo '</div>' . "<br>";
                 ?>
                 <div class="actions" style="margin-bottom: 20px;">
                     <?php
-                    if ($_SESSION['idUser'] == $oneCard['fkUser']) {
+                    if ($_SESSION['idUser'] == $card['fkUser']) {
                         echo "Actions :" . "<br>";
                     ?>
                         <a class="link-light" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">

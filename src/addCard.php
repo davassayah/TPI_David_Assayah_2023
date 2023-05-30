@@ -4,7 +4,7 @@
  * ETML
  * Auteur: David Assayah
  * Date: 23.05.2023
- * Description: Page permettant d'ajouter une carte à la db
+ * Description: Page permettant d'ajouter une carte à la BD
  */
 
 include("header.php");

@@ -21,6 +21,17 @@ const ERROR_LENGTH             = "Le champ doit avoir un nombre de caractères e
 const ERROR_STRING             = "Pour ce champ, vous devez saisir une chaine entre 2 et 30 caractères mais seuls " .
     " les caractères suivant sont autorisés : les lettres de a à z (minuscules ou majuscules), les accents, " .
     "l'espace, le - et le '";
+const ERROR_REGEX_VARCHAR45_WITH_SPECIAL_CHARS = "Merci de renseigner une chaîne de caractères valide, de 1 à 45 caractères pouvant contenir des tirets, des espaces et des apostrophes, ainsi que des lettres accentuées.";
+const ERROR_DATE = "Merci de renseigner une chaîne de caractères qui sont uniquement des chiffres et uniquement 4 caractères.";
+const ERROR_CREDITS = "Merci de renseigner une chaîne de caractères qui composée de 1 à 3 chiffres et dont le premier caractère n'est pas 0";
+const ERROR_DESCRIPTION = "Merci de renseigner une chaîne de caractères qui n'excède pas 255 caractères";
+//REGEX
+const REGEX_VARCHAR45_WITH_SPECIAL_CHARS = '/^(?!.*[^a-zA-Z0-9àáâäçèéêëìíîïñòóôöùúûüÿ\s\'-]{16})[a-zA-Z0-9àáâäçèéêëìíîïñòóôöùúûüÿ\s\'-]{1,15}$/u';
+const REGEX_DATE = '/^\d{4}$/';
+const REGEX_CREDITS = '/^(?!0$)(?!.*\d{4})(?!0\d)\d{1,3}$/';
+const REGEX_VARCHAR255 = '/^(?!.*\n.*$)(?!\n)(?!.{256}).{1,255}$/us';
+
+
 
 const REGEX_STRING = '/^[a-zàâçéèêîïôûù -]{2,30}$/mi';
 
@@ -45,10 +56,8 @@ function validateAddCardForm($db)
             'date'  => $_POST['date'],
             'credits' => $_POST['credits'],
             'condition' => $_POST['condition'],
-            'description'   => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'collection' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            // on ne filtre pas les 3 champs car on veut effectuer une validation par REGEX
-            // tout en affichant une erreur précise à l'utilisateur
+            'description'   => $_POST['description'],
+            'collection' => $_POST['collection'],
         ]
     );
 
@@ -74,6 +83,8 @@ function validateAddCardForm($db)
     // le champ nom est obligatoire
     if (!$name) {
         $errors['name'] = ERROR_NAME_REQUIRED;
+    } elseif (!preg_match(REGEX_VARCHAR45_WITH_SPECIAL_CHARS, $name)) {
+        $errors["name"] = ERROR_VARCHAR15_WITHOUT_SPECIAL_CHARS;
     }
 
     // le champ date :
@@ -83,15 +94,8 @@ function validateAddCardForm($db)
 
     if (!$date) {
         $errors['date'] = ERROR_DATE_REQUIRED;
-        // } elseif (!filter_var(
-        //     $name,
-        //     FILTER_VALIDATE_REGEXP,
-        //     array(
-        //         "options" => array("regexp" => REGEX_STRING)
-        //     )
-        // )) {
-        //     $errors["firstName"] = ERROR_STRING;
-
+    } elseif (!preg_match(REGEX_DATE, $date)) {
+        $errors["date"] = ERROR_DATE;
     }
 
     // le champ crédits
@@ -100,35 +104,21 @@ function validateAddCardForm($db)
     // - répondant à la REGEX 'REGEX_STRING'
     if (!$credits) {
         $errors['credits'] = ERROR_CREDITS_REQUIRED;
-        // } elseif (!filter_var(
-        //     $name,
-        //     FILTER_VALIDATE_REGEXP,
-        //     array(
-        //         "options" => array("regexp" => REGEX_STRING)
-        //     )
-        // )) {
-        //     $errors["name"] = ERROR_STRING;
+    } elseif (!preg_match(REGEX_CREDITS, $credits)) {
+        $errors["credits"] = ERROR_DATE;
     }
 
     // le champ état
     // - est obligatoire
-    // - doit être une string entre 2 et 30 caractères
-    // - répondant à la REGEX 'REGEX_STRING'
     if (!$condition) {
         $errors['condition'] = ERROR_CONDITION_REQUIRED;
-        // } elseif (!filter_var(
-        //     $nickName,
-        //     FILTER_VALIDATE_REGEXP,
-        //     array(
-        //         "options" => array("regexp" => REGEX_STRING)
-        //     )
-        // )) {
-        //     $errors["nickName"] = ERROR_STRING;
     }
 
     // le champ description est obligatoire
     if (!$description) {
         $errors['description'] = ERROR_DESCRIPTION_REQUIRED;
+    } elseif (!preg_match(REGEX_VARCHAR255, $description)) {
+        $errors["credits"] = ERROR_DESCRIPTION;
     }
 
     // le champ collection est obligatoire et ne peut donc pas avoir

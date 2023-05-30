@@ -84,7 +84,7 @@ if (!isset($_SESSION['userConnected'])) {
                 </div>
                 <div id="filter-collection" class="col-2 d-none">
                     <label for="idCollection" class="form-label">Collection</label>
-                    <select name="idcollection" id="idCollection" class="form-select" aria-label="Default select example">
+                    <select name="idCollection" id="idCollection" class="form-select" aria-label="Default select example">
                         <option value="">Collection</option>
                         <?php foreach ($collections as $collection) { ?>
                             <option value="<?php echo $collection["idCollection"] ?>"><?php echo $collection["colName"] ?></option>
@@ -98,12 +98,12 @@ if (!isset($_SESSION['userConnected'])) {
                         <label class="form-check-label" for="new">Neuf</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="secondHand" value="U" name="conditions[]">
+                        <input class="form-check-input" type="checkbox" id="secondHand" value="O" name="conditions[]">
                         <label class="form-check-label" for="secondHand">Occasion</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="damaged" value="D" name="conditions[]">
-                        <label class="form-check-label" for="other">Abîmé</label>
+                        <input class="form-check-input" type="checkbox" id="damaged" value="A" name="conditions[]">
+                        <label class="form-check-label" for="damaged">Abîmé</label>
                     </div>
                 </div>
                 <div class="col-2">
@@ -169,9 +169,11 @@ if (!isset($_SESSION['userConnected'])) {
                                         <a class="link-light" href="cardDetails.php?idCard=<?php echo $card["idCard"] ?>">
                                             <img height="40em" src="./img/details.jpg" alt="detail">
                                         </a>
-                                        <a class="link-light" href="javascript:confirmBuy(<?php echo $card["idCard"] ?>)">
-                                            <img height="40em" src="./img/buy.png" alt="buy">
-                                        </a>
+                                        <?php if ($_SESSION['useLogin'] != $card['carUserLogin']) { ?>
+                                            <a class="link-light" href="javascript:confirmBuy(<?php echo $card["idCard"] ?>)">
+                                                <img height="40em" src="./img/buy.png" alt="buy">
+                                            </a>
+                                        <?php } ?>
                                     <?php } ?>
                                 </td>
                             </tr>

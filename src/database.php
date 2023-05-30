@@ -322,5 +322,289 @@ class Database
         return $filters;
     }
 
-    
+    /**
+     * Crée une nouvelle transaction en insérant l'ID de l'acheteur dans la table t_order.
+     *
+     * @param int $idBuyer L'ID de l'acheteur
+     * @return int L'ID de la dernière transaction insérée
+     */
+    public function createTransaction($idBuyer)
+    {
+        $query = "
+        INSERT INTO t_order (fkUser)
+        VALUES (:fkUser);
+    ";
+
+        $replacements = ['fkUser' => $idBuyer];
+
+        // Exécute la requête préparée avec les valeurs fournies
+        $this->queryPrepareExecute($query, $replacements);
+
+        // Retourne l'ID de la dernière transaction insérée dans la base de données
+        return $this->connector->lastInsertId();
+    }
+
+    /**
+     * Associe une carte à une commande spécifiée en mettant à jour la colonne fkOrder de la table t_card.
+     *
+     * @param int $idCard L'ID de la carte
+     * @param int $idOrder L'ID de la commande
+     */
+    public function assignCardToOrder($idCard, $idOrder)
+    {
+        $query = "
+        UPDATE t_card
+        SET fkOrder = :idOrder
+        WHERE idCard = :idCard;
+    ";
+
+        $replacements = [
+            'idCard' => $idCard,
+            'idOrder' => $idOrder,
+        ];
+
+        // Exécute la requête préparée avec les valeurs fournies
+        $this->queryPrepareExecute($query, $replacements);
+    }
+
+    /**
+     * Modifie le statut de disponibilité des cartes en mettant à jour la colonne carIsAvailable de la table t_card.
+     *
+     * @param array $cardIds Les identifiants des cartes à indiquer comme disponible/indisponible
+     * @param int $isCardAvailable La disponibilité à définir (1 pour activer, 0 pour désactiver)
+     */
+    public function toggleAvailabilityOfCards($cardIds, $isCardAvailable = 1)
+    {
+        // Convertit le tableau d'identifiants de cartes en une chaîne séparée par des virgules
+        $cardIds = implode(',', $cardIds);
+
+        $query = "
+        UPDATE t_card
+        SET carIsAvailable = :isCardAvailable
+        WHERE idCard IN ($cardIds);
+    ";
+
+        $replacements = ['isCardAvailable' => $isCardAvailable];
+
+        $this->queryPrepareExecute($query, $replacements);
+    }
+
+    /**
+     * Récupère et classe les cartes selon le propriétaire à partir des identifiants des cartes présentes dans le panier.
+     *
+     * @param array $cardIds Les identifiants des cartes
+     * @return array Les cartes classées par propriétaire
+     */
+    public function getAndOrderCardsByOwner($cardIds)
+    {
+        $userCards = []; // Tableau vide pour stocker les cartes classées par propriétaire
+
+        foreach ($cardIds as $idCard) {
+            $query = "SELECT * FROM t_card WHERE idCard = :id";
+            $bind = array('id' => $idCard);
+
+
+            $req = $this->queryPrepareExecute($query, $bind);
+
+            $card = $this->formatData($req);
+
+            // Vérifie si le propriétaire de la carte existe déjà dans le tableau $userCards
+            if (!isset($userCards[$card[0]['fkUser']])) {
+                // Si le propriétaire n'existe pas, initialise un tableau vide pour stocker ses cartes
+                $userCards[$card[0]['fkUser']] = [];
+            }
+
+            // Ajoute la carte à la liste des cartes du propriétaire correspondant
+            array_push($userCards[$card[0]['fkUser']], $card[0]);
+        }
+
+        return $userCards;
+    }
+
+    /**
+     * Vérifie si l'utilisateur dispose d'assez de crédits pour les cartes présentes dans sa commande.
+     *
+     * @param array $userCards Cartes de l'utilisateur classées par propriétaire
+     * @return bool Indique si l'utilisateur a suffisamment de crédits (true) ou non (false)
+     */
+    public function hasUserEnoughCredits($userCards)
+    {
+        $totalCardsCredits = 0; // Variable pour stocker le total des crédits des cartes
+
+        foreach ($userCards as $idCardOwner => $cards) {
+            foreach ($cards as $card) {
+                // Ajoute les crédits de chaque carte au total des crédits des cartes
+                $totalCardsCredits = $totalCardsCredits + $card['carCredits'];
+            }
+        }
+
+        // Vérifie si le nombre de crédits de l'utilisateur moins le total des crédits des cartes est inférieur à 0
+        if (($_SESSION['useCredits'] - $totalCardsCredits) < 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Met à jour le nombre de crédits dont dispose l'acheteur en soustrayant les crédits de la carte dans son panier de son total de crédits personnel.
+     *
+     * @param int $idCard L'ID de la carte
+     * @param int $idBuyer L'ID de l'acheteur
+     */
+    public function substrCreditsOfBuyer($idCard, $idBuyer)
+    {
+        $query = "
+        UPDATE t_user
+        SET useCredits = (SELECT SUM(t_user.useCredits - (SELECT t_card.carCredits FROM t_card WHERE t_card.idCard = :idCard)))
+        WHERE t_user.idUser = :idUser;
+    ";
+
+        $replacements = [
+            'idCard' => $idCard,
+            'idUser' => $idBuyer,
+        ];
+
+        $this->queryPrepareExecute($query, $replacements);
+    }
+
+    /**
+     * Fonction permettant de créer une nouvelle commande
+     * @param int   $idBuyer | ID de l'utilisateur qui passe la commande
+     * @param array $cardIds | Tableau contenant les IDs des cartes qui vont être achetées
+     * 
+     * @return boolean Retourne true si la commande est valide ou false si l'utilisateur n'a pas suffisamment de crédits.
+     */
+    public function createOrder($idBuyer, $cardIds)
+    {
+        // Récupère les cartes et les organise par propriétaire
+        $userCards = $this->getAndOrderCardsByOwner($cardIds);
+
+        // Vérifie si l'utilisateur a suffisamment de crédits pour passer la commande
+        if ($this->hasUserEnoughCredits($userCards) == false) {
+            return false;
+        }
+
+        // Modifie la disponibilité des cartes
+        $this->toggleAvailabilityOfCards($cardIds, 0);
+
+        foreach ($userCards as $idCardOwner => $cards) {
+            // Crée une transaction pour l'acheteur
+            $transactionId = $this->createTransaction($idBuyer);
+
+            // Pour chaque carte, assigne la carte à la commande, met à jour les crédits de l'acheteur, met à jour les crédits de session et modifie la nouvelle valeur en DB
+            foreach ($cards as $card) {
+                $this->assignCardToOrder($card['idCard'], $transactionId);
+                $this->substrCreditsOfBuyer($card['idCard'], $idBuyer);
+                $_SESSION['useCredits'] = $this->getOneUser($idBuyer)['useCredits'];
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Fonction permettant de récupérer toutes les commandes de l'utilisateur
+     * @param int $idUser | ID de l'utilisateur
+     * 
+     * @return array $orders | Liste des commandes de l'utilisateur
+     */
+    public function getAllOrdersByUserId($idUser)
+    {
+        $query = "
+        SELECT
+            t_order.*,
+            (SELECT SUM(t_card.carCredits) FROM t_card WHERE t_card.fkOrder = t_order.idOrder) AS ordCredits,
+            (
+                SELECT 
+                    t_user.useLogin
+                FROM t_card
+                LEFT JOIN t_user ON t_user.idUser = t_card.fkUser
+                WHERE t_card.fkOrder = t_order.idOrder
+                LIMIT 1
+            ) AS ordCardsOwner
+        FROM t_order
+        WHERE t_order.fkUser = :idUser
+    ";
+
+        $replacements = ['idUser' => $idUser];
+
+        $req = $this->queryPrepareExecute($query, $replacements);
+
+        $orders = $this->formatData($req);
+
+        // Pour chaque commande, récupère les cartes associées
+        foreach ($orders as $index => $order) {
+            // Requête pour récupérer les cartes associées à la commande
+            $query = "
+            SELECT
+                *
+            FROM t_card
+            WHERE t_card.fkOrder = :idOrder
+        ";
+
+            $replacements = ['idOrder' => $order['idOrder']];
+
+            $req = $this->queryPrepareExecute($query, $replacements);
+
+            // Associe les cartes récupérées à la commande
+            $orders[$index]['ordCards'] = $this->formatData($req);
+        }
+
+        return $orders;
+    }
+
+    /**
+     * Fonction permettant de confirmer la réception de la commande
+     * @param int $idOrder | ID de la commande à confirmer
+     */
+    public function confirmOrderReception($idOrder)
+    {
+        // Requête pour calculer le total des crédits des cartes associées à la commande
+        $query = "
+        SELECT
+            SUM(carCredits) as total
+        FROM t_card
+        WHERE t_card.fkOrder = :idOrder
+    ";
+
+        $replacements = ['idOrder' => $idOrder];
+
+        // Exécute la requête préparée avec les valeurs fournies
+        $req = $this->queryPrepareExecute($query, $replacements);
+
+        // Récupère le total des crédits sous forme de tableau
+        $totalOrderCredits = $this->formatData($req);
+
+        // Requête pour mettre à jour le statut de la commande en tant que "processed"
+        $query = "
+        UPDATE t_order
+        SET ordStatus = 'processed'
+        WHERE idOrder = :idOrder;
+    ";
+
+        // Exécute la requête préparée avec les valeurs fournies
+        $this->queryPrepareExecute($query, $replacements);
+
+        // Requête pour mettre à jour les crédits de l'utilisateur en ajoutant les crédits de la commande
+        $query = "
+        UPDATE t_user
+        SET useCredits = (SELECT SUM(t_user.useCredits + :creditsToAdd))
+        WHERE idUser = (
+            SELECT
+                t_card.fkUser
+            FROM t_card
+            WHERE t_card.fkOrder = :idOrder
+            LIMIT 1
+        );
+    ";
+
+        $replacements = [
+            'idOrder' => $idOrder,
+            'creditsToAdd' => $totalOrderCredits[0]['total'],
+        ];
+
+        // Exécute la requête préparée avec les nouvelles valeurs de remplacements
+        $this->queryPrepareExecute($query, $replacements);
+    }
 }

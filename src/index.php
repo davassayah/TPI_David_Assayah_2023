@@ -22,12 +22,10 @@ if (isset($_GET['idCard']) and $id = $_GET['idCard']) {
     header('Location: index.php');
 }
 
-if ($card["idCard"] = $_POST['carte-to-add-au-panier']) {
-    if (!isset($_SESSION['panier'][$card["idCard"]])) {
-        $_SESSION['panier']['panier'][$card["idCard"]] = [
-            'data' => $cartes[$carteId],
-            'count' => 1
-        ];
+if (isset($_GET['idCardToAddInCart']) and $idCard = $_GET['idCardToAddInCart']) {
+    if (!isset($_SESSION['panier'][$idCard])) {
+        $index = array_search($idCard, array_column($cards, 'idCard'));
+        $_SESSION['panier'][$idCard] = $cards[$index];
     }
 }
 
@@ -36,9 +34,6 @@ if (isset($_GET['submit'])) {
     // Récupère la valeur entrée dans le champ de texte
     $cards = $db->sortCards($_GET);
 }
-
-
-
 ?>
 
 <!DOCTYPE html>

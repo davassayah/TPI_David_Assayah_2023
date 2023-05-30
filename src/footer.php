@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * ETML
+ * Auteur: David Assayah
+ * Date: 23.05.2023
+ * Description: Page contenant les informations du footer
+ */
 ?>
 
 <footer>

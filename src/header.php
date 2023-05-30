@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * ETML
+ * Auteur: David Assayah
+ * Date: 23.05.2023
+ * Description: Page permettant la navigation du site, la connexion à la db ainsi que la gestion des variables de session.
+ */
+
 session_start();
 
 require_once 'database.php';

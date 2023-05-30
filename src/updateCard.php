@@ -23,7 +23,7 @@ $collections = $db->getAllCollections();
 $errors  = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
+
     $imageData = updateImages($_FILES, $oneCard);
     $_POST["imgPath"] = $imageData["imgPath"];
     $result = validateUpdateCardForm($oneCard);
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($imageData["fileNameImg"] !== null) {
                 // Si une image a été sélectionnée, on la déplace et on met à jour l'enseignant avec la nouvelle image
                 move_uploaded_file($imageData["fileTmpNameImg"], $imageData["filePath"]);
-                $db->updateCardById($_GET["idCard"],$_POST);
+                $db->updateCardById($_GET["idCard"], $_POST);
             } else {
                 // Sinon, on met à jour l'enseignant sans changer l'image
                 $db->updateCardById($_GET["idCard"], $_POST);
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <form action="#" method="post" id="form" enctype="multipart/form-data">
                     <h3>Modifier une carte</h3>
                     <div class="photo">
-                    <img height="600em" src="<?php echo $oneCard['carPhoto'] ?>">
+                        <img height="600em" src="<?php echo $oneCard['carPhoto'] ?>">
                     </div>
                     </p>
                     <p>
@@ -149,14 +149,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <?= array_key_exists("description", $errors) && $errors["description"] ? '<p style="color:red;">' . $errors["description"] . '</p>' : '' ?>
                     </span>
                     <p>
-                    <label for="downloadImg">Photo de la carte (format jpg) :</label>
-                    <br>
-                    <input type="file" name="downloadImg" id="downloadImg" />
-                    <br>
-                    <a href="https://convertio.co/fr/convertisseur-jpg/" target="_blank">Convertissez votre fichier au format jpg en cliquant ici</a>
-                    <span id="show-error">
-                        <?= array_key_exists("downloadImg", $errors) && $errors["downloadImg"] ? '<p style="color:red;">' . $errors["downloadImg"] . '</p>' : '' ?>
-                    </span>
+                        <label for="downloadImg">Photo de la carte (format jpg) :</label>
+                        <br>
+                        <input type="file" name="downloadImg" id="downloadImg" />
+                        <br>
+                        <a href="https://convertio.co/fr/convertisseur-jpg/" target="_blank">Convertissez votre fichier au format jpg en cliquant ici</a>
+                        <span id="show-error">
+                            <?= array_key_exists("downloadImg", $errors) && $errors["downloadImg"] ? '<p style="color:red;">' . $errors["downloadImg"] . '</p>' : '' ?>
+                        </span>
                     </p>
                     <p>
                         <input type="submit" value="Modifier">

@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * ETML
+ * Auteur: David Assayah
+ * Date: 30.05.2023
+ * Description: Page de panier permettant de créer une commande en fonction des cartes ajoutées au panier
+ */
+
 include("header.php");
 
 if (!isset($_SESSION['userConnected']) || $_SESSION['userConnected'] != ('user' or 'admin')) {

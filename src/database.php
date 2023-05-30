@@ -321,4 +321,6 @@ class Database
 
         return $filters;
     }
+
+    
 }

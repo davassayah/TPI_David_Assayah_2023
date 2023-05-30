@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : ven. 26 mai 2023 à 14:30
+-- Généré le : mar. 30 mai 2023 à 06:11
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.0.27
 
@@ -51,10 +51,8 @@ INSERT INTO `t_card` (`idCard`, `carName`, `carDate`, `carCredits`, `carConditio
 (20, 'Luffy', 2023, 500, 'A', '﻿\r\n5000打\r\n起動メイン ターン\r\n(コストエリアのドンを指定のレスドにで\r\nさる) 自分のコスト5以下の特徴(超新星) (麦わらの一味を持つ 「キャラ1枚までを、アクティブに、そのキャラを、このターン中、パワー\r\n1000\r\nPLEADER\r\nモンキー・D・ルフィ\r\n超新星/麦わらの一味\r\n(NESISC\r\nライブ\r\nOP01-003', 1, '\\img\\photos\\Img_20.jpg', 4, NULL, 2),
 (21, 'Pharamp', 2002, 4, 'N', 'Renvoi d\'énergie Si vous avez des\r\nPokémon sur votre Banc et s\'il y a des\r\ncartes Énergie de base attachées à\r\nPharamp, prenez une de ces cartes Énergie et attachez-la à l\'un de ces Pokémon.', 1, '\\img\\photos\\Img_21.jpg', 4, NULL, 1),
 (22, 'Démolosse', 2002, 30, 'N', 'Feu d\'artifice Lancez une\r\npièce. Si c\'est pile, défaussez-\r\n30\r\nvous d\'une carte Énergie\r\nattachée à Démolosse.\r\nSombre impact Le Pokémon\r\nDéfenseur ne peut pas utiliser de\r\n40\r\nPoké-Powers jusqu\'à la fin du\r\nprochain tour de votre adversaire.', 1, '\\img\\photos\\Img_22.jpg', 6, NULL, 1),
-(23, 'Dracaufeu', 2007, 80, 'A', 'Vous pouvez défausser une carte Energie attachée à Dracaufeu Choisissez alors dans votre pile de défausse une carte Energie (celle que vous venez de defausser exclue) et attachez-la à Dracaufeu', 1, '\\img\\photos\\Img_23.jpg', 6, NULL, 1),
 (24, 'Zorro', 2022, 15, 'O', '¥5000 新\r\nとうじょう\r\n速攻>(このカードは登場したターンにアタックできる)\r\nCHARACTER\r\nロロノア・ゾロ\r\n超新星/麦わらの一味\r\nOP01-0251\r\nAKIRA EGAWA', 1, '\\img\\photos\\Img_24.jpg', 6, NULL, 2),
 (25, 'Yamato', 2023, 7, 'N', 'カウンター+ 100\r\nじょう\r\n5\r\nルール上、このカードはカード名を「光月おでん」としても扱う。\r\nダブルアタック(このカードが与えるダメージは2になる)、 [あた] バニッシュ (このカードがダメージを与えた場合、トリガーは発動せず そのカードはトラッシュに置かれる)\r\nばあい\r\n「はつどう\r\nCHARACTER\r\nヤマト\r\nワノ国', 1, '\\img\\photos\\Img_25.jpg', 7, NULL, 2),
-(26, 'Ace', 2021, 60, 'O', 'ぶ\r\n¥7000 特\r\n持つと\r\nSAMPLE\r\nとちょう あいて\r\nちゅう\r\n登場時 相手のキャラ2枚までを、このターン中、パワー 3000。 その後、\r\nじぶん\r\n自分のリーダーが「白ひげ海賊団」を含む特徴を持つ場合、このキャラ!! は、このターン中、速攻を得る。\r\n(このカードは登場したターンにアタックできる)\r\nQ\r\nOP02-0\r\nCHARACTER\r\nポートガス・D・エース\r\n白ひげ海賊団', 1, '\\img\\photos\\Img_26.jpg', 7, NULL, 2),
 (27, 'Nami', 2023, 40, 'A', '5000知\r\nSAMPL\r\nルール上、自分のデッキが0枚になった場合、自分は敗する代わりに\r\nしょうり、\r\n勝利する。\r\nドン!!×1 このリーダーのアタックによって、相手のライフにダメージを\r\nあ\r\nきじん\r\n与えた時、自分のデッキの上から1枚をトラッシュに置いてもよい。\r\nLEADER\r\nナミ\r\n東の海', 1, '\\img\\photos\\Img_27.jpg', 7, NULL, 2),
 (28, 'Trafalgar Law', 2022, 12, 'O', '¥6000(斬\r\n「たいしょう\r\nブロッカー(相手のアタックの後、このカードをレストにし、アタック の対象をこのカードにできる)\r\n登場時 自分のキャラ1枚を持ち主の手札に戻すことができる:自分 の手札からコスト3以下のキャラカード1枚までを、登場させる。\r\nどうじょう\r\nCHARACTER\r\nトラファルガー・ロー\r\n超新星/ハートの海賊団', 1, '\\img\\photos\\Img_28.jpg', 7, NULL, 2);
 
@@ -85,7 +83,7 @@ INSERT INTO `t_collection` (`idCollection`, `colName`) VALUES
 
 CREATE TABLE `t_order` (
   `idOrder` int NOT NULL,
-  `ordStatus` enum('pending','processed') NOT NULL,
+  `ordStatus` enum('pending','processed') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'pending',
   `fkUser` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 

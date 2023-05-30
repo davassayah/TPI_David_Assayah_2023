@@ -92,8 +92,8 @@ class Database
             echo 'Erreur de connexion';
         }
     }
- 
-     /**
+
+    /**
      * Fonction permettant de créer un nouvel utilisateur
      * @param $user array | contient tous les attributs d'un utilisateur à créer
      */
@@ -119,21 +119,21 @@ class Database
         $response = $this->queryPrepareExecute($query, $replacements);
     }
 
-       //Recupère la liste des informations pour un utilisateur
-       public function getOneUser($id)
-       {
-           //avoir la requête sql pour un utilisateur (utilisation de l'id)
-           $query = "SELECT * FROM t_user WHERE idUser = :id";
-           //appeler la méthode pour executer la requête
-           $bind = array('id' => $id);
-           $req = $this->queryPrepareExecute($query, $bind);
-           //appeler la méthode pour avoir le résultat sous forme de tableau
-           $OneUser = $this->formatData($req);
-           //retourne l'utilisateur
-           return $OneUser[0];
-       }
+    //Recupère la liste des informations pour un utilisateur
+    public function getOneUser($id)
+    {
+        //avoir la requête sql pour un utilisateur (utilisation de l'id)
+        $query = "SELECT * FROM t_user WHERE idUser = :id";
+        //appeler la méthode pour executer la requête
+        $bind = array('id' => $id);
+        $req = $this->queryPrepareExecute($query, $bind);
+        //appeler la méthode pour avoir le résultat sous forme de tableau
+        $OneUser = $this->formatData($req);
+        //retourne l'utilisateur
+        return $OneUser[0];
+    }
 
-       /**
+    /**
      * Fonction permettant de créer une nouvelle carte
      * @param $card array | contient tous les attributs d'une carte à créer
      * @param $imgData array | contient tous les attributs de l'image à uploader
@@ -145,16 +145,16 @@ class Database
                 VALUES (:name, :date, :credits, :condition, :description, :photo, :fkUser, :fkCollection);
             ";
 
-            $replacements = [
-                'name' => $card['name'],
-                'date' => intval($card['date']),
-                'credits' => intval($card['credits']),
-                'condition' => $card['condition'],
-                'description' => $card['description'],
-                'photo' => $imgData['uploadDirectoryImg'] . $imgData['fileNameImg'],
-                'fkUser' => $idUser,
-                'fkCollection' => $card['collection']
-            ];
+        $replacements = [
+            'name' => $card['name'],
+            'date' => intval($card['date']),
+            'credits' => intval($card['credits']),
+            'condition' => $card['condition'],
+            'description' => $card['description'],
+            'photo' => $imgData['uploadDirectoryImg'] . $imgData['fileNameImg'],
+            'fkUser' => $idUser,
+            'fkCollection' => $card['collection']
+        ];
 
         $response = $this->queryPrepareExecute($query, $replacements);
     }
@@ -233,7 +233,7 @@ class Database
     //   Fonction permettant de modifier les informations d'une carte
     //   @param $id        int | id de la carte à mettre a jour
     //   @param $card array | contient tous les attributs d'une carte à modifier
-     
+
     public function updateCardById($id, $card)
     {
         $query = "
@@ -279,18 +279,23 @@ class Database
     {
 
         $query = "
-                SELECT
-                    t_card.*,
-                    t_collection.colName AS carCollectionName 
-                FROM t_card t_card
-                LEFT JOIN t_collection t_collection ON t_collection.idCollection = t_card.fkCollection ";
+            SELECT
+                t_card.*,
+                t_collection.colName AS carCollectionName,
+                t_user.useLogin AS carUserLogin
+            FROM t_card
+            LEFT JOIN t_collection ON t_collection.idCollection = t_card.fkCollection
+            LEFT JOIN t_user ON t_user.idUser = t_card.fkUser
+        ";
 
 
         $filter = false;
+        $replacements = [];
 
         // Condition 1
         if (!empty($filters['search'])) {
             $query .= " WHERE t_card.carName LIKE :searchValue ";
+            $replacements['searchValue'] =  '%' . $filters['search'] . '%';
             $filter = true;
         }
 
@@ -301,33 +306,15 @@ class Database
             $filter = true;
         }
 
-
         // Condition 3
         if (isset($filters['idCollection']) and $filters['idCollection'] !== '') {
             $query .= $this->addWhereOrAnd($filter);
             $query .= " t_card.fkCollection = :idCollection";
+            $replacements['idCollection'] = $filters['idCollection'];
             $filter = true;
         }
 
         $query .= " ORDER BY t_card.carName ASC";
-
-        $replacements = [];
-
-        if (!empty($filters['search'])) {
-            $replacements['searchValue'] =  '%' . $filters['search'] . '%';
-        }
-        /*
-            if (isset($filters['conditions'])) {
-    
-                // $replacements['conditions'] = implode(',', $filters['conditions']);
-                $replacements['conditions'] = $this->convertConditions($filters['conditions']);
-                var_dump($replacements['conditions']);
-                
-            }
-    */
-        if (isset($filters['idCollection']) and $filters['idCollection'] !== '') {
-            $replacements['idCollection'] = $filters['idCollection'];
-        }
 
         $req = $this->queryPrepareExecute($query, $replacements);
         $filters = $this->formatData($req);

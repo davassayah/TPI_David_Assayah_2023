@@ -10,17 +10,21 @@
 class Database
 {
 
+    // Instance unique de la classe Database
     private static $instance = null;
+    // Variable pour stocker l'objet PDO utilisé pour se connecter à la base de données
     private $connector;
 
     private function __construct()
-    {
+    {  // Inclut le fichier utils.php qui contient des fonctions utilitaires
         include(__DIR__ . "/utils.php");
+        // Charge les configurations de la base de données depuis le fichier config.php 
         $configs = include(__DIR__ . "/../config.php");
         try {
             $this->connector = new PDO(
                 $configs['dns'],
                 $configs['user'],
+                // Fonction getPassword() pour obtenir le mot de passe de la base de données
                 getPassword()
             );
         } catch (PDOException $e) {
@@ -29,9 +33,11 @@ class Database
     }
 
     public static function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self();
+
+    {   // Vérifie si l'instance de la classe Database n'a pas encore été créée
+        if (self::$instance == null) { 
+            // Crée une nouvelle instance de la classe Database
+            self::$instance = new self(); 
         }
 
         return self::$instance;

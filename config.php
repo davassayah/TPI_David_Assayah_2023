@@ -16,6 +16,11 @@ $configs = array(
     'user'    => 'root',
 );
 
-$configs["dns"] = $configs["db"] . ":host=" . $configs["host"] . ";dbname=" . $configs["dbname"] . ";charset=" . $configs["charset"] . ";port=" . $configs["port"];
+$configs["dns"] = 
+$configs["db"] . 
+":host=" . $configs["host"] . 
+";dbname=" . $configs["dbname"] . 
+";charset=" . $configs["charset"] . 
+";port=" . $configs["port"];
 
 return $configs;

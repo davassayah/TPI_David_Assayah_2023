@@ -35,9 +35,9 @@ class Database
     public static function getInstance()
 
     {   // Vérifie si l'instance de la classe Database n'a pas encore été créée
-        if (self::$instance == null) { 
+        if (self::$instance == null) {
             // Crée une nouvelle instance de la classe Database
-            self::$instance = new self(); 
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -137,6 +137,26 @@ class Database
         $OneUser = $this->formatData($req);
         //retourne l'utilisateur
         return $OneUser[0];
+    }
+
+    public function getUserByLogin($loginVerif)
+    {
+        $query = "SELECT * FROM t_user WHERE useLogin = :login";
+        $bind = array('login' => $loginVerif);
+        $req = $this->queryPrepareExecute($query, $bind);
+        $existingUser = $this->formatData($req);
+
+        return $existingUser[0];
+    }
+
+    public function getUserByEmail($email)
+    {
+        $query = "SELECT * FROM t_user WHERE useEmail = :email";
+        $bind = array('email' => $email);
+        $req = $this->queryPrepareExecute($query, $bind);
+        $existingUser = $this->formatData($req);
+
+        return $existingUser[0];
     }
 
     /**

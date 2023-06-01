@@ -6,8 +6,8 @@
  * Date: 25.05.2023
  * Description: Fichier permettant la validation des données saisies par l'utilisateur lors de la création du compte
  */
-
 // Erreurs si le champ est obligatoire
+
 const ERROR_LOGIN_REQUIRED = "Veuillez renseigner le champ login";
 const ERROR_EMAIL_REQUIRED = "Veuillez renseigner le champ email";
 const ERROR_FIRSTNAME_REQUIRED = "Veuillez renseigner le champ prénom";
@@ -26,6 +26,8 @@ const ERROR_EMAIL_FORMAT = "Merci de renseigner une adresse email valide";
 const ERROR_VARCHAR120_WITHOUT_NUMBERS = "Merci de saisir une châine de caractères entre 1 et 120 caractères ne contenant pas de chiffres.";
 const ERROR_VARCHAR15 = "Merci de saisir une chaîne de caractères de 1 à 15 caractères maximum";
 const ERROR_VARCHAR15_WITHOUT_SPECIAL_CHARS = "Merci de saisir une chaîne de caractères de 1 à 15 caractères maximum - chiffres et lettres compris - sans caractères spéciaux";
+const ERROR_LOGIN_EXISTS = "Ce login est déjà utilisé";
+const ERROR_EMAIL_EXISTS = "Cette adresse email est déjà utilisée";
 
 //REGEX
 const REGEX_VARCHAR120_WITHOUT_NUMBERS = '/^(?!.*\n.*$)(?!\n)(?!.{121})(?:[A-Z][a-z]{0,119}|[a-z]{1,120})$/u';
@@ -73,6 +75,8 @@ function validateAddUserForm($db)
         $errors['login'] = ERROR_LOGIN_REQUIRED;
     } elseif (!preg_match(REGEX_VARCHAR120, $login)) {
         $errors["login"] = ERROR_LOGIN;
+    } elseif ($existingUser = $db->getUserByLogin($login)) {
+        $errors['login'] = ERROR_LOGIN_EXISTS;
     }
 
     // le champ email :
@@ -82,6 +86,8 @@ function validateAddUserForm($db)
         $errors['email'] = ERROR_EMAIL_REQUIRED;
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors["email"] = ERROR_EMAIL_FORMAT;
+    } elseif ($existingUser = $db->getUserByEmail($email)) {
+        $errors['email'] = ERROR_EMAIL_EXISTS;
     }
 
     // le champ prénom :

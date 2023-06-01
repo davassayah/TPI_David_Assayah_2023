@@ -77,47 +77,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         } ?>
                     </p>
                     <p>
-                        <br>
                         <label for="name">Nom :</label>
-                        <input type="text" name="name" id="name" value=<?php if (isset($name)) echo $name ?>>
-                        <span id="show-error">
-                            <?= array_key_exists("name", $errors) && $errors["name"] ? '<p style="color:red;">' . $errors["name"] . '</p>' : '' ?>
-                        </span>
+                        <input type="text" name="name" id="name" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>">
                     </p>
+                    <span id="show-error">
+                        <?php echo (array_key_exists("name", $errors) && $errors["name"]) ? '<p style="color:red;">' . $errors["name"] . '</p>' : ''; ?>
+                    </span>
                     <p>
                         <label for="date">Date de création :</label>
-                        <input type="text" name="date" id="date" value=<?php if (isset($date)) echo $date ?>>
+                        <input type="text" name="date" id="date" value="<?php echo isset($_POST['date']) ? htmlspecialchars($_POST['date']) : ''; ?>">
                         <span id="show-error">
-                            <?= array_key_exists("date", $errors) && $errors["date"] ? '<p style="color:red;">' . $errors["date"] . '</p>' : '' ?>
+                            <?php echo (array_key_exists("date", $errors) && $errors["date"]) ? '<p style="color:red;">' . $errors["date"] . '</p>' : ''; ?>
                         </span>
                     </p>
                     </p>
                     <p>
                     <p>
                         <label for="credits">Crédits :</label>
-                        <input type="text" name="credits" id="credits" value=<?php if (isset($credits)) echo $credits ?>>
+                        <input type="text" name="credits" id="credits" value="<?php echo isset($_POST['credits']) ? htmlspecialchars($_POST['credits']) : ''; ?>">
                     </p>
                     <span id="show-error">
-                        <?= array_key_exists("credits", $errors) && $errors["credits"] ? '<p style="color:red;">' . $errors["credits"] . '</p>' : '' ?>
+                        <?php echo (array_key_exists("credits", $errors) && $errors["credits"]) ? '<p style="color:red;">' . $errors["credits"] . '</p>' : ''; ?>
                     </span>
-                    </p>
                     <p>
-                        <input type="radio" id="new" name="condition" value="N" checked>
+                        <input type="radio" id="new" name="condition" value="N" <?php echo isset($_POST['condition']) && $_POST['condition'] === 'N' ? 'checked' : ''; ?>>
                         <label for="condition1">Neuf</label>
-                        <input type="radio" id="secondHand" name="condition" value="O">
+                        <input type="radio" id="secondHand" name="condition" value="O" <?php echo isset($_POST['condition']) && $_POST['condition'] === 'O' ? 'checked' : ''; ?>>
                         <label for="condition2">Occasion</label>
-                        <input type="radio" id="damaged" name="condition" value="A">
+                        <input type="radio" id="damaged" name="condition" value="A" <?php echo isset($_POST['condition']) && $_POST['condition'] === 'A' ? 'checked' : ''; ?>>
                         <label for="condition3">Abîmé</label>
                         <span id="show-error">
                             <?= array_key_exists("condition", $errors) && $errors["condition"] ? '<p style="color:red;">' . $errors["condition"] . '</p>' : '' ?>
                         </span>
                     </p>
-                    <span id="show-error">
-                        <?= array_key_exists("collection", $errors) && $errors["collection"] ? '<p style="color:red;">' . $errors["collection"] . '</p>' : '' ?>
-                    </span>
-                    <p>
-                        <label for="description">Description :</label>
-                        <textarea name="description" id="description"></textarea>
+                    <label for="description">Description :</label>
+                    <textarea name="description" id="description"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
                     </p>
                     <span id="show-error">
                         <?= array_key_exists("description", $errors) && $errors["description"] ? '<p style="color:red;">' . $errors["description"] . '</p>' : '' ?>
@@ -139,13 +133,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?php
                             $html = "";
                             foreach ($collections as $collection) {
-
-                                $html .= "<option value='" . $collection["idCollection"]  . "'>"  . ($collection["colName"]) . "</option>";
+                                $selected = (isset($_POST['collection']) && $_POST['collection'] == $collection["idCollection"]) ? "selected" : "";
+                                $html .= "<option value='" . $collection["idCollection"]  . "' " . $selected . ">"  . ($collection["colName"]) . "</option>";
                             }
                             echo $html;
                             ?>
                         </select>
                     </p>
+                    <span id="show-error">
+                        <?= array_key_exists("collection", $errors) && $errors["collection"] ? '<p style="color:red;">' . $errors["collection"] . '</p>' : '' ?>
+                    </span>
+
                     <p>
                         <input type="submit" value="Ajouter">
                     </p>

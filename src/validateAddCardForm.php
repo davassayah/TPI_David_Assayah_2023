@@ -105,7 +105,7 @@ function validateAddCardForm($db)
     if (!$credits) {
         $errors['credits'] = ERROR_CREDITS_REQUIRED;
     } elseif (!preg_match(REGEX_CREDITS, $credits)) {
-        $errors["credits"] = ERROR_DATE;
+        $errors["credits"] = ERROR_CREDITS;
     }
 
     // le champ état
@@ -118,7 +118,7 @@ function validateAddCardForm($db)
     if (!$description) {
         $errors['description'] = ERROR_DESCRIPTION_REQUIRED;
     } elseif (!preg_match(REGEX_VARCHAR255, $description)) {
-        $errors["credits"] = ERROR_DESCRIPTION;
+        $errors["description"] = ERROR_DESCRIPTION;
     }
 
     // le champ collection est obligatoire et ne peut donc pas avoir
@@ -132,5 +132,6 @@ function validateAddCardForm($db)
     } elseif (!in_array($imageData['extensionImg'], ['jpg'])) {
         $errors['downloadImg'] = ERROR_IMAGE_EXTENSION;
     }
+    
     return ["cardData" => $cardData, "errors" => $errors];
 }

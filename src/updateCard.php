@@ -81,60 +81,54 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="photo">
                         <img height="600em" src="<?php echo $oneCard['carPhoto'] ?>">
                     </div>
-                    </p>
                     <p>
                         <label for="name">Nom :</label>
-                        <input type="text" name="name" id="name" value="<?php echo $oneCard['carName']; ?>">
+                        <input type="text" name="name" id="name" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : $oneCard['carName']; ?>">
                         <span id="show-error">
                             <?= array_key_exists("name", $errors) && $errors["name"] ? '<p style="color:red;">' . $errors["name"] . '</p>' : '' ?>
                         </span>
                     </p>
-                    </p>
                     <p>
                         <label for="date">Année de création :</label>
-                        <input type="text" name="date" id="date" value="<?php echo $oneCard['carDate'] ?>">
+                        <input type="text" name="date" id="date" value="<?php echo isset($_POST['date']) ? htmlspecialchars($_POST['date']) : $oneCard['carDate']; ?>">
                         <span id="show-error">
                             <?= array_key_exists("date", $errors) && $errors["date"] ? '<p style="color:red;">' . $errors["date"] . '</p>' : '' ?>
                         </span>
                     </p>
-                    </p>
                     <p>
                         <label for="credits">Crédits :</label>
-                        <input type="text" name="credits" id="credits" value="<?php echo $oneCard['carCredits'] ?>">
+                        <input type="text" name="credits" id="credits" value="<?php echo isset($_POST['credits']) ? htmlspecialchars($_POST['credits']) : $oneCard['carCredits']; ?>">
                         <span id="show-error">
                             <?= array_key_exists("credits", $errors) && $errors["credits"] ? '<p style="color:red;">' . $errors["credits"] . '</p>' : '' ?>
                         </span>
                     </p>
-                    </p>
                     <p>
                         <!--Condition permettant de sélectionner l'état de la carte déjà renseigné-->
-                        <input type="radio" id="new" name="condition" value="N" <?php if ($oneCard['carCondition'] == 'N') { ?>checked<?php } ?>>
+                        <input type="radio" id="new" name="condition" value="N" <?php echo (isset($_POST['condition']) && $_POST['condition'] === 'N') || $oneCard['carCondition'] === 'N' ? 'checked' : ''; ?>>
                         <label for="condition1">Neuf</label>
-                        <input type="radio" id="secondHand" name="condition" value="O" <?php if ($oneCard['carCondition'] == 'O') { ?>checked<?php } ?>>
+                        <input type="radio" id="secondHand" name="condition" value="O" <?php echo (isset($_POST['condition']) && $_POST['condition'] === 'O') || $oneCard['carCondition'] === 'O' ? 'checked' : ''; ?>>
                         <label for="condition2">Occasion</label>
-                        <input type="radio" id="damaged" name="condition" value="A" <?php if ($oneCard['carCondition'] == 'A') { ?>checked<?php } ?>>
+                        <input type="radio" id="damaged" name="condition" value="A" <?php echo (isset($_POST['condition']) && $_POST['condition'] === 'A') || $oneCard['carCondition'] === 'A' ? 'checked' : ''; ?>>
                         <label for="condition3">Abîmé</label>
                         <span id="show-error">
-                            <?= array_key_exists("condition", $errors) && $errors["condition"] ? '<p style="color:red;">' . $errors["condition"] . '</p>' : '' ?>
+                            <?= array_key_exists("condition", $errors) && $errors["condition"] ? '<p style="color:red;">' . $errors["condition"] . '</p>' : ''; ?>
                         </span>
                     </p>
                     <p>
-                        <label style="display: none" for="section"></label>
+                        <label style="display: none" for="collection"></label>
+                        <?php
+                        $selectedCollection = isset($_POST['collection']) ? $_POST['collection'] : $oneCard['fkCollection'];
+                        ?>
                         <select name="collection" id="collection">
                             <option value="">Collection</option>
-                            <!--Condition permettant de sélectionner la collection de la carte déjà renseignée-->
                             <?php
-                            $html = "";
                             foreach ($collections as $collection) {
-
-                                $html .= "<option value='" . $collection["idCollection"]  . "' ";
-                                if ($collection["idCollection"] === $oneCard["fkCollection"]) {
-
-                                    $html .= " selected ";
+                                $selected = '';
+                                if ($selectedCollection == $collection['idCollection']) {
+                                    $selected = 'selected';
                                 }
-                                $html .= " >" . ($collection["colName"]) . "</option>";
+                                echo "<option value='" . $collection['idCollection'] . "' " . $selected . ">" . $collection['colName'] . "</option>";
                             }
-                            echo $html;
                             ?>
                         </select>
                     </p>
@@ -143,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </span>
                     <p>
                         <label for="description">Description :</label>
-                        <textarea name="description" id="description"><?php echo $oneCard['carDescription'] ?></textarea>
+                        <textarea name="description" id="description"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : $oneCard['carDescription']; ?></textarea>
                     </p>
                     <span id="show-error">
                         <?= array_key_exists("description", $errors) && $errors["description"] ? '<p style="color:red;">' . $errors["description"] . '</p>' : '' ?>

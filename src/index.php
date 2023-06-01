@@ -60,8 +60,10 @@ if (!isset($_SESSION['userConnected'])) {
     echo '<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
               <h1 style="font-size: 3em;">Bienvenue! Crée un compte ou connecte-toi</h1>
           </div>';
+    include("footer.php");
     exit();
 }
+
 ?>
 
 <body>

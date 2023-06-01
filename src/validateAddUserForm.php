@@ -30,7 +30,7 @@ const ERROR_LOGIN_EXISTS = "Ce login est déjà utilisé";
 const ERROR_EMAIL_EXISTS = "Cette adresse email est déjà utilisée";
 
 //REGEX
-const REGEX_VARCHAR120_WITHOUT_NUMBERS = '/^(?!.*\n.*$)(?!\n)(?!.{121})(?:[A-Z][a-z]{0,119}|[a-z]{1,120})$/u';
+const REGEX_VARCHAR120_WITHOUT_NUMBERS = '/^(?!.*\n.*$)(?!\n)(?!.{121})[A-Za-zÀ-ÿ\' -]+$/u';
 const REGEX_VARCHAR120 = '/^(?!.*\n.*$)(?!\n)(?!.{121}).{1,120}$/us';
 const REGEX_VARCHAR15 = '/^(?!.*\n.*$)(?!\n)(?!.{16}).{1,15}$/us';
 const REGEX_VARCHAR15_WITHOUT_SPECIAL_CHARS = '/^(?![0-9]{16})[a-zA-Z0-9]{1,15}$/';
@@ -120,8 +120,8 @@ function validateAddUserForm($db)
     // le champ code postal est obligatoire
     if (!$postalCode) {
         $errors['postalCode'] = ERROR_POSTALCODE_REQUIRED;
-    } elseif (!preg_match(REGEX_VARCHAR120_WITHOUT_NUMBERS, $postalCode)) {
-        $errors["postalCode"] = ERROR_VARCHAR120_WITHOUT_NUMBERS;
+    } elseif (!preg_match(REGEX_VARCHAR15, $postalCode)) {
+        $errors["postalCode"] = REGEX_VARCHAR15;
     }
 
     // le champ nom de la rue est obligatoire

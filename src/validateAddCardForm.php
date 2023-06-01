@@ -91,7 +91,6 @@ function validateAddCardForm($db)
     // - est obligatoire
     // - doit être une string entre 2 et 30 caractères
     // - répondant à la REGEX 'REGEX_STRING'
-
     if (!$date) {
         $errors['date'] = ERROR_DATE_REQUIRED;
     } elseif (!preg_match(REGEX_DATE, $date)) {
@@ -132,6 +131,6 @@ function validateAddCardForm($db)
     } elseif (!in_array($imageData['extensionImg'], ['jpg'])) {
         $errors['downloadImg'] = ERROR_IMAGE_EXTENSION;
     }
-    
+
     return ["cardData" => $cardData, "errors" => $errors];
 }

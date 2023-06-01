@@ -28,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errorOrValidationMessage = "Votre compte a bien été crée";
     } else {
         if ($_POST) {
-            $errorOrValidationMessage = "Merci de bien remplir tous les champs marqués comme obligatoires";
+            $errorOrValidationMessage = 
+            "Merci de bien remplir tous les champs marqués comme obligatoires";
         }
     }
 }

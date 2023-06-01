@@ -198,14 +198,15 @@ class Database
     public function getAllCards()
     {
         $query = "
-        SELECT
-            t_card.*,
-            t_collection.colName AS carCollectionName,
-            t_user.useLogin AS carUserLogin
-        FROM t_card
-        LEFT JOIN t_collection ON t_collection.idCollection = t_card.fkCollection
-        LEFT JOIN t_user ON t_user.idUser = t_card.fkUser
-    ";
+       SELECT
+           t_card.*,
+           t_collection.colName AS carCollectionName,
+           t_user.useLogin AS carUserLogin
+       FROM t_card
+       LEFT JOIN t_collection ON t_collection.idCollection = t_card.fkCollection
+       LEFT JOIN t_user ON t_user.idUser = t_card.fkUser
+       WHERE t_card.carIsAvailable = 1
+   ";
         //appeler la méthode pour executer la requête
         $req = $this->querySimpleExecute($query);
         //appeler la méthode pour avoir le résultat sous forme de tableau

@@ -47,16 +47,16 @@ if (isset($_POST['logout'])) {
         <div class="container">
             <a class="navbar-brand">Echange de cartes à collectionner</a>
             <div class="collapse navbar-collapse">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
                     <?php
                     if (!isset($_SESSION['userConnected'])) {
                         // Affichage pour les utilisateurs non connectés
                     ?>
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item mt-2">
+                            <li class="nav-item">
                                 <a class="nav-link" href="index.php">Accueil</a>
                             </li>
-                            <li class="nav-item mt-2">
+                            <li class="nav-item">
                                 <a class="nav-link" href="createAccount.php">Créer un compte</a>
                             </li>
                         </ul>
@@ -66,16 +66,16 @@ if (isset($_POST['logout'])) {
                         if ($_SESSION['userConnected'] == 'user' || $_SESSION['userConnected'] == 'admin') {
                         ?>
                             <ul class="navbar-nav ml-auto">
-                                <li class="nav-item mt-2">
+                                <li class="nav-item">
                                     <a class="nav-link" href="index.php">Accueil</a>
                                 </li>
-                                <li class="nav-item mt-2 text-nowrap">
+                                <li class="nav-item text-nowrap">
                                     <a class="nav-link" href="addCard.php">Ajouter une carte</a>
                                 </li>
-                                <li class="nav-item mt-2 text-nowrap">
+                                <li class="nav-item text-nowrap">
                                     <a class="nav-link" href="userProfile.php?idUser=<?php echo $_SESSION["idUser"]; ?>">Profil</a>
                                 </li>
-                                <li class="nav-item mt-2 text-nowrap">
+                                <li class="nav-item text-nowrap">
                                     <a class="nav-link" href="cart.php">Panier</a>
                                 </li>
                             <?php } ?>
@@ -84,28 +84,26 @@ if (isset($_POST['logout'])) {
                     }
                         ?>
                 </ul>
-                <?php
-                if (
-                    isset($_SESSION['userConnected']) &&
-                    $_SESSION['userConnected'] == ('user' or 'admin')
-                ) {
-                    echo '<form class="nav-admin" action="" method="post">';
-                    echo '<span class="nav-item text-white text-wrap">Bienvenue ' .
-                        $_SESSION['useLogin']  . "<br>" . ' Crédits : ' .
-                        intval($_SESSION['useCredits']) . '</span>';
-                    echo '<button class="btn btn-outline-danger mx-1" 
-                    type="submit" name="logout">Déconnexion</button>';
-                    echo '</form>';
-                } else {
-                    echo '<form class="nav-forreign" action="" method="post">';
-                    echo '<input class="form-control me-2 mt-3" type="text"
-                     name="login" id="login" placeholder="Login">';
-                    echo '<input class="form-control me-2 mt-3" type="password"
-                     name="password" id="password" placeholder="Mot de passe">';
-                    echo '<button class="btn btn-outline-success
-                     mt-3" type="submit">Connexion</button>';
-                    echo '</form>';
-                }
-                ?>
+                <?php if (isset($_SESSION['userConnected']) and $_SESSION['userConnected'] == ('user' or 'admin')) { ?>
+                    <form class="hstack gap-3 mb-0" action="" method="post">
+                        <div class="me-2 text-white">
+                            Bienvenue <?php echo $_SESSION['useLogin'] ?><br>
+                            Crédits : <?php echo intval($_SESSION['useCredits']) ?>
+                        </div>
+                        <button class="btn btn-outline-danger mx-1" type="submit" name="logout">
+                            Déconnexion
+                        </button>
+                    </form>
+                <?php } else { ?>
+                    <form class="hstack gap-3 mb-0" action="" method="post">
+                        <input class="form-control" type="text" name="login" id="login" placeholder="Login">
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Mot de passe">
+                        <button class="btn btn-outline-success" type="submit">
+                            Connexion
+                        </button>
+                    </form>
+                <?php } ?>
             </div>
+        </div>
     </nav>
+</header>

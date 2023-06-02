@@ -34,7 +34,10 @@ if (isset($_GET['submit'])) {
     // Récupère la valeur entrée dans le champ de texte
     $cards = $db->sortCards($_GET);
 }
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -79,8 +82,6 @@ if (isset($_SESSION['successMessage'])) {
     include("footer.php");
     exit();
 }
-
-
 
 ?>
 
@@ -175,20 +176,19 @@ if (isset($_SESSION['successMessage'])) {
                                 <td class="containerOptions">
                                     <?php if (isset($_SESSION['userConnected'])) { ?>
                                         <a class="btn btn-dark btn-sm" href="cardDetails.php?idCard=<?php echo $card["idCard"] ?>">Détails</a>
-                                        <?php if ($_SESSION['userConnected'] == 'admin') { ?>
+                                        <?php if ($_SESSION['userConnected'] == 'admin' || ($_SESSION['userConnected'] == 'user' && $_SESSION['useLogin'] == $card['carUserLogin'])) { ?>
                                             <a class="btn btn-warning btn-sm" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">Modifier</a>
                                             <a class="btn btn-danger btn-sm" href="javascript:confirmDelete(<?php echo $card["idCard"] ?>)">Supprimer</a>
-                                        <?php } else if ($_SESSION['userConnected'] == 'user' && $_SESSION['useLogin'] != $card['carUserLogin']) { ?>
-                                            <a class="btn btn-warning btn-sm" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">Modifier</a>
-                                            <a class="btn btn-danger btn-sm" href="javascript:confirmDelete(<?php echo $card["idCard"] ?>)">Supprimer</a>
+                                        <?php } ?>
+                                        <?php if (($_SESSION['userConnected'] == 'admin' || $_SESSION['userConnected'] == 'user') && $_SESSION['useLogin'] != $card['carUserLogin']) { ?>
                                             <a class="btn btn-success btn-sm" href="javascript:confirmBuy(<?php echo $card["idCard"] ?>)">Acheter</a>
                                         <?php } ?>
                                     <?php } ?>
                                 </td>
                             </tr>
                         <?php } ?>
-
                     </tbody>
+
                 </table>
             </form>
             <script src="js/script.js"></script>

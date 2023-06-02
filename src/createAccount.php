@@ -7,6 +7,7 @@
  * Description: Page permettant d'ajouter un utilisateur à la db
  */
 
+
 include("header.php");
 include_once(__DIR__ . "/validateAddUserForm.php");
 
@@ -18,21 +19,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = $result["errors"];
     $userData = $result["userData"];
 
-    // Si aucune erreur de validation 
+    // Si aucune erreur de validation
     // Cela signifie que les données sont propres et validées
     // Nous pouvons insérer les données en BD
     if (count($errors) === 0) {
-
-        $teachers = $db->addUser($_POST);
-
-        $errorOrValidationMessage = "Votre compte a bien été crée";
+        $users = $db->addUser($_POST);
+        $_SESSION['successMessage'] = "Compte crée avec succès";
+        header('Location: index.php');
     } else {
         if ($_POST) {
-            $errorOrValidationMessage = 
-            "Merci de bien remplir tous les champs marqués comme obligatoires";
+            $errorOrValidationMessage = "Merci de bien remplir tous les champs marqués comme obligatoires";
         }
     }
 }
+
 
 ?>
 
@@ -65,11 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </p>
                     <p>
                         <label for="login">Login :</label>
-                        <input type="text" name="login" id="login" 
-                        value="<?php echo isset($_POST['login']) ? htmlspecialchars($_POST['login']) : ''; ?>">
+                        <input type="text" name="login" id="login" value="<?php echo isset($_POST['login']) ? htmlspecialchars($_POST['login']) : ''; ?>">
                         <span id="show-error">
                             <?php echo (array_key_exists("login", $errors) && $errors["login"]) ?
-                            '<p style="color:red;">' . $errors["login"] . '</p>' : ''; ?>
+                                '<p style="color:red;">' . $errors["login"] . '</p>' : ''; ?>
                         </span>
                     </p>
                     <p>
@@ -133,6 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <p>
                         <input type="submit" value="Créer un compte">
                     </p>
+
                 </form>
     </fieldset>
     </div>

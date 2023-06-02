@@ -6,9 +6,12 @@
  * Date: 25.05.2023
  * Description: Fichier permettant la validation des données saisies par l'utilisateur lors de la création du compte
  */
-// Erreurs si le champ est obligatoire
-
+// Erreurs du champ login
 const ERROR_LOGIN_REQUIRED = "Veuillez renseigner le champ login";
+const ERROR_LOGIN = "Le champ doit avoir un nombre de caractères 
+entre 1 et 120 tous caractères compris";
+const ERROR_LOGIN_EXISTS = "Ce login est déjà utilisé";
+
 const ERROR_EMAIL_REQUIRED = "Veuillez renseigner le champ email";
 const ERROR_FIRSTNAME_REQUIRED = "Veuillez renseigner le champ prénom";
 const ERROR_LASTNAME_REQUIRED = "Veuillez renseigner le champ nom de famille";
@@ -16,17 +19,17 @@ const ERROR_LOCALITY_REQUIRED = "Veuillez renseigner le champ localité";
 const ERROR_POSTALCODE_REQUIRED = "Veuillez renseigner le champ code postal";
 const ERROR_STREETNAME_REQUIRED = "Veuillez renseigner le champ nom de la rue";
 const ERROR_STREETNUMBER_REQUIRED = "Veuillez renseigner le champ numéro de la rue";
+const ERROR_PASSWORD_REQUIRED = "Veuillez renseigner le champ mot de passe";
 
 // Erreurs spécifiques
-const ERROR_LOGIN = "Le champ doit avoir un nombre de caractères entre 1 et 120 tous caractères compris";
 const ERROR_STRING = "Pour ce champ, vous devez saisir une chaîne entre 2 et 30 caractères mais seuls " .
     "les caractères suivants sont autorisés : les lettres de a à z (minuscules ou majuscules), les accents, " .
     "l'espace, le tiret et l'apostrophe";
 const ERROR_EMAIL_FORMAT = "Merci de renseigner une adresse email valide";
-const ERROR_VARCHAR120_WITHOUT_NUMBERS = "Merci de saisir une châine de caractères entre 1 et 120 caractères ne contenant pas de chiffres.";
+const ERROR_VARCHAR120_WITHOUT_NUMBERS = "Merci de saisir une chaîne de caractères entre 1 et 120 caractères ne contenant pas de chiffres.";
 const ERROR_VARCHAR15 = "Merci de saisir une chaîne de caractères de 1 à 15 caractères maximum";
 const ERROR_VARCHAR15_WITHOUT_SPECIAL_CHARS = "Merci de saisir une chaîne de caractères de 1 à 15 caractères maximum - chiffres et lettres compris - sans caractères spéciaux";
-const ERROR_LOGIN_EXISTS = "Ce login est déjà utilisé";
+
 const ERROR_EMAIL_EXISTS = "Cette adresse email est déjà utilisée";
 
 //REGEX
@@ -35,11 +38,11 @@ const REGEX_VARCHAR120 = '/^(?!.*\n.*$)(?!\n)(?!.{121}).{1,120}$/us';
 const REGEX_VARCHAR15 = '/^(?!.*\n.*$)(?!\n)(?!.{16}).{1,15}$/us';
 const REGEX_VARCHAR15_WITHOUT_SPECIAL_CHARS = '/^(?![0-9]{16})[a-zA-Z0-9]{1,15}$/';
 
-function validateAddUserForm($db)
-{
     // On commence par désinfecter les données saisies par l'utilisateur
     // ainsi on se protège contre les attaques de types XSS
 
+function validateAddUserForm($db)
+{
     $userData = filter_input_array(
         INPUT_POST,
         [
@@ -64,6 +67,7 @@ function validateAddUserForm($db)
     $postalCode = $userData['postalCode'] ?? '';
     $streetName = $userData['streetName'] ?? '';
     $streetNumber = $userData['streetNumber'] ?? '';
+    $password = $userData['password'] ?? '';
 
     $errors = [];
 
@@ -71,7 +75,10 @@ function validateAddUserForm($db)
     // Validation des données
     //
 
-    // le champ login est obligatoire
+    // le champ login :
+    // - est obligatoire
+    // - peut comporter 1 à 120 caractères de tout type
+    // - doit avoir une valeur unique
     if (!$login) {
         $errors['login'] = ERROR_LOGIN_REQUIRED;
     } elseif (!preg_match(REGEX_VARCHAR120, $login)) {
@@ -122,7 +129,7 @@ function validateAddUserForm($db)
     if (!$postalCode) {
         $errors['postalCode'] = ERROR_POSTALCODE_REQUIRED;
     } elseif (!preg_match(REGEX_VARCHAR15, $postalCode)) {
-        $errors["postalCode"] = REGEX_VARCHAR15;
+        $errors["postalCode"] = ERROR_VARCHAR15;
     }
 
     // le champ nom de la rue est obligatoire
@@ -138,6 +145,10 @@ function validateAddUserForm($db)
     } elseif (!preg_match(REGEX_VARCHAR15_WITHOUT_SPECIAL_CHARS, $streetNumber)) {
         $errors["streetNumber"] = ERROR_VARCHAR15_WITHOUT_SPECIAL_CHARS;
     }
+
+    if (!$password) {
+        $errors['password'] = ERROR_PASSWORD_REQUIRED;
+    } 
 
     return ["userData" => $userData, "errors" => $errors];
 }

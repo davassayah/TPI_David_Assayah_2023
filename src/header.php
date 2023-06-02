@@ -16,8 +16,11 @@ $db = Database::getInstance();
 if (isset($_POST['login']) && isset($_POST['password'])) {
     $user = $db->CheckAuth($_POST['login'], $_POST['password']);
     if ($user == null) {
-        echo "erreur de connexion";
+        $_SESSION['connexionError'] = 'Erreur de connexion';
     } else if ($user != null) {
+        if (isset($_SESSION['connexionError'])) {
+            unset($_SESSION['connexionError']);
+        }
         $_SESSION['userConnected'] = $user['useRole'];
         $_SESSION['idUser'] = $user['idUser'];
         $_SESSION['useLogin'] = $db->getOneUser($_SESSION['idUser'])['useLogin'];

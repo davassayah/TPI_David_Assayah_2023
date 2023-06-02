@@ -94,9 +94,7 @@ class Database
 
         if (password_verify($password, $user['usePassword'])) {
             return $user;
-        } else {
-            echo 'Erreur de connexion';
-        }
+        } 
     }
 
     /**
@@ -106,8 +104,10 @@ class Database
     public function addUser($user)
     {
         $query = "
-                INSERT INTO t_user (useLogin, useEmail, useFirstName, useLastName, useLocality, usePostalCode, useStreetName, useStreetNumber, usePassword) 
-                VALUES (:login, :email, :firstName, :lastName, :locality, :postalCode, :streetName, :streetNumber, :password);
+                INSERT INTO t_user (useLogin, useEmail, useFirstName, useLastName, 
+                useLocality, usePostalCode, useStreetName, useStreetNumber, usePassword) 
+                VALUES (:login, :email, :firstName, :lastName, 
+                :locality, :postalCode, :streetName, :streetNumber, :password);
             ";
 
         $replacements = [
@@ -139,10 +139,10 @@ class Database
         return $OneUser[0];
     }
 
-    public function getUserByLogin($loginVerif)
+    public function getUserByLogin($login)
     {
         $query = "SELECT * FROM t_user WHERE useLogin = :login";
-        $bind = array('login' => $loginVerif);
+        $bind = array('login' => $login);
         $req = $this->queryPrepareExecute($query, $bind);
         $existingUser = $this->formatData($req);
 

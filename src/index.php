@@ -56,13 +56,31 @@ if (isset($_GET['submit'])) {
 
 <?php
 
-if (!isset($_SESSION['userConnected'])) {
+if (isset($_SESSION['successMessage'])) {
+    $message = $_SESSION['successMessage'];
+    echo '<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+              <h1 style="font-size: 3em;">' . $message . '</h1>
+          </div>';
+    include("footer.php");
+    unset($_SESSION['successMessage']);
+    exit();
+} else if (isset($_SESSION['connexionError'])) {
+    $message = $_SESSION['connexionError'];
+    echo '<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+              <h1 style="font-size: 3em;"> ' . $message . '</h1>
+          </div>';
+    include("footer.php");
+    unset($_SESSION['connexionError']);
+    exit();
+} else if (!isset($_SESSION['userConnected'])) {
     echo '<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
               <h1 style="font-size: 3em;">Bienvenue! Crée un compte ou connecte-toi</h1>
           </div>';
     include("footer.php");
     exit();
 }
+
+
 
 ?>
 
@@ -143,38 +161,33 @@ if (!isset($_SESSION['userConnected'])) {
                                 <td><?php echo $card["carName"] ?></td>
                                 <td><?php echo $card["carDate"] ?></td>
                                 <td><?php echo $card["carCredits"] ?></td>
-                                <td><?php if ($card["carCondition"] == "N") {
+                                <td>
+                                    <?php if ($card["carCondition"] == "N") {
                                         echo "Neuf";
                                     } else if ($card["carCondition"] == "O") {
                                         echo  "Occasion";
                                     } else if ($card["carCondition"] == "A") {
                                         echo "Abîmé";
-                                    } ?></td>
+                                    } ?>
+                                </td>
                                 <td><?php echo $card["carUserLogin"] ?></td>
                                 <td><?php echo $card["carCollectionName"] ?></td>
                                 <td class="containerOptions">
-                                    <!--Affiche différentes fonctionnalités selon que l'utilisateur soit connecté en tant qu'utilisateur ou en tant qu'admin-->
-                                    <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == ('user' or 'admin')) { ?>
-                                        <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == 'admin') { ?>
-                                            <a class="link-light" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">
-                                                <img height="40em" src="./img/modify.png" alt="edit">
-                                            </a>
-                                            <a class="link-light" href="javascript:confirmDelete(<?php echo $card["idCard"] ?>)">
-                                                <img height="40em" src="./img/delete.png" alt="delete">
-                                            </a>
-                                        <?php } ?>
-                                        <a class="link-light" href="cardDetails.php?idCard=<?php echo $card["idCard"] ?>">
-                                            <img height="40em" src="./img/details.jpg" alt="detail">
-                                        </a>
-                                        <?php if ($_SESSION['useLogin'] != $card['carUserLogin']) { ?>
-                                            <a class="link-light" href="javascript:confirmBuy(<?php echo $card["idCard"] ?>)">
-                                                <img height="40em" src="./img/buy.png" alt="buy">
-                                            </a>
+                                    <?php if (isset($_SESSION['userConnected'])) { ?>
+                                        <a class="btn btn-dark btn-sm" href="cardDetails.php?idCard=<?php echo $card["idCard"] ?>">Détails</a>
+                                        <?php if ($_SESSION['userConnected'] == 'admin') { ?>
+                                            <a class="btn btn-warning btn-sm" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">Modifier</a>
+                                            <a class="btn btn-danger btn-sm" href="javascript:confirmDelete(<?php echo $card["idCard"] ?>)">Supprimer</a>
+                                        <?php } else if ($_SESSION['userConnected'] == 'user' && $_SESSION['useLogin'] != $card['carUserLogin']) { ?>
+                                            <a class="btn btn-warning btn-sm" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">Modifier</a>
+                                            <a class="btn btn-danger btn-sm" href="javascript:confirmDelete(<?php echo $card["idCard"] ?>)">Supprimer</a>
+                                            <a class="btn btn-success btn-sm" href="javascript:confirmBuy(<?php echo $card["idCard"] ?>)">Acheter</a>
                                         <?php } ?>
                                     <?php } ?>
                                 </td>
                             </tr>
                         <?php } ?>
+
                     </tbody>
                 </table>
             </form>
@@ -189,7 +202,7 @@ if (!isset($_SESSION['userConnected'])) {
                 searching: false,
                 language: {
                     lengthMenu: "Montrer _MENU_ entrées",
-                    info: "_TOTAL_ résultats trouvés",
+                    info: "_TOTAL_ résultat.s trouvé.s",
                     paginate: {
                         next: "Suivant",
                         previous: "Précédent"

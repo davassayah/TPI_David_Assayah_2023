@@ -65,9 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </p>
                     <p>
                         <label for="login">Login :</label>
-                        <input type="text" name="login" id="login" value="<?php echo isset($_POST['login']) ? htmlspecialchars($_POST['login']) : ''; ?>">
+                        <input type="text" name="login" id="login" 
+                        value="<?php echo isset($_POST['login']) ? htmlspecialchars($_POST['login']) : ''; ?>">
                         <span id="show-error">
-                            <?php echo (array_key_exists("login", $errors) && $errors["login"]) ? '<p style="color:red;">' . $errors["login"] . '</p>' : ''; ?>
+                            <?php echo (array_key_exists("login", $errors) && $errors["login"]) ?
+                            '<p style="color:red;">' . $errors["login"] . '</p>' : ''; ?>
                         </span>
                     </p>
                     <p>

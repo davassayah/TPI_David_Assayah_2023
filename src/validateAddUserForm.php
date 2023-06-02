@@ -51,6 +51,7 @@ function validateAddUserForm($db)
             'postalCode' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
             'streetName' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
             'streetNumber' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'password' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
         ]
     );
 

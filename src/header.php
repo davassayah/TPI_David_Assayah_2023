@@ -84,7 +84,8 @@ if (isset($_POST['logout'])) {
                     }
                         ?>
                 </ul>
-                <?php if (isset($_SESSION['userConnected']) and $_SESSION['userConnected'] == ('user' or 'admin')) { ?>
+                <?php if (isset($_SESSION['userConnected']) and 
+                $_SESSION['userConnected'] == ('user' or 'admin')) { ?>
                     <form class="hstack gap-3 mb-0" action="" method="post">
                         <div class="me-2 text-white">
                             Bienvenue <?php echo $_SESSION['useLogin'] ?><br>
@@ -97,7 +98,8 @@ if (isset($_POST['logout'])) {
                 <?php } else { ?>
                     <form class="hstack gap-3 mb-0" action="" method="post">
                         <input class="form-control" type="text" name="login" id="login" placeholder="Login">
-                        <input class="form-control" type="password" name="password" id="password" placeholder="Mot de passe">
+                        <input class="form-control" type="password" 
+                        name="password" id="password" placeholder="Mot de passe">
                         <button class="btn btn-outline-success" type="submit">
                             Connexion
                         </button>

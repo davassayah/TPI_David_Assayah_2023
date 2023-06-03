@@ -10,8 +10,6 @@
 
 include("header.php");
 
-
-//permet de connecter la méthode se trouvant dans la page database.php
 $cards = $db->getAllCards();
 
 $collections = $db->getAllCollections();
@@ -31,7 +29,6 @@ if (isset($_GET['idCardToAddInCart']) and $idCard = $_GET['idCardToAddInCart']) 
 
 // Vérifie si le formulaire a été soumis
 if (isset($_GET['submit'])) {
-    // Récupère la valeur entrée dans le champ de texte
     $cards = $db->sortCards($_GET);
 }
 
@@ -175,13 +172,21 @@ if (isset($_SESSION['successMessage'])) {
                                 <td><?php echo $card["carCollectionName"] ?></td>
                                 <td class="containerOptions">
                                     <?php if (isset($_SESSION['userConnected'])) { ?>
-                                        <a class="btn btn-dark btn-sm" href="cardDetails.php?idCard=<?php echo $card["idCard"] ?>">Détails</a>
-                                        <?php if ($_SESSION['userConnected'] == 'admin' || ($_SESSION['userConnected'] == 'user' && $_SESSION['useLogin'] == $card['carUserLogin'])) { ?>
-                                            <a class="btn btn-warning btn-sm" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">Modifier</a>
-                                            <a class="btn btn-danger btn-sm" href="javascript:confirmDelete(<?php echo $card["idCard"] ?>)">Supprimer</a>
+                                        <a class="btn btn-dark btn-sm" 
+                                        href="cardDetails.php?idCard=<?php echo $card["idCard"] ?>">Détails</a>
+                                        <?php if ($_SESSION['userConnected'] == 'admin' 
+                                        || ($_SESSION['userConnected'] == 'user' 
+                                        && $_SESSION['useLogin'] == $card['carUserLogin'])) { ?>
+                                            <a class="btn btn-warning btn-sm" 
+                                            href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">Modifier</a>
+                                            <a class="btn btn-danger btn-sm" 
+                                            href="javascript:confirmDelete(<?php echo $card["idCard"] ?>)">Supprimer</a>
                                         <?php } ?>
-                                        <?php if (($_SESSION['userConnected'] == 'admin' || $_SESSION['userConnected'] == 'user') && $_SESSION['useLogin'] != $card['carUserLogin']) { ?>
-                                            <a class="btn btn-success btn-sm" href="javascript:confirmBuy(<?php echo $card["idCard"] ?>)">Acheter</a>
+                                        <?php if (($_SESSION['userConnected'] == 
+                                        'admin' || $_SESSION['userConnected'] == 'user') 
+                                        && $_SESSION['useLogin'] != $card['carUserLogin']) { ?>
+                                            <a class="btn btn-success btn-sm" 
+                                            href="javascript:confirmBuy(<?php echo $card["idCard"] ?>)">Acheter</a>
                                         <?php } ?>
                                     <?php } ?>
                                 </td>
@@ -221,5 +226,6 @@ if (isset($_SESSION['successMessage'])) {
 </body>
 
 </html>
+
 
 <?php include("footer.php"); ?>

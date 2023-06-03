@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: index.php');
     } else {
         if ($_POST) {
-            $errorOrValidationMessage = "Merci de bien remplir tous les champs marqués comme obligatoires";
+            $errorMessage = "Merci de bien remplir tous les champs marqués comme obligatoires";
         }
     }
 }
@@ -59,8 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <h3>Créer un compte</h3>
                     <br>
                     <p style="color:red;">
-                        <?php if (isset($errorOrValidationMessage)) {
-                            echo $errorOrValidationMessage;
+                        <?php if (isset($errorMessage)) {
+                            echo $errorMessage;
                         } ?>
                     </p>
                     <p>

@@ -34,14 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (count($errors) === 0) {
 
         move_uploaded_file($imageData['fileTmpNameImg'], $imageData['uploadPathImg']);
-        // On ne changera pas la valeur de $_POST en sachant que ce sont des variables read-only.
-        // Ce qui veut dire qu'on ne nommera pas une varaible comme ceci -> $_POST['imPath'] = xyz !!!!!!
-        // On rajoutera les variables hors formulaire en tant que params.
         $cards = $db->addCard($_POST, $imageData, $_SESSION['idUser']);
 
-        // echo '<script>';
-        // echo 'showSuccessMessage();';  // Appel de la fonction JavaScript
-        // echo '</script>';
+        echo '<script>';
+        echo 'window.onload = function() {';
+        echo '    showSuccessMessage();';
+        echo '}';
+        echo '</script>';
 
     } else {
         if ($_POST) {
@@ -124,9 +123,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <br>
                         <input type="file" name="downloadImg" id="downloadImg" />
                         <br>
-                        <a href="https://convertio.co/fr/convertisseur-jpg/">Convertissez votre fichier au format jpg en cliquant ici</a>
+                        <a href="https://convertio.co/fr/convertisseur-jpg/">
+                            Convertissez votre fichier au format jpg en cliquant ici</a>
                         <span id="show-error">
-                            <?= array_key_exists("downloadImg", $errors) && $errors["downloadImg"] ? '<p style="color:red;">' . $errors["downloadImg"] . '</p>' : '' ?>
+                            <?= array_key_exists("downloadImg", $errors) && $errors["downloadImg"] ?
+                             '<p style="color:red;">' . $errors["downloadImg"] . '</p>' : '' ?>
                         </span>
                     </p>
                     <p>
@@ -154,6 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </fieldset>
     </div>
     </div>
+    <script src="./js/script.js"></script>
 </body>
 
 </html>

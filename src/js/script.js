@@ -29,11 +29,23 @@ function confirmOrderReceptionFromUser(userId, orderId) {
 }
 
 function showSuccessMessage() {
-    alert("La carte a été ajoutée avec succès!");
-    var response = confirm("Que souhaitez-vous faire maintenant?");
-    if (response) {
-      window.location.href = "addCard.php";  // Redirection vers addCard.php
+    var confirmation = confirm("La carte a été ajoutée avec succès! Que souhaitez-vous faire maintenant?");
+
+    if (confirmation) {
+        window.location.href = "addCard.php"; // Redirection vers addCard.php
     } else {
-      window.location.href = "index.php";  // Redirection vers index.php
+        window.location.href = "index.php"; // Redirection vers index.php
+    }
+}
+
+function showSuccessMessage() {
+    alert("La carte a été ajoutée avec succès!");
+  
+    var response = confirm("Que souhaitez-vous faire maintenant?\n\n- Cliquez sur OK pour ajouter une nouvelle carte.\n- Cliquez sur Annuler pour retourner à la page d'accueil.");
+  
+    if (response) {
+      window.location.href = "addCard.php";
+    } else {
+      window.location.href = "index.php";
     }
   }

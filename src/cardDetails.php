@@ -64,12 +64,12 @@ $cards = $db->getAllCards();
                     if ($_SESSION['idUser'] == $card['fkUser']) {
                         echo "Actions :" . "<br>";
                     ?>
-                        <a class="link-light" href="updateCard.php?idCard=<?php echo $card["idCard"]; ?>">
-                            <img height="40em" src="./img/modify.png" alt="edit">
-                        </a>
-                        <a class="link-light" href="javascript:confirmDelete(<?php echo $card["idCard"] ?>)">
-                            <img height="40em" src="./img/delete.png" alt="delete">
-                        </a>
+                        <button class="btn btn-warning btn-sm" onclick="location.href='updateCard.php?idCard=<?php echo $card["idCard"]; ?>'">
+                            Modifier
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="confirmDelete(<?php echo $card["idCard"]; ?>)">
+                            Supprimer
+                        </button>
                     <?php
                     } else {
                         echo "Possesseur : " . $card["carUserLogin"] . "<br>";

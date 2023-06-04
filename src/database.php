@@ -167,8 +167,10 @@ class Database
     public function addCard($card, $imgData, $idUser)
     {
         $query = "
-                INSERT INTO t_card (carName, carDate, carCredits, carCondition, carDescription, carPhoto, fkUser, fkCollection) 
-                VALUES (:name, :date, :credits, :condition, :description, :photo, :fkUser, :fkCollection);
+                INSERT INTO t_card (carName, carDate, carCredits, carCondition,
+                 carDescription, carPhoto, fkUser, fkCollection) 
+                VALUES (:name, :date, :credits, :condition,
+                 :description, :photo, :fkUser, :fkCollection);
             ";
 
         $replacements = [

@@ -84,7 +84,7 @@ function validateAddCardForm($db)
     if (!$name) {
         $errors['name'] = ERROR_NAME_REQUIRED;
     } elseif (!preg_match(REGEX_VARCHAR45_WITH_SPECIAL_CHARS, $name)) {
-        $errors["name"] = ERROR_VARCHAR15_WITHOUT_SPECIAL_CHARS;
+        $errors["name"] = ERROR_REGEX_VARCHAR45_WITH_SPECIAL_CHARS;
     }
 
     // le champ date :
@@ -128,7 +128,7 @@ function validateAddCardForm($db)
 
     if (!$downloadImg) {
         $errors['downloadImg'] = ERROR_IMAGE_REQUIRED;
-    } elseif (!in_array($imageData['extensionImg'], ['jpg'])) {
+    } elseif (!in_array($imageData['extensionImg'], ['jpg','JPG'])) {
         $errors['downloadImg'] = ERROR_IMAGE_EXTENSION;
     }
 

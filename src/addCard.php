@@ -39,10 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // On rajoutera les variables hors formulaire en tant que params.
         $cards = $db->addCard($_POST, $imageData, $_SESSION['idUser']);
 
-        $errorOrValidationMessage = "La carte a bien été ajoutée!";
+        // echo '<script>';
+        // echo 'showSuccessMessage();';  // Appel de la fonction JavaScript
+        // echo '</script>';
+
     } else {
         if ($_POST) {
-            $errorOrValidationMessage = "Merci de bien remplir tous les champs marqués comme obligatoires";
+            $errorMessage= "Merci de bien remplir tous les champs en respectant les contraintes de validation";
         }
     }
 }
@@ -72,8 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form action="#" method="post" id="form" enctype="multipart/form-data">
                     <h3>Ajout d'une carte</h3>
                     <p style="color:red;">
-                        <?php if (isset($errorOrValidationMessage)) {
-                            echo $errorOrValidationMessage;
+                        <?php if (isset($errorMessage)) {
+                            echo $errorMessage;
                         } ?>
                     </p>
                     <p>

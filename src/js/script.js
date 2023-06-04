@@ -27,3 +27,13 @@ function confirmOrderReceptionFromUser(userId, orderId) {
         window.location.href = `userProfile.php?idUser=${userId}&idOrderToConfirm=${orderId}`;
     }
 }
+
+function showSuccessMessage() {
+    alert("La carte a été ajoutée avec succès!");
+    var response = confirm("Que souhaitez-vous faire maintenant?");
+    if (response) {
+      window.location.href = "addCard.php";  // Redirection vers addCard.php
+    } else {
+      window.location.href = "index.php";  // Redirection vers index.php
+    }
+  }

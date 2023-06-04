@@ -126,6 +126,27 @@ if (isset($_GET['buy']) and $_GET['buy'] == 'true') {
 
       </section>
       <script src="js/script.js"></script>
+      <script>
+        $(document).ready(function() {
+            $('#sortTable').DataTable({
+                searching: false,
+                language: {
+                    lengthMenu: "Montrer _MENU_ entrées",
+                    info: "_TOTAL_ résultats trouvés",
+                    paginate: {
+                        next: "Suivant",
+                        previous: "Précédent"
+                    }
+                }
+            });
+
+            // Afficher/Cacher les filtres en fonction du bouton "Plus de filtres"
+            $('#more-filters-btn').click(function() {
+                $('#filter-collection').toggleClass('d-none');
+                $('#filter-condition').toggleClass('d-none');
+            });
+        });
+    </script>
       <?php include('footer.php'); ?>
 </body>
 

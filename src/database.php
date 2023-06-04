@@ -221,7 +221,15 @@ class Database
     public function getOneCard($id)
     {
         //avoir la requête sql pour une carte (utilisation de l'id)
-        $query = "SELECT * FROM t_card, t_collection WHERE idCard = :id AND fkCollection = idCollection";
+        $query = "
+            SELECT
+                t_card.*,
+                t_user.useLogin AS carUserLogin
+            FROM t_card
+            LEFT JOIN t_collection ON t_collection.idCollection = t_card.fkCollection
+            LEFT JOIN t_user ON t_user.idUser = t_card.fkUser
+            WHERE t_card.idCard = :id
+        ";
         //appeler la méthode pour executer la requête
         $bind = array('id' => $id);
         $req = $this->queryPrepareExecute($query, $bind);
@@ -315,6 +323,7 @@ class Database
             FROM t_card
             LEFT JOIN t_collection ON t_collection.idCollection = t_card.fkCollection
             LEFT JOIN t_user ON t_user.idUser = t_card.fkUser
+            WHERE t_card.carIsAvailable = 1 
         ";
 
 
@@ -323,9 +332,10 @@ class Database
 
         // Condition 1
         if (!empty($filters['search'])) {
-            $query .= " WHERE t_card.carName LIKE :searchValue ";
-            $replacements['searchValue'] =  '%' . $filters['search'] . '%';
             $filter = true;
+            $query .= $this->addWhereOrAnd($filter);
+            $query .= " t_card.carName LIKE :searchValue ";
+            $replacements['searchValue'] =  '%' . $filters['search'] . '%';
         }
 
         // Condition 2

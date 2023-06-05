@@ -20,6 +20,7 @@ if (isset($_GET['idCard']) and $idCard = $_GET['idCard']) {
       unset($_SESSION['panier'][$idCard]);
 }
 
+// Lorsque l'utilisateur n'a pas assez de crédts pour acheter une carte
 $error = null;
 if (isset($_GET['buy']) and $_GET['buy'] == 'true') {
       $isOrderCreated = $db->createOrder($_SESSION['idUser'], array_keys($_SESSION['panier']));
@@ -27,10 +28,12 @@ if (isset($_GET['buy']) and $_GET['buy'] == 'true') {
       if ($isOrderCreated) {
             $_SESSION['useCredits'] = $db->getOneUser($_SESSION['idUser'])['useCredits'];
             $_SESSION['panier'] = [];
+            header('Location: userProfile.php?idUser=' . $_SESSION["idUser"]);
       } else {
             $error = "L'utilisateur n'a pas suffisamment de credits pour passer la commande.";
       }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -102,24 +105,25 @@ if (isset($_GET['buy']) and $_GET['buy'] == 'true') {
                                                 <td><?php echo $card["carUserLogin"] ?></td>
                                                 <td><?php echo $card["carCollectionName"] ?></td>
                                                 <td class="containerOptions">
-                                                      <!--Affiche différentes fonctionnalités selon que l'utilisateur soit connecté en tant qu'utilisateur ou en tant qu'admin-->
-                                                      <?php if (isset($_SESSION['userConnected']) && $_SESSION['userConnected'] == ('user' or 'admin')) { ?>
+                                                      <!--Affiche différentes fonctionnalités selon que l'utilisateur 
+                                                      oit connecté en tant qu'utilisateur ou en tant qu'admin-->
+                                                      <?php if (
+                                                            isset($_SESSION['userConnected']) &&
+                                                            $_SESSION['userConnected'] == ('user' or 'admin')
+                                                      ) { ?>
                                                             <?php if (isset($_SESSION['userConnected'])) { ?>
-                                                                  <a class="link-light" href="javascript:confirmDeleteFromCart(<?php echo $card["idCard"] ?>)">
-                                                                        <img height="40em" src="./img/delete.png" alt="delete">
-                                                                  </a>
-                                                            <?php } ?>
-                                                            <a class="link-light" href="cardDetails.php?idCard=<?php echo $card["idCard"] ?>">
-                                                                  <img height="40em" src="./img/details.jpg" alt="detail">
-                                                            </a>
-                                                      <?php } ?>
+                                                                  <a class="btn btn-danger btn-sm" href="javascript:confirmDeleteFromCart(<?php echo $card["idCard"] ?>)">Supprimer du panier</a>
+                                                                  <a class="btn btn-dark btn-sm" href="cardDetails.php?idCard=<?php echo $card["idCard"] ?>">Détails</a>
                                                 </td>
                                           </tr>
                                     <?php } ?>
+                              <?php } ?>
+                        <?php } ?>
                               </tbody>
                         </table>
                         <?php if (count($_SESSION['panier']) > 0) { ?>
-                              <a class="btn btn-primary" href="cart.php?buy=true" role="button">Confirmer la commande</a>
+                              <a class="btn btn-primary" href="cart.php?buy=true" 
+                              role="button" onclick="confirmOrder()">Confirmer la commande</a>
                         <?php } ?>
                   </form>
             </div>
@@ -127,26 +131,26 @@ if (isset($_GET['buy']) and $_GET['buy'] == 'true') {
       </section>
       <script src="js/script.js"></script>
       <script>
-        $(document).ready(function() {
-            $('#sortTable').DataTable({
-                searching: false,
-                language: {
-                    lengthMenu: "Montrer _MENU_ entrées",
-                    info: "_TOTAL_ résultats trouvés",
-                    paginate: {
-                        next: "Suivant",
-                        previous: "Précédent"
-                    }
-                }
-            });
+            $(document).ready(function() {
+                  $('#sortTable').DataTable({
+                        searching: false,
+                        language: {
+                              lengthMenu: "Montrer _MENU_ entrées",
+                              info: "_TOTAL_ résultats trouvés",
+                              paginate: {
+                                    next: "Suivant",
+                                    previous: "Précédent"
+                              }
+                        }
+                  });
 
-            // Afficher/Cacher les filtres en fonction du bouton "Plus de filtres"
-            $('#more-filters-btn').click(function() {
-                $('#filter-collection').toggleClass('d-none');
-                $('#filter-condition').toggleClass('d-none');
+                  // Afficher/Cacher les filtres en fonction du bouton "Plus de filtres"
+                  $('#more-filters-btn').click(function() {
+                        $('#filter-collection').toggleClass('d-none');
+                        $('#filter-condition').toggleClass('d-none');
+                  });
             });
-        });
-    </script>
+      </script>
       <?php include('footer.php'); ?>
 </body>
 

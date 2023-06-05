@@ -32,22 +32,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (count($errors) > 0) {
         // Si le compte des erreurs est supérieur à 0, on affiche les erreurs
-        echo "Merci de vérifier que tous les champs sont bien remplis correctement et que l'extension du fichier est jpg/png";
+        echo "Merci de vérifier que tous les champs sont bien remplis correctement et que l'extension du fichier est jpg";
     } else {
-        //Si le formulaire a été envoyé avec succès, alors un nouvel enseignant est créé 
         if ($_POST) {
-            // si le formulaire a été envoyé, alors on met à jour l'enseignant
+            // si le formulaire a été envoyé, alors on met à jour la carte
             if ($imageData["fileNameImg"] !== null) {
-                // Si une image a été sélectionnée, on la déplace et on met à jour l'enseignant avec la nouvelle image
+                // Si une image a été sélectionnée, on la déplace et on met à jour la carte avec la nouvelle image
                 move_uploaded_file($imageData["fileTmpNameImg"], $imageData["filePath"]);
                 $db->updateCardById($_GET["idCard"], $_POST);
             } else {
-                // Sinon, on met à jour l'enseignant sans changer l'image
+                // Sinon, on met à jour la carte sans changer l'image
                 $db->updateCardById($_GET["idCard"], $_POST);
             }
             // On redirige vers la page d'accueil
             header('Location: index.php');
-            exit();
         } else {
             // Si le formulaire n'a pas été envoyé, on affiche un message d'erreur
             echo "Merci de remplir le formulaire.";
@@ -83,9 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <p>
                         <label for="name">Nom :</label>
-                        <input type="text" name="name" id="name" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : $oneCard['carName']; ?>">
+                        <input type="text" name="name" id="name" value="<?php echo isset($_POST['name']) 
+                        ? htmlspecialchars($_POST['name']) : $oneCard['carName']; ?>">
                         <span id="show-error">
-                            <?= array_key_exists("name", $errors) && $errors["name"] ? '<p style="color:red;">' . $errors["name"] . '</p>' : '' ?>
+                            <?= array_key_exists("name", $errors) && $errors["name"] ? 
+                            '<p style="color:red;">' . $errors["name"] . '</p>' : '' ?>
                         </span>
                     </p>
                     <p>

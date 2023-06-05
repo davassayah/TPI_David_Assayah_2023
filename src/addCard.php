@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo '<script>';
         echo 'window.onload = function() {';
-        echo '    showSuccessMessage();';
+        echo '    showSuccessAddCardMessage();';
         echo '}';
         echo '</script>';
 

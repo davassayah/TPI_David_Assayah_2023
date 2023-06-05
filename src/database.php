@@ -495,7 +495,8 @@ class Database
     {
         $query = "
         UPDATE t_user
-        SET useCredits = (SELECT SUM(t_user.useCredits - (SELECT t_card.carCredits FROM t_card WHERE t_card.idCard = :idCard)))
+        SET useCredits = (SELECT SUM(t_user.useCredits - 
+        (SELECT t_card.carCredits FROM t_card WHERE t_card.idCard = :idCard)))
         WHERE t_user.idUser = :idUser;
     ";
 
@@ -531,7 +532,9 @@ class Database
             // Crée une transaction pour l'acheteur
             $transactionId = $this->createTransaction($idBuyer);
 
-            // Pour chaque carte, assigne la carte à la commande, met à jour les crédits de l'acheteur, met à jour les crédits de session et modifie la nouvelle valeur en DB
+            // Pour chaque carte, assigne la carte à la commande,
+            // met à jour les crédits de l'acheteur, 
+            //se met à jour les crédits de session et modifie la nouvelle valeur en DB
             foreach ($cards as $card) {
                 $this->assignCardToOrder($card['idCard'], $transactionId);
                 $this->substrCreditsOfBuyer($card['idCard'], $idBuyer);

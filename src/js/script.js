@@ -14,10 +14,14 @@ function confirmDeleteFromCart(cardId) {
 
 function confirmBuy(cardId) {
     if (confirm("Êtes-vous sûr de vouloir ajouter cette carte au panier ?")) {
-        // Redirige vers la page cart.php si l'utilisateur clique sur "Oui"
+        // Ajoute la carte au panier en redirigeant vers la page index.php avec l'identifiant de la carte
         window.location.href = "index.php?idCardToAddInCart=" + cardId;
+        if (confirm("Ssouhaitez-vous vous rendre sur la page du panier maintenant ?")) {
+            // Redirige vers la page cart.php si l'utilisateur clique sur "Oui"
+            window.location.href = "cart.php";
+        }
     } else {
-        // Actions à effectuer si l'utilisateur clique sur "Non"
+        // Redirige vers la page index.php sans ajouter la carte au panier
         window.location.href = "index.php";
     }
 }
@@ -28,17 +32,7 @@ function confirmOrderReceptionFromUser(userId, orderId) {
     }
 }
 
-function showSuccessMessage() {
-    var confirmation = confirm("La carte a été ajoutée avec succès! Que souhaitez-vous faire maintenant?");
-
-    if (confirmation) {
-        window.location.href = "addCard.php"; // Redirection vers addCard.php
-    } else {
-        window.location.href = "index.php"; // Redirection vers index.php
-    }
-}
-
-function showSuccessMessage() {
+function showSuccessAddCardMessage() {
     alert("La carte a été ajoutée avec succès!");
   
     var response = confirm("Que souhaitez-vous faire maintenant?\n\n- Cliquez sur OK pour ajouter une nouvelle carte.\n- Cliquez sur Annuler pour retourner à la page d'accueil.");
@@ -49,3 +43,13 @@ function showSuccessMessage() {
       window.location.href = "index.php";
     }
   }
+
+  function confirmOrder() {
+    if (confirm("Êtes-vous sûr de vouloir passer commande ?")) {
+      alert("La commande a été réalisée !");
+    }
+  }
+  
+  
+  
+  

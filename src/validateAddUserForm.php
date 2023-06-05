@@ -33,7 +33,7 @@ const ERROR_VARCHAR15_WITHOUT_SPECIAL_CHARS = "Merci de saisir une chaîne de ca
 const ERROR_EMAIL_EXISTS = "Cette adresse email est déjà utilisée";
 
 //REGEX
-const REGEX_VARCHAR120_WITHOUT_NUMBERS = '/^(?!.*\n.*$)(?!\n)(?!.{121})[A-Za-zÀ-ÿ\' -]+$/u';
+const REGEX_VARCHAR120_WITHOUT_NUMBERS =  '/^(?!.*\n.*$)(?!\n)(?!.{121})[A-Za-zÀ-ÿ\' -]+$/u';
 const REGEX_VARCHAR120 = '/^(?!.*\n.*$)(?!\n)(?!.{121}).{1,120}$/us';
 const REGEX_VARCHAR15 = '/^(?!.*\n.*$)(?!\n)(?!.{16}).{1,15}$/us';
 const REGEX_VARCHAR15_WITHOUT_SPECIAL_CHARS = '/^(?![0-9]{16})[a-zA-Z0-9]{1,15}$/';

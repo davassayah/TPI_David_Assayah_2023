@@ -30,13 +30,8 @@ function updateImages($dataFiles, $card) {
         $imageData["filePath"] = "." . $imageData["imgPath"];
         if (file_exists($imageData["filePath"]) and ($imageData["extensionImg"] == "jpg")) {
             if (unlink($imageData["filePath"])) {
-                echo 'File deleted successfully.';
+                ;
             } 
-         else {
-                echo 'Unable to delete file.';
-            }
-        } else {
-            echo "Le fichier nexiste pas ou n'est pas au format jpg";
         }
         // Définis le chemin final avec le nom du fichier où va être transférer le fichier en lui donnant un nom unique
     $imageData["uploadPathImg"] = $imageData["uploadDirectoryImg"] . $imageData["fileNameImg"];

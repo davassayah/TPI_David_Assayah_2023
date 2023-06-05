@@ -17,7 +17,6 @@ if (!isset($_SESSION['userConnected']) || $_SESSION['userConnected'] != ('user' 
 
 //Récupère les informations de la carte via son id qui se trouve dans l'url
 $card = $db->getOneCard($_GET["idCard"]);
-$cards = $db->getAllCards();
 ?>
 
 <!DOCTYPE html>

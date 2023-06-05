@@ -38,36 +38,18 @@ const REGEX_VARCHAR120 = '/^(?!.*\n.*$)(?!\n)(?!.{121}).{1,120}$/us';
 const REGEX_VARCHAR15 = '/^(?!.*\n.*$)(?!\n)(?!.{16}).{1,15}$/us';
 const REGEX_VARCHAR15_WITHOUT_SPECIAL_CHARS = '/^(?![0-9]{16})[a-zA-Z0-9]{1,15}$/';
 
-    // On commence par désinfecter les données saisies par l'utilisateur
-    // ainsi on se protège contre les attaques de types XSS
-
 function validateAddUserForm($db)
 {
-    $userData = filter_input_array(
-        INPUT_POST,
-        [
-            'login' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'email' => FILTER_SANITIZE_EMAIL,
-            'firstName' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'lastName' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'locality' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'postalCode' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'streetName' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'streetNumber' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'password' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-        ]
-    );
-
     // Si certains champs n'ont pas été saisis alors on donne la valeur ''
-    $login = $userData['login'] ?? '';
-    $email = $userData['email'] ?? '';
-    $firstName = $userData['firstName'] ?? '';
-    $lastName = $userData['lastName'] ?? '';
-    $locality = $userData['locality'] ?? '';
-    $postalCode = $userData['postalCode'] ?? '';
-    $streetName = $userData['streetName'] ?? '';
-    $streetNumber = $userData['streetNumber'] ?? '';
-    $password = $userData['password'] ?? '';
+    $login = $_POST['login'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $firstName = $_POST['firstName'] ?? '';
+    $lastName = $_POST['lastName'] ?? '';
+    $locality = $_POST['locality'] ?? '';
+    $postalCode = $_POST['postalCode'] ?? '';
+    $streetName = $_POST['streetName'] ?? '';
+    $streetNumber = $_POST['streetNumber'] ?? '';
+    $password = $_POST['password'] ?? '';
 
     $errors = [];
 
@@ -148,7 +130,24 @@ function validateAddUserForm($db)
 
     if (!$password) {
         $errors['password'] = ERROR_PASSWORD_REQUIRED;
-    } 
+    }
+
+    // On commence par désinfecter les données saisies par l'utilisateur
+    // ainsi on se protège contre les attaques de types XSS
+    $userData = filter_input_array(
+        INPUT_POST,
+        [
+            'login' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'email' => FILTER_SANITIZE_EMAIL,
+            'firstName' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'lastName' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'locality' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'postalCode' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'streetName' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'streetNumber' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'password' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+        ]
+    );
 
     return ["userData" => $userData, "errors" => $errors];
 }

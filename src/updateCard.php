@@ -24,9 +24,8 @@ $errors  = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $imageData = updateImages($_FILES, $oneCard);
-    $_POST["imgPath"] = $imageData["imgPath"];
-    $result = validateUpdateCardForm($oneCard);
+    $imageData = normalizeImgData($_FILES, $oneCard);
+    $result = validateUpdateCardForm($imageData);
     $errors = $result["errors"];
     $cardData = $result["cardData"];
 
@@ -36,13 +35,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         if ($_POST) {
             // si le formulaire a été envoyé, alors on met à jour la carte
-            if ($imageData["fileNameImg"] !== null) {
+            if ($imageData['downloadImg']['name'] != '') {
+                // On supprime l'ancienne image
+                deletePreviousImg($imageData);
                 // Si une image a été sélectionnée, on la déplace et on met à jour la carte avec la nouvelle image
                 move_uploaded_file($imageData["fileTmpNameImg"], $imageData["filePath"]);
-                $db->updateCardById($_GET["idCard"], $_POST);
+                $db->updateCardById($_GET["idCard"], $cardData);
             } else {
                 // Sinon, on met à jour la carte sans changer l'image
-                $db->updateCardById($_GET["idCard"], $_POST);
+                $db->updateCardById($_GET["idCard"], $cardData);
             }
             // On redirige vers la page d'accueil
             header('Location: index.php');

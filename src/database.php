@@ -49,7 +49,7 @@ class Database
         return $this->connector->query($query);
     }
 
-    //Fonction permettant de préparer, de binder et d'exécuter une requête (select avec where ou insert, update et delete)
+    //Fonction permettant de préparer, de binder et d'exécuter une requête
     private function queryPrepareExecute($query, $binds)
     {
 

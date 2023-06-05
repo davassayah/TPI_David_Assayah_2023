@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (count($errors) === 0) {
 
         move_uploaded_file($imageData['fileTmpNameImg'], $imageData['uploadPathImg']);
-        $cards = $db->addCard($_POST, $imageData, $_SESSION['idUser']);
+        $cards = $db->addCard($cardData, $imageData, $_SESSION['idUser']);
 
         echo '<script>';
         echo 'window.onload = function() {';

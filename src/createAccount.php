@@ -13,6 +13,10 @@ include_once(__DIR__ . "/validateAddUserForm.php");
 
 $errors = [];
 
+if (isset($_SESSION['userConnected'])) {
+    header('Location: index.php');
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $result = validateAddUserForm($db);
@@ -23,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Cela signifie que les données sont propres et validées
     // Nous pouvons insérer les données en BD
     if (count($errors) === 0) {
-        $users = $db->addUser($_POST);
+        $users = $db->addUser($userData);
         $_SESSION['successMessage'] = "Compte crée avec succès";
         header('Location: index.php');
     } else {

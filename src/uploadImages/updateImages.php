@@ -1,11 +1,12 @@
 <?php
 /**
- * $dataFiles 
- * $card
- * $db
+ * Fonction permettant de créer les donnees necessaires a la validation de la photo a telecharger
+ * @param array $dataFiles | Contient les donnees de l'image a telecharger
+ * @param array $card      | Contient les donnees de la carte a mettre a jour
+ * 
+ * @return array $imageData | Contient les donnees necessaires a la validation de la photo a telecharger
  */
-function updateImages($dataFiles, $card) {
-
+function normalizeImgData($dataFiles, $card) {
     $imageData = [];
     //Gestion du transfert de l'image
     //prends le dossier actuel
@@ -19,22 +20,28 @@ function updateImages($dataFiles, $card) {
     //Récupère le nom temporaire du fichier
     $imageData["fileTmpNameImg"] = $dataFiles['downloadImg']['tmp_name'];
     //Reprends l'extension du fichier transféré
-    $imageData["fileExtensionImg"] = strtolower(end(explode('.', $imageData["fileNameImg"])));
+    $tmp = explode('.', $imageData["fileNameImg"]);
+    $imageData["fileExtensionImg"] = strtolower(end($tmp));
     //Definis l'extension du fichier apres l'avoir recuperee
     $imageData["extensionImg"] = pathinfo($imageData["fileNameImg"], PATHINFO_EXTENSION);
-
     //permet de donner un nom final au fichier
     $imageData["imgPath"] = $card['carPhoto'];
 
-        // Supprimer le fichier existant s'il y en a un
-        $imageData["filePath"] = "." . $imageData["imgPath"];
-        if (file_exists($imageData["filePath"]) and ($imageData["extensionImg"] == "jpg")) {
-            if (unlink($imageData["filePath"])) {
-                ;
-            } 
-        }
-        // Définis le chemin final avec le nom du fichier où va être transférer le fichier en lui donnant un nom unique
+    $imageData["filePath"] = "." . $imageData["imgPath"];
+    // Définis le chemin final avec le nom du fichier où va être transférer le fichier en lui donnant un nom unique
     $imageData["uploadPathImg"] = $imageData["uploadDirectoryImg"] . $imageData["fileNameImg"];
 
     return $imageData;
+}
+
+/**
+ * Fonction permettant de supprimer l'ancienne image sur le serveur
+ * @param array $imageData | Contient les donnees de l'image a telecharger deja normalisees
+ */
+function deletePreviousImg($imageData) {
+    if (file_exists($imageData["filePath"]) and ($imageData["extensionImg"] == "jpg")) {
+        unlink($imageData["filePath"]);
     }
+}
+
+

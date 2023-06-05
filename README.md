@@ -34,19 +34,19 @@ Pour que le site puisse se connecter a la base de donnees vous devez lancer le s
 
 1. Ouvrez Docker et cliquer sur le lien d'ouverture (surligner en jaune)
 
-![1](/doc/images/1.jpg)
+![1](/doc/images/1.JPG)
 
 2. Connectez-vous avec votre utilisateur
 
-![2](/doc/images/2.jpg)
+![2](/doc/images/2.JPG)
 
 3. Cliquez sur `Importer`
 
-![3](/doc/images/3.jpg)
+![3](/doc/images/3.JPG)
 
 4. Importer le script de migration et cliquez sur le bouton en bas de page `Importer`
 
-![4](/doc/images/4.jpg)
+![4](/doc/images/4.JPG)
 
 5. Vous devriez voir apparaitre la nouvelle base de donnees avec toutes les tables.
 

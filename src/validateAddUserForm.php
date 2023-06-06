@@ -11,7 +11,6 @@ const ERROR_LOGIN_REQUIRED = "Veuillez renseigner le champ login";
 const ERROR_LOGIN = "Le champ doit avoir un nombre de caractères 
 entre 1 et 120 tous caractères compris";
 const ERROR_LOGIN_EXISTS = "Ce login est déjà utilisé";
-
 const ERROR_EMAIL_REQUIRED = "Veuillez renseigner le champ email";
 const ERROR_FIRSTNAME_REQUIRED = "Veuillez renseigner le champ prénom";
 const ERROR_LASTNAME_REQUIRED = "Veuillez renseigner le champ nom de famille";
@@ -22,20 +21,16 @@ const ERROR_STREETNUMBER_REQUIRED = "Veuillez renseigner le champ numéro de la 
 const ERROR_PASSWORD_REQUIRED = "Veuillez renseigner le champ mot de passe";
 
 // Erreurs spécifiques
-const ERROR_STRING = "Pour ce champ, vous devez saisir une chaîne entre 2 et 30 caractères mais seuls " .
-    "les caractères suivants sont autorisés : les lettres de a à z (minuscules ou majuscules), les accents, " .
-    "l'espace, le tiret et l'apostrophe";
 const ERROR_EMAIL_FORMAT = "Merci de renseigner une adresse email valide";
 const ERROR_VARCHAR120_WITHOUT_NUMBERS = "Merci de saisir une chaîne de caractères entre 1 et 120 caractères ne contenant pas de chiffres.";
 const ERROR_VARCHAR15 = "Merci de saisir une chaîne de caractères de 1 à 15 caractères maximum";
 const ERROR_VARCHAR15_WITHOUT_SPECIAL_CHARS = "Merci de saisir une chaîne de caractères de 1 à 15 caractères maximum - chiffres et lettres compris - sans caractères spéciaux";
-
 const ERROR_EMAIL_EXISTS = "Cette adresse email est déjà utilisée";
 
 //REGEX
 const REGEX_VARCHAR120_WITHOUT_NUMBERS =  '/^(?!.*\n.*$)(?!\n)(?!.{121})[A-Za-zÀ-ÿ\' -]+$/u';
 const REGEX_VARCHAR120 = '/^(?!.*\n.*$)(?!\n)(?!.{121}).{1,120}$/us';
-const REGEX_VARCHAR10 = '/^(?!.*\n.*$)(?!\n)(?!.{11}).{1,10}$/us';
+const REGEX_VARCHAR15 = '/^(?!.*\n.*$)(?!\n)(?!.{16}).{1,15}$/us';
 const REGEX_VARCHAR15_WITHOUT_SPECIAL_CHARS = '/^(?![0-9]{16})[a-zA-Z0-9]{1,15}$/';
 
 function validateAddUserForm($db)
@@ -82,8 +77,7 @@ function validateAddUserForm($db)
 
     // le champ prénom :
     // - est obligatoire
-    // - doit être une chaîne entre 2 et 30 caractères
-    // - répondant à la REGEX 'REGEX_STRING'
+    // -
     if (!$firstName) {
         $errors['firstName'] = ERROR_FIRSTNAME_REQUIRED;
     } elseif (!preg_match(REGEX_VARCHAR120_WITHOUT_NUMBERS, $firstName)) {
@@ -92,8 +86,7 @@ function validateAddUserForm($db)
 
     // le champ nom de famille
     // - est obligatoire
-    // - doit être une chaîne entre 2 et 30 caractères
-    // - répondant à la REGEX 'REGEX_STRING'
+    // - 
     if (!$lastName) {
         $errors['lastName'] = ERROR_LASTNAME_REQUIRED;
     } elseif (!preg_match(REGEX_VARCHAR120_WITHOUT_NUMBERS, $lastName)) {
@@ -132,8 +125,8 @@ function validateAddUserForm($db)
         $errors['password'] = ERROR_PASSWORD_REQUIRED;
     }
 
-    // On commence par désinfecter les données saisies par l'utilisateur
-    // ainsi on se protège contre les attaques de types XSS
+    // On désinfecte les données saisies par l'utilisateur
+    // pour se protéger contre les attaques de types XSS
     $userData = filter_input_array(
         INPUT_POST,
         [

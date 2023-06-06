@@ -17,10 +17,6 @@ const ERROR_IMAGE_REQUIRED    = "Veuillez ajouter l'image de la carte";
 const ERROR_IMAGE_EXTENSION    = "Seul le format jpg est accepté";
 const ERROR_COLLECTION_REQUIRED   = "Veuillez renseigner le champ collection de la carte";
 //Erreurs spécifiques à certains champs
-const ERROR_LENGTH             = "Le champ doit avoir un nombre de caractères entre 2 et 30";
-const ERROR_STRING             = "Pour ce champ, vous devez saisir une chaine entre 2 et 30 caractères mais seuls " .
-    " les caractères suivant sont autorisés : les lettres de a à z (minuscules ou majuscules), les accents, " .
-    "l'espace, le - et le '";
 const ERROR_REGEX_VARCHAR45_WITH_SPECIAL_CHARS = "Merci de renseigner une chaîne de caractères valide, de 1 à 45 caractères pouvant contenir des tirets, des espaces et des apostrophes, ainsi que des lettres accentuées.";
 const ERROR_DATE = "Merci de renseigner une chaîne de caractères qui sont uniquement des chiffres et uniquement 4 caractères.";
 const ERROR_CREDITS = "Merci de renseigner une chaîne de caractères qui composée de 1 à 3 chiffres et dont le premier caractère n'est pas 0";
@@ -30,10 +26,6 @@ const REGEX_VARCHAR45_WITH_SPECIAL_CHARS = "/^[\p{L}0-9\s'-]{1,45}$/u";
 const REGEX_DATE = '/^\d{4}$/';
 const REGEX_CREDITS = '/^(?!0$)(?!.*\d{4})(?!0\d)\d{1,3}$/';
 const REGEX_VARCHAR255 = '/^(?!.*\n.*$)(?!\n)(?!.{256}).{1,255}$/us';
-
-
-
-const REGEX_STRING = '/^[a-zàâçéèêîïôûù -]{2,30}$/mi';
 
 function validateAddCardForm($db)
 {
@@ -63,8 +55,7 @@ function validateAddCardForm($db)
 
     // le champ date :
     // - est obligatoire
-    // - doit être une string entre 2 et 30 caractères
-    // - répondant à la REGEX 'REGEX_STRING'
+    // - 
     if (!$date) {
         $errors['date'] = ERROR_DATE_REQUIRED;
     } elseif (!preg_match(REGEX_DATE, $date)) {
@@ -73,8 +64,7 @@ function validateAddCardForm($db)
 
     // le champ crédits
     // - est obligatoire
-    // - doit être une string entre 2 et 30 caractères
-    // - répondant à la REGEX 'REGEX_STRING'
+    // - 
     if (!$credits) {
         $errors['credits'] = ERROR_CREDITS_REQUIRED;
     } elseif (!preg_match(REGEX_CREDITS, $credits)) {
@@ -95,7 +85,7 @@ function validateAddCardForm($db)
     }
 
     // le champ collection est obligatoire et ne peut donc pas avoir
-    // la valeur "Section"
+    // la valeur "Collection"
     if (!$collection || $collection === "Collection") {
         $errors['collection'] = ERROR_COLLECTION_REQUIRED;
     }
@@ -106,16 +96,8 @@ function validateAddCardForm($db)
         $errors['downloadImg'] = ERROR_IMAGE_EXTENSION;
     }
 
-    // ATTENTION
-    // Si on désinfecte les data avec FILTER_SANITIZE_FULL_SPECIAL_CHARS
-    // on obtient des strings qui ont été modifiées avec des < ou > ou & etc
-    // donc après on ne peut plus faire de validation avec des REGEX précise ...
-    // de plus lorsque l'on affiche une variable après avoir été désinfectée, on ne voit pas, dans le navigateur,
-    // les caractères < ou > ou & etc car le navigateur les re-transforme
-    // Donc on ne sanitize pas ci-dessous certains champs car on veut leur appliiquer une REGEX particulière
-
-    // On commence par désinfecter les données saisies par l'utilisateur
-    // ainsi on se protège contre les attaques de types XSS
+    // On désinfecte les données saisies par l'utilisateur
+    // pour se protéger contre les attaques de types XSS
 
     $cardData = filter_input_array(
         INPUT_POST,

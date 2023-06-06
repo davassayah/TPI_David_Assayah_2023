@@ -74,7 +74,7 @@ $card = $db->getOneCard($_GET["idCard"]);
                         echo "Possesseur : " . $card["carUserLogin"] . "<br>";
                     ?>
                         <p>
-                            <input type="submit" value="Acheter">
+                            <a class="btn btn-success btn-sm" href="javascript:confirmBuy(<?php echo $card["idCard"] ?>)">Acheter</a>
                         </p>
                     <?php
                     }

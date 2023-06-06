@@ -16,7 +16,7 @@ function confirmBuy(cardId) {
     if (confirm("Êtes-vous sûr de vouloir ajouter cette carte au panier ?")) {
         // Ajoute la carte au panier en redirigeant vers la page index.php avec l'identifiant de la carte
         window.location.href = "index.php?idCardToAddInCart=" + cardId;
-        if (confirm("Ssouhaitez-vous vous rendre sur la page du panier maintenant ?")) {
+        if (confirm("Souhaitez-vous vous rendre sur la page du panier maintenant ?")) {
             // Redirige vers la page cart.php si l'utilisateur clique sur "Oui"
             window.location.href = "cart.php";
         }

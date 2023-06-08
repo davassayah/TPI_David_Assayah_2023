@@ -340,17 +340,19 @@ class Database
 
         // Condition 2
         if (isset($filters['conditions'])) {
+            $filter = true;
             $query .= $this->addWhereOrAnd($filter);
             $query .= " t_card.carCondition IN (" . $this->convertConditions($filters['conditions'])  .  ")";
-            $filter = true;
+            
         }
 
         // Condition 3
         if (isset($filters['idCollection']) and $filters['idCollection'] !== '') {
+            $filter = true;
             $query .= $this->addWhereOrAnd($filter);
             $query .= " t_card.fkCollection = :idCollection";
             $replacements['idCollection'] = $filters['idCollection'];
-            $filter = true;
+            
         }
 
         $query .= " ORDER BY t_card.carName ASC";

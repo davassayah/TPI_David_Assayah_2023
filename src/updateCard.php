@@ -31,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (count($errors) > 0) {
         // Si le compte des erreurs est supérieur à 0, on affiche les erreurs
-        echo "Merci de vérifier que tous les champs sont bien remplis correctement et que l'extension du fichier est jpg";
     } else {
         if ($_POST) {
             // si le formulaire a été envoyé, alors on met à jour la carte

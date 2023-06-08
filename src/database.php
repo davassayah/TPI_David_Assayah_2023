@@ -332,24 +332,27 @@ class Database
 
         // Condition 1
         if (!empty($filters['search'])) {
-            $filter = true;
-            $query .= $this->addWhereOrAnd($filter);
+            // $filter = true;
+            // $query .= $this->addWhereOrAnd($filter);
+            $query .= ' AND ';
             $query .= " t_card.carName LIKE :searchValue ";
             $replacements['searchValue'] =  '%' . $filters['search'] . '%';
         }
 
         // Condition 2
         if (isset($filters['conditions'])) {
-            $filter = true;
-            $query .= $this->addWhereOrAnd($filter);
+            // $filter = true;
+            // $query .= $this->addWhereOrAnd($filter);
+            $query .= ' AND ';
             $query .= " t_card.carCondition IN (" . $this->convertConditions($filters['conditions'])  .  ")";
             
         }
 
         // Condition 3
         if (isset($filters['idCollection']) and $filters['idCollection'] !== '') {
-            $filter = true;
-            $query .= $this->addWhereOrAnd($filter);
+            // $filter = true;
+            // $query .= $this->addWhereOrAnd($filter);
+            $query .= ' AND ';
             $query .= " t_card.fkCollection = :idCollection";
             $replacements['idCollection'] = $filters['idCollection'];
             

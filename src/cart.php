@@ -22,13 +22,16 @@ if (isset($_GET['idCard']) and $idCard = $_GET['idCard']) {
 
 // Lorsque l'utilisateur n'a pas assez de crédts pour acheter une carte
 $error = null;
+$success = null;
 if (isset($_GET['buy']) and $_GET['buy'] == 'true') {
       $isOrderCreated = $db->createOrder($_SESSION['idUser'], array_keys($_SESSION['panier']));
 
       if ($isOrderCreated) {
             $_SESSION['useCredits'] = $db->getOneUser($_SESSION['idUser'])['useCredits'];
             $_SESSION['panier'] = [];
-            header('Location: userProfile.php?idUser=' . $_SESSION["idUser"]);
+            $success = "La commande a bien été passée!";
+            // header('Location: cart.php');
+            // header('Location: userProfile.php?idUser=' . $_SESSION["idUser"]);
       } else {
             $error = "L'utilisateur n'a pas suffisamment de credits pour passer la commande.";
       }
@@ -58,9 +61,25 @@ if (isset($_GET['buy']) and $_GET['buy'] == 'true') {
                   <h2>Panier</h2>
                   <?php if ($error != null) { ?>
                         <div class="alert alert-danger" role="alert">
-                              <?php echo $error ?>
+                              <?php echo $error; ?>
                         </div>
+                  <?php } elseif (isset($_GET['buy']) and $_GET['buy'] == 'true' and $isOrderCreated) { ?>
+                        <div class="alert alert-success" role="alert">
+                              <?php echo $success; ?>
+                        </div>
+                        <script>
+                              /* On vient récupérer l'élement HTML qui contient le texte pour afficher les crédits de l'utilisateur
+                               * et on va changer le contenu de cette élément en utilisant "innerHTML".
+                               * On assigne ensuite la valeur de innerHTML grâce à la variable PHP qui contient la 
+                               * valeur de crédits de l'utilisateur qu'on vient de mettre à jour dans ce fichier à la ligne 30.
+                               * 
+                               * A noter que l'élément HTML avec l'id "user-credits" se trouve dans le fichier "header.php".
+                               * document.querySelector permet de sélectionner un seul élément HTML spécifique par id ou classe.
+                               */
+                              document.querySelector('#user-credits').innerHTML = <?php echo $_SESSION['useCredits']; ?>;
+                        </script>
                   <?php } ?>
+
                   <h3 class="mb-3">Liste des cartes</h3>
                   <form action="cart.php" method="post">
                         <table id="sortTable" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
@@ -122,8 +141,7 @@ if (isset($_GET['buy']) and $_GET['buy'] == 'true') {
                               </tbody>
                         </table>
                         <?php if (count($_SESSION['panier']) > 0) { ?>
-                              <a class="btn btn-primary" href="cart.php?buy=true" 
-                              role="button" onclick="confirmOrder()">Confirmer la commande</a>
+                              <a class="btn btn-primary" href="cart.php?buy=true" role="button" onclick="confirmOrder()">Confirmer la commande</a>
                         <?php } ?>
                   </form>
             </div>
@@ -142,12 +160,6 @@ if (isset($_GET['buy']) and $_GET['buy'] == 'true') {
                                     previous: "Précédent"
                               }
                         }
-                  });
-
-                  // Afficher/Cacher les filtres en fonction du bouton "Plus de filtres"
-                  $('#more-filters-btn').click(function() {
-                        $('#filter-collection').toggleClass('d-none');
-                        $('#filter-condition').toggleClass('d-none');
                   });
             });
       </script>

@@ -46,7 +46,6 @@ function showSuccessAddCardMessage() {
 
   function confirmOrder() {
     if (confirm("Êtes-vous sûr de vouloir passer commande ?")) {
-      alert("La commande a été réalisée !");
     }
   }
   

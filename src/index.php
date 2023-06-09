@@ -14,7 +14,7 @@ $cards = $db->getAllCards();
 
 $collections = $db->getAllCollections();
 
-//Récupère l'id de l'enseignant dans l'url pour le supprimer
+//Récupère l'id de la carte dans l'url pour le supprimer
 if (isset($_GET['idCard']) and $id = $_GET['idCard']) {
     $db->deleteCardById($id);
     header('Location: index.php');
@@ -33,8 +33,6 @@ if (isset($_GET['submit'])) {
 }
 
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="fr">

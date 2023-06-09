@@ -88,8 +88,9 @@ if (isset($_POST['logout'])) {
                 $_SESSION['userConnected'] == ('user' or 'admin')) { ?>
                     <form class="hstack gap-3 mb-0" action="" method="post">
                         <div class="me-2 text-white">
-                            Bienvenue <?php echo $_SESSION['useLogin'] ?><br>
-                            Crédits : <?php echo intval($_SESSION['useCredits']) ?>
+                            <div>Bienvenue <?php echo $_SESSION['useLogin'] ?></div>
+                            <!-- Ajout d'une balise span avec un id pour pouvoir mettre à jour par la suite les crédits de l'utilisateur et avoir un accès direct à cet élément HTML -->
+                            <div>Crédits : <span id="user-credits"><?php echo intval($_SESSION['useCredits']) ?></span></div>
                         </div>
                         <button class="btn btn-outline-danger mx-1" type="submit" name="logout">
                             Déconnexion

@@ -30,8 +30,6 @@ if (isset($_GET['buy']) and $_GET['buy'] == 'true') {
             $_SESSION['useCredits'] = $db->getOneUser($_SESSION['idUser'])['useCredits'];
             $_SESSION['panier'] = [];
             $success = "La commande a bien été passée!";
-            // header('Location: cart.php');
-            // header('Location: userProfile.php?idUser=' . $_SESSION["idUser"]);
       } else {
             $error = "L'utilisateur n'a pas suffisamment de credits pour passer la commande.";
       }
